@@ -1,0 +1,7 @@
+{
+	"jwtPrivateKey": "hsrcareer_jwtPrivateKey",
+	"mongoDb": "hsrcareer_db",
+	"mongoPort": "hsrcareer_db_port",
+	"mongoUser": "hsrcareer_db_user",
+	"mongoPw": "hsrcareer_db_pw"
+}

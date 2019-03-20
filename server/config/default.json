@@ -1,0 +1,8 @@
+{
+	"jwtPrivateKey": "",
+	"mongoDb": "",
+	"mongoPort": "",
+	"mongoUser": "",
+	"mongoPw": "",
+	"db": "mongodb://localhost:27017/career"
+}

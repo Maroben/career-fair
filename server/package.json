@@ -1,0 +1,30 @@
+{
+	"name": "hsrcareer",
+	"version": "0.3.0",
+	"description": "HSRCareer - Server",
+	"author": {
+		"name": "Maroben"
+	},
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/Maroben/HSR-Career.git"
+	},
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.18.3",
+		"config": "^3.0.1",
+		"express": "^4.16.4",
+		"jest": "^24.5.0",
+		"joi": "^14.3.1",
+		"jsonwebtoken": "^8.5.0",
+		"lodash": "^4.17.11",
+		"mongoose": "^5.4.19"
+	},
+	"scripts": {
+		"start": "node server.js",
+		"test": "jest",
+		"build": "node handleWindowsService.js install",
+		"clean": "node handleWindowsService.js remove"
+	}
+}
