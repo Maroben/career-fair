@@ -9,7 +9,7 @@ let companies = [
 		loc: "Gebäude 1, Foyer",
 		categories: '["Elektrotechnik", "Maschinenbau"]',
 		links:
-			'[{ "name": "homepage", "link": "https://hsr.ch" }, { "name": "twitter", "link": "https://hsr.ch" }, { "name": "facebook", "link": "https://hsr.ch" }, { "name": "linkedin", "link": "https://hsr.ch" }, { "name": "xing", "link": "https://hsr.ch" }, { "name": "instagram", "link": "https://hsr.ch" }]',
+			'[{ "name": "Homepage", "link": "https://hsr.ch" }, { "name": "Twitter", "link": "https://hsr.ch" }, { "name": "Facebook", "link": "https://hsr.ch" }, { "name": "LinkedIn", "link": "https://hsr.ch" }, { "name": "Xing", "link": "https://hsr.ch" }, { "name": "Instagram", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["gross", "backend"]'
@@ -20,7 +20,7 @@ let companies = [
 		loc: "Gebäude 1, Foyer",
 		categories: '["Elektrotechnik", "Maschinenbau"]',
 		links:
-			'[{ "name": "homepage", "link": "https://hsr.ch" }, { "name": "twitter", "link": "https://hsr.ch" }, { "name": "facebook", "link": "https://hsr.ch" }, { "name": "linkedin", "link": "https://hsr.ch" }, { "name": "xing", "link": "https://hsr.ch" }]',
+			'[{ "name": "Homepage", "link": "https://hsr.ch" }, { "name": "Twitter", "link": "https://hsr.ch" }, { "name": "Facebook", "link": "https://hsr.ch" }, { "name": "LinkedIn", "link": "https://hsr.ch" }, { "name": "Xing", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["gross", "backend"]'
@@ -31,7 +31,7 @@ let companies = [
 		loc: "Gebäude 1, Foyer",
 		categories: '["Elektrotechnik", "Maschinenbau"]',
 		links:
-			'[{ "name": "homepage", "link": "https://hsr.ch" }, { "name": "twitter", "link": "https://hsr.ch" }, { "name": "facebook", "link": "https://hsr.ch" }, { "name": "linkedin", "link": "https://hsr.ch" }]',
+			'[{ "name": "Homepage", "link": "https://hsr.ch" }, { "name": "Twitter", "link": "https://hsr.ch" }, { "name": "Facebook", "link": "https://hsr.ch" }, { "name": "LinkedIn", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["gross", "einzeln"]'
@@ -42,7 +42,7 @@ let companies = [
 		loc: "Gebäude 1, Foyer",
 		categories: '["Elektrotechnik", "Maschinenbau"]',
 		links:
-			'[{ "name": "homepage", "link": "https://hsr.ch" }, { "name": "twitter", "link": "https://hsr.ch" }, { "name": "facebook", "link": "https://hsr.ch" }]',
+			'[{ "name": "Homepage", "link": "https://hsr.ch" }, { "name": "Twitter", "link": "https://hsr.ch" }, { "name": "Facebook", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["klein"]'
@@ -52,7 +52,7 @@ let companies = [
 		info: "A short company description",
 		loc: "Gebäude 1, Foyer",
 		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links: '[{ "name": "homepage", "link": "https://hsr.ch" }]',
+		links: '[{ "name": "Homepage", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["klein", "informatik"]'
@@ -62,7 +62,7 @@ let companies = [
 		info: "A short company description",
 		loc: "Gebäude 1, Foyer",
 		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links: '[{ "name": "homepage", "link": "https://hsr.ch" }]',
+		links: '[{ "name": "Homepage", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["klein", "frontend", "informatik"]'
@@ -72,7 +72,7 @@ let companies = [
 		info: "A short company description",
 		loc: "Gebäude 1, Foyer",
 		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links: '[{ "name": "homepage", "link": "https://hsr.ch" }]',
+		links: '[{ "name": "Homepage", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["klein", "frontend", "something"]'
@@ -82,7 +82,7 @@ let companies = [
 		info: "A short company description",
 		loc: "Gebäude 1, Foyer",
 		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links: '[{ "name": "homepage", "link": "https://hsr.ch" }]',
+		links: '[{ "name": "Homepage", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["mittel", "frontend", "something"]'
@@ -92,7 +92,7 @@ let companies = [
 		info: "A short company description",
 		loc: "Gebäude 1, Foyer",
 		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links: '[{ "name": "homepage", "link": "https://hsr.ch" }]',
+		links: '[{ "name": "Homepage", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["mittel", "backend", "something"]'
@@ -102,7 +102,7 @@ let companies = [
 		info: "A short company description",
 		loc: "Gebäude 1, Foyer",
 		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links: '[{ "name": "homepage", "link": "https://hsr.ch" }]',
+		links: '[{ "name": "Homepage", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["gross", "backend", "informatik"]'
@@ -112,7 +112,7 @@ let companies = [
 		info: "A short company description",
 		loc: "Gebäude 1, Foyer",
 		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links: '[{ "name": "homepage", "link": "https://hsr.ch" }]',
+		links: '[{ "name": "Homepage", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["gross", "backend", "informatik"]'
@@ -122,7 +122,7 @@ let companies = [
 		info: "A short company description",
 		loc: "Gebäude 1, Foyer",
 		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links: '[{ "name": "homepage", "link": "https://hsr.ch" }]',
+		links: '[{ "name": "Homepage", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["gross", "informatik"]'
@@ -132,7 +132,7 @@ let companies = [
 		info: "A short company description",
 		loc: "Gebäude 1, Foyer",
 		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links: '[{ "name": "homepage", "link": "https://hsr.ch" }]',
+		links: '[{ "name": "Homepage", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["klein", "informatik"]'
@@ -142,7 +142,7 @@ let companies = [
 		info: "A short company description",
 		loc: "Gebäude 1, Foyer",
 		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links: '[{ "name": "homepage", "link": "https://hsr.ch" }]',
+		links: '[{ "name": "Homepage", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["klein", "informatik"]'
@@ -152,7 +152,7 @@ let companies = [
 		info: "A short company description",
 		loc: "Gebäude 1, Foyer",
 		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links: '[{ "name": "homepage", "link": "https://hsr.ch" }]',
+		links: '[{ "name": "Homepage", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["klein", "frontend", "informatik"]'
@@ -162,7 +162,7 @@ let companies = [
 		info: "A short company description",
 		loc: "Gebäude 1, Foyer",
 		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links: '[{ "name": "homepage", "link": "https://hsr.ch" }]',
+		links: '[{ "name": "Homepage", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["klein", "frontend", "something"]'
@@ -172,7 +172,7 @@ let companies = [
 		info: "A short company description",
 		loc: "Gebäude 1, Foyer",
 		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links: '[{ "name": "homepage", "link": "https://hsr.ch" }]',
+		links: '[{ "name": "Homepage", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["mittel", "frontend", "something"]'
@@ -182,7 +182,7 @@ let companies = [
 		info: "A short company description",
 		loc: "Gebäude 1, Foyer",
 		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links: '[{ "name": "homepage", "link": "https://hsr.ch" }]',
+		links: '[{ "name": "Homepage", "link": "https://hsr.ch" }]',
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 		tags: '["mittel", "backend", "something"]'

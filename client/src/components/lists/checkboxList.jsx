@@ -31,8 +31,12 @@ class CheckboxList extends Component {
 	}
 
 	render() {
-		const { classes, items, activeItems, labels, onSelect } = this.props
+		const { classes, noMax, items, activeItems, labels, onSelect } = this.props
 		const { isOpen } = this.state
+		if (noMax) {
+			classes.root = ""
+		}
+
 		return (
 			<React.Fragment>
 				<ListItem button onClick={this.handleToggle} className={classes.root}>
