@@ -1,4 +1,4 @@
-const { Company } = require("./services/companyService")
+const { Company } = require("../services/companyService")
 const mongoose = require("mongoose")
 const config = require("config")
 
