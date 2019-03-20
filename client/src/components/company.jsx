@@ -5,6 +5,7 @@ import service from "../services/companyService"
 import CompanyHeader from "./headers/companyHeader"
 import Icons from "./common/icons"
 import Typography from "@material-ui/core/Typography"
+import Link from "@material-ui/core/Link"
 
 const styles = (theme) => ({
 	root: {
@@ -26,10 +27,7 @@ const styles = (theme) => ({
 		marginTop: theme.spacing.unit * 2
 	},
 	item: {
-		paddingRight: 8
-	},
-	icon: {
-		margin: theme.spacing.unit * 2
+		marginRight: theme.spacing.unit
 	}
 })
 
@@ -77,15 +75,19 @@ class Company extends Component {
 						{company.description}
 					</Typography>
 
-					{company.links.map((link) => (
-						<Icons key={link.name} name={link.name} className={classes.icon} />
-					))}
-
 					<div className={classes.items}>
 						{items.map((item) => (
 							<div key={item} className={classes.item}>
 								<Typography color="textSecondary">{item}</Typography>
 							</div>
+						))}
+					</div>
+
+					<div className={classes.items}>
+						{company.links.map((link) => (
+							<Link href={link.link}>
+								<Icons key={link.name} name={link.name} />
+							</Link>
 						))}
 					</div>
 				</div>
