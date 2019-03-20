@@ -1,0 +1,13 @@
+// filters.scss
+
+.badges {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	margin: 1em 2em 0 2em;
+
+	.badge-container {
+		display: flex;
+		flex-wrap: wrap;
+	}
+}

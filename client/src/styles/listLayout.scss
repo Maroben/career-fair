@@ -1,0 +1,16 @@
+// listLayout.scss
+
+.list-element {
+	margin: 0 1em;
+	padding: 1em;
+	border-bottom: 1px solid black;
+
+	header {
+		background: white;
+
+		h2 {
+			font-size: 1.3em;
+			text-align: left;
+		}
+	}
+}
