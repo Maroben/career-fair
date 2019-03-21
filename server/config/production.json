@@ -1,4 +1,4 @@
 {
 	"port": 8080,
-	"corsEndpoint": "http://www.hsrstellenboerse.ch"
+	"corsEndpoint": "http://hsrstellenboerse.ch"
 }
