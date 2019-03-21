@@ -60,26 +60,17 @@ class App extends Component {
 							component={CompanyForm}
 							user={user}
 						/>
-						<ProtectedRoute
-							path="/companies/new"
-							exact
-							component={CompanyForm}
-							user={user}
-						/>
+						<ProtectedRoute path="/companies/new" component={CompanyForm} user={user} />
 						<Route path="/companies/:id" component={Company} />
-						<Route
-							path="/companies"
-							exact
-							render={(props) => <Companies {...props} />}
-						/>
+						<Route path="/companies" render={(props) => <Companies {...props} />} />
 
 						<ProtectedRoute path="/users/edit/:id" component={UserForm} user={user} />
 						<ProtectedRoute path="/users/:id" component={User} user={user} />
 						<Route path="/users/register" component={UserForm} />
 						<ProtectedRoute path="/users" component={Users} user={user} />
 
-						<Route path="/auth" exact component={AuthForm} />
-						<Route path="/logout" exact component={Logout} />
+						<Route path="/auth" component={AuthForm} />
+						<Route path="/logout" component={Logout} />
 
 						<Route path="/404/:id" component={NotFound} />
 						<Redirect from="/" to="companies" exact />

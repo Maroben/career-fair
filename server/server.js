@@ -1,6 +1,7 @@
 ﻿const bodyParser = require("body-parser")
 const express = require("express")
 const server = express()
+const path = require("path")
 const config = require("config")
 const mongoose = require("mongoose")
 
@@ -38,6 +39,12 @@ if (process.env.NODE_ENV != "production") {
 server.use("/api/auth", auth)
 server.use("/api/companies", companies)
 server.use("/api/users", users)
+
+server.use(express.static(path.join(__dirname, "..", "client", "build")))
+
+server.use("/*", (req, res) => {
+	res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"))
+})
 
 const port = process.env.PORT || config.port
 server.listen(port, (error) => {
