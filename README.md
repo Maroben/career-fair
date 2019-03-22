@@ -25,7 +25,7 @@ VS Code Prettier Plugin (Esben Petersen) Settings
 
 ### Server
 
-1. Create custom env variable 'career_jwtPrivateKey' with a random String
+1. Create custom env variable 'career_fair_jwtPrivateKey' with a random String
 2. Use nodemon, installation \$ npm i -g nodemon
 
 ### Client
@@ -54,9 +54,9 @@ Set the NODE_ENV variable to 'production'
     {
         name: "Company XYZ",
         loc: "Building 1, Foyer",
-        info: "A great company in whatever they are doing.",
+        info: "A great company in whatever we are doing.",
         description:
-            "Best working in place in the world. Join them for any reason you can find.",
+            "Best working place in the world. Join us for any reason you can find. We got them cookies and coffee, so it must be good.",
         category: '["Informatik", "Elektrotechnik"]',
         tags: '["frontend", "security", "competence"]',
         links: '[

@@ -16,7 +16,7 @@ const Icons = ({ classes, name }) => {
 		Homepage: <Home className={classes.icon} />,
 		Twitter: <Icon className={`fa fa-twitter ${classes.icon}`} />,
 		Instagram: <Icon className={`fa fa-instagram ${classes.icon}`} />,
-		Linkedin: <Icon className={`fa fa-linkedin-square ${classes.icon}`} />,
+		LinkedIn: <Icon className={`fa fa-linkedin-square ${classes.icon}`} />,
 		Xing: <Icon className={`fa fa-xing-square ${classes.icon}`} />,
 		Facebook: <Icon className={`fa fa-facebook-square ${classes.icon}`} />
 	}
