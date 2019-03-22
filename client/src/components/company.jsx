@@ -76,18 +76,18 @@ class Company extends Component {
 					</Typography>
 
 					<div className={classes.items}>
-						{items.map((item) => (
-							<div key={item} className={classes.item}>
-								<Typography color="textSecondary">{item}</Typography>
-							</div>
+						{company.links.map((link) => (
+							<Link key={link.name} href={link.link}>
+								<Icons key={link.name} name={link.name} />
+							</Link>
 						))}
 					</div>
 
 					<div className={classes.items}>
-						{company.links.map((link) => (
-							<Link href={link.link}>
-								<Icons key={link.name} name={link.name} />
-							</Link>
+						{items.map((item) => (
+							<div key={item} className={classes.item}>
+								<Typography color="textSecondary">{item}</Typography>
+							</div>
 						))}
 					</div>
 				</div>

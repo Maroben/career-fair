@@ -13,12 +13,12 @@ const styles = (theme) => ({
 
 const Icons = ({ classes, name }) => {
 	const icons = {
-		homepage: <Home className={classes.icon} />,
-		twitter: <Icon className={`fa fa-twitter ${classes.icon}`} />,
-		instagram: <Icon className={`fa fa-instagram ${classes.icon}`} />,
-		linkedin: <Icon className={`fa fa-linkedin-square ${classes.icon}`} />,
-		xing: <Icon className={`fa fa-xing-square ${classes.icon}`} />,
-		facebook: <Icon className={`fa fa-facebook-square ${classes.icon}`} />
+		Homepage: <Home className={classes.icon} />,
+		Twitter: <Icon className={`fa fa-twitter ${classes.icon}`} />,
+		Instagram: <Icon className={`fa fa-instagram ${classes.icon}`} />,
+		Linkedin: <Icon className={`fa fa-linkedin-square ${classes.icon}`} />,
+		Xing: <Icon className={`fa fa-xing-square ${classes.icon}`} />,
+		Facebook: <Icon className={`fa fa-facebook-square ${classes.icon}`} />
 	}
 
 	return <React.Fragment>{icons[name]}</React.Fragment>

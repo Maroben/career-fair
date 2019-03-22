@@ -62,7 +62,15 @@ class Companies extends Component {
 		const companies = await getCompanies()
 		const categories = getAllFilters(companies, "categories")
 		const tags = getAllFilters(companies, "tags")
-		this.setState({ user, companies, categories, tags })
+		let activeTags = []
+		let activeCategories = []
+
+		if (localStorage.hasOwnProperty("activeTags")) {
+			activeTags = JSON.parse(localStorage.getItem("activeTags"))
+			activeCategories = JSON.parse(localStorage.getItem("activeCategories"))
+		}
+
+		this.setState({ user, companies, categories, activeCategories, tags, activeTags })
 	}
 
 	handleDelete = async (id) => {
@@ -113,6 +121,11 @@ class Companies extends Component {
 		this.setState({
 			filterDrawerIsOpen: !this.state.filterDrawerIsOpen
 		})
+		if (this.state.filterDrawerIsOpen) {
+			const { activeTags, activeCategories } = this.state
+			localStorage.setItem("activeTags", JSON.stringify(activeTags))
+			localStorage.setItem("activeCategories", JSON.stringify(activeCategories))
+		}
 	}
 
 	getPageData = () => {
