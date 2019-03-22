@@ -13,7 +13,7 @@ module.exports.getAllFilters = function(items, prop) {
 // the array. Return item if truthy, then remove all the null values.
 module.exports.filtering = function(items, prop, filters) {
 	return items
-		.map((item) => (item[prop].some((i) => filters.includes(i)) ? item : null))
+		.map((item) => (filters.every((filter) => item[prop].includes(filter)) ? item : null))
 		.filter((item) => item != null)
 }
 

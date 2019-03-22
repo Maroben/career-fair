@@ -144,7 +144,9 @@ class Companies extends Component {
 				: companies
 
 		companiesFiltered =
-			activeTags.length > 0 ? filtering(companies, "tags", activeTags) : companies
+			activeTags.length > 0
+				? filtering(companiesFiltered, "tags", activeTags)
+				: companiesFiltered
 
 		if (searchQuery) {
 			companiesFiltered = searching(companiesFiltered, searchAttributes, searchQuery)
