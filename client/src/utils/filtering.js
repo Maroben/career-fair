@@ -9,12 +9,15 @@ module.exports.getAllFilters = function(items, prop) {
 	return filters.sort()
 }
 
-// loop through all items and check if at least one element is in
-// the array. Return item if truthy, then remove all the null values.
-module.exports.filtering = function(items, prop, filters) {
+module.exports.filtering = function(items, props, filters) {
+	for (let i = 0; i < props.length; i++) {
+		items = items
+			.map((item) =>
+				filters[i].every((filter) => item[props[i]].includes(filter)) ? item : null
+			)
+			.filter((item) => item != null)
+	}
 	return items
-		.map((item) => (filters.every((filter) => item[prop].includes(filter)) ? item : null))
-		.filter((item) => item != null)
 }
 
 module.exports.searching = function(items, attributes, query) {
