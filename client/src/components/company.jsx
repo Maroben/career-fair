@@ -46,9 +46,15 @@ class Company extends Component {
 
 	componentDidMount = async () => {
 		const { id } = this.props.match.params
-		const company = await service.getCompany(id).catch((error) => {
-			window.location = "/404/1"
-		})
+		let company = null
+		if (localStorage.hasOwnProperty("companiesState")) {
+			const { companies } = JSON.parse(localStorage.getItem("companiesState"))
+			company = companies.map((c) => (c._id === id ? c : null)).filter((f) => f != null)[0]
+		} else {
+			company = await service.getCompany(id)
+		}
+
+		if (company === null) window.location = "/404/1"
 		this.setState({ company })
 	}
 

@@ -38,9 +38,7 @@ const companySchema = new mongoose.Schema({
 
 const Company = mongoose.model("Companies", companySchema)
 
-const attrSmall = ["_id", "name", "loc", "info", "categories", "tags"]
-const attrMedium = ["name", "loc", "info", "description", "categories", "tags", "links"]
-const attrBig = ["_id", "name", "loc", "info", "description", "categories", "tags", "links"]
+const companyAttr = ["name", "loc", "info", "description", "categories", "tags", "links"]
 
 function validateCompany(body) {
 	company = getCompanyBig(body)
@@ -72,7 +70,7 @@ module.exports.getCompanies = async function(req, res) {
 	await Company.find()
 		.then((companies) => {
 			companies = companies.map((company) => {
-				return _.pick(company, attrSmall)
+				return _.pick(company, ["_id", ...companyAttr])
 			})
 			res.send(companies)
 		})
@@ -86,7 +84,7 @@ module.exports.getCompany = async function(req, res) {
 
 	await Company.findOne({ _id })
 		.then((company) => {
-			company = _.pick(company, attrBig)
+			company = _.pick(company, ["_id", ...companyAttr])
 			res.send(company)
 		})
 		.catch((error) => {
@@ -101,7 +99,7 @@ module.exports.createCompany = async function(req, res) {
 	let company = await Company.findOne({ name: req.body.name })
 	if (company) return res.status(400).send("This company name has already been used.")
 
-	await new Company(_.pick(req.body, attrMedium))
+	await new Company(_.pick(req.body, companyAttr))
 		.save()
 		.then((company) => {
 			res.send(company)
@@ -117,7 +115,7 @@ module.exports.updateCompany = async function(req, res) {
 	const { error } = validateCompany(req.body)
 	if (error) return res.status(400).send(error.details[0].message)
 
-	await Company.findOneAndUpdate({ _id }, _.pick(req.body, attrMedium))
+	await Company.findOneAndUpdate({ _id }, _.pick(req.body, companyAttr))
 		.then((company) => {
 			res.send(company)
 		})

@@ -2,14 +2,6 @@ import http from "./httpService"
 
 const endpointApi = "/companies"
 
-function parsePartialCompany(company) {
-	return {
-		...company,
-		categories: JSON.parse(company.categories),
-		tags: JSON.parse(company.tags)
-	}
-}
-
 function parseCompany(company) {
 	return {
 		...company,
@@ -30,7 +22,7 @@ function stringifyCompany(company) {
 
 export async function getCompanies() {
 	const { data: companies } = await http.get(`${endpointApi}`)
-	return companies.map((company) => parsePartialCompany(company))
+	return companies.map((company) => parseCompany(company))
 }
 
 export async function getCompany(id) {
