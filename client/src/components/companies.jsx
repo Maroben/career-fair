@@ -46,31 +46,124 @@ class Companies extends Component {
 	state = {
 		filterDrawerIsOpen: false,
 		companies: [],
+		companiesFiltered: [],
+		companiesDisplayed: [],
 		categories: [],
 		activeCategories: [],
 		tags: [],
 		activeTags: [],
+		loadingSize: 7,
 		displaySize: 7,
-		totalContentCount: 7,
-		emptyMessage: "",
+		isEmptyErrorMessage: "",
 		searchAttributes: ["name", "info"],
 		searchQuery: ""
 	}
 
-	async componentDidMount() {
+	componentDidMount() {
+		if (localStorage.hasOwnProperty("companiesState")) return this.getLocalStorage()
+		return this.initializeData()
+	}
+
+	initializeData = async () => {
 		const user = await auth.getCurrentUser()
 		const companies = await getCompanies()
 		const categories = getAllFilters(companies, "categories")
+		const activeCategories = []
 		const tags = getAllFilters(companies, "tags")
-		let activeTags = []
-		let activeCategories = []
+		const activeTags = []
+		const displaySize = 7
 
-		if (localStorage.hasOwnProperty("activeTags")) {
-			activeTags = JSON.parse(localStorage.getItem("activeTags"))
-			activeCategories = JSON.parse(localStorage.getItem("activeCategories"))
+		this.setState({
+			user,
+			companies,
+			categories,
+			activeCategories,
+			tags,
+			activeTags,
+			displaySize
+		})
+
+		await this.getPageData()
+	}
+
+	getPageData = () => {
+		let {
+			companies,
+			displaySize,
+			activeCategories,
+			activeTags,
+			searchAttributes,
+			searchQuery,
+			isEmptyErrorMessage
+		} = this.state
+
+		let companiesFiltered =
+			activeCategories.length > 0 || activeTags.length > 0
+				? filtering(companies, ["categories", "tags"], [activeCategories, activeTags])
+				: companies
+
+		if (searchQuery) {
+			companiesFiltered = searching(companiesFiltered, searchAttributes, searchQuery)
 		}
 
-		this.setState({ user, companies, categories, activeCategories, tags, activeTags })
+		if (companiesFiltered.length === 0) {
+			isEmptyErrorMessage = "Es wurde kein Unternehmen gefunden."
+		}
+
+		const companiesDisplayed = _(companiesFiltered)
+			.slice(0)
+			.take(displaySize)
+			.value()
+
+		this.setState({
+			companiesFiltered,
+			companiesDisplayed,
+			isEmptyErrorMessage
+		})
+
+		this.setLocalStorage()
+	}
+
+	getLocalStorage = () => {
+		const {
+			companies,
+			companiesFiltered,
+			companiesDisplayed,
+			categories,
+			activeCategories,
+			tags,
+			activeTags,
+			displaySize,
+			isEmptyErrorMessage
+		} = JSON.parse(localStorage.getItem("companiesState"))
+
+		this.setState({
+			companies,
+			companiesFiltered,
+			companiesDisplayed,
+			categories,
+			activeCategories,
+			tags,
+			activeTags,
+			displaySize,
+			isEmptyErrorMessage
+		})
+	}
+
+	setLocalStorage = () => {
+		const companiesState = _.pick(this.state, [
+			"companies",
+			"companiesFiltered",
+			"companiesDisplayed",
+			"categories",
+			"activeCategories",
+			"tags",
+			"activeTags",
+			"displaySize",
+			"isEmptyErrorMessage"
+		])
+
+		localStorage.setItem("companiesState", JSON.stringify(companiesState))
 	}
 
 	handleDelete = async (id) => {
@@ -89,31 +182,34 @@ class Companies extends Component {
 	}
 
 	handleContentLoader = () => {
-		const { totalContentCount, displaySize } = this.state
-		let newContentCount = totalContentCount + displaySize
-		this.setState({ totalContentCount: newContentCount })
+		const { displaySize, loadingSize } = this.state
+		let newContentCount = displaySize + loadingSize
+		this.setState({ displaySize: newContentCount })
+		this.getPageData()
 	}
 
 	handleSearch = (e) => {
 		this.setState({
 			searchQuery: e.target.value,
-			totalContentCount: this.state.displaySize
+			displaySize: this.state.loadingSize
 		})
+		this.getPageData()
 	}
 
 	handleCheckboxSelect = (label, badge) => {
 		const active = _.xor(this.state[label], [badge])
 		this.setState({
 			[label]: active,
-			totalContentCount: this.state.displaySize
+			displaySize: this.state.loadingSize
 		})
+		this.getPageData()
 	}
 
 	handleCheckboxReset = () => {
 		this.setState({
 			activeCategories: [],
 			activeTags: [],
-			totalContentCount: this.state.displaySize
+			displaySize: this.state.loadingSize
 		})
 	}
 
@@ -128,57 +224,24 @@ class Companies extends Component {
 		}
 	}
 
-	getPageData = () => {
-		const {
-			companies,
-			totalContentCount,
-			activeCategories,
-			activeTags,
-			searchAttributes,
-			searchQuery
-		} = this.state
-
-		let companiesFiltered =
-			activeCategories.length > 0
-				? filtering(companies, "categories", activeCategories)
-				: companies
-
-		companiesFiltered =
-			activeTags.length > 0
-				? filtering(companiesFiltered, "tags", activeTags)
-				: companiesFiltered
-
-		if (searchQuery) {
-			companiesFiltered = searching(companiesFiltered, searchAttributes, searchQuery)
-		}
-
-		let emptyMessage = ""
-		if (emptyMessage.length === 0 && companiesFiltered.length === 0) {
-			emptyMessage = "Es wurde kein Unternehmen gefunden."
-		}
-
-		const companiesDisplayed = _(companiesFiltered)
-			.slice(0)
-			.take(totalContentCount)
-			.value()
-
-		return {
-			companiesDisplayed,
-			emptyMessage,
-			count: companiesFiltered.length
-		}
-	}
-
 	render() {
-		const { user, searchQuery, categories, activeCategories, tags, activeTags } = this.state
+		const {
+			user,
+			companiesFiltered,
+			companiesDisplayed,
+			searchQuery,
+			categories,
+			activeCategories,
+			tags,
+			activeTags,
+			isEmptyErrorMessage
+		} = this.state
 
 		const { classes } = this.props
 
-		const { companiesDisplayed, emptyMessage, count } = this.getPageData()
-
 		const sideFilters = (
 			<FilterDrawer
-				count={count}
+				count={companiesFiltered.length}
 				categories={categories}
 				activeCategories={activeCategories}
 				tags={tags}
@@ -203,14 +266,14 @@ class Companies extends Component {
 					</Drawer>
 
 					<Typography align="center" color="textSecondary" className={classes.container}>
-						{`${count} Unternehmen`}
+						{`${companiesFiltered.length} Unternehmen`}
 					</Typography>
 
 					<CompanyList
 						companies={companiesDisplayed}
 						user={user}
-						count={count}
-						emptyMessage={emptyMessage}
+						count={companiesFiltered.length}
+						isEmptyErrorMessage={isEmptyErrorMessage}
 						onDelete={this.handleDelete}
 						onLoad={this.handleContentLoader}
 					/>
