@@ -83,10 +83,10 @@ class Companies extends Component {
 			displaySize
 		})
 
-		await this.getPageData()
+		await this.setPageData()
 	}
 
-	getPageData = () => {
+	setPageData() {
 		let {
 			companies,
 			displaySize,
@@ -185,42 +185,41 @@ class Companies extends Component {
 		const { displaySize, loadingSize } = this.state
 		let newContentCount = displaySize + loadingSize
 		this.setState({ displaySize: newContentCount })
-		this.getPageData()
+		this.setPageData()
 	}
 
-	handleSearch = (e) => {
-		this.setState({
+	handleSearch = async (e) => {
+		await this.setState({
 			searchQuery: e.target.value,
 			displaySize: this.state.loadingSize
 		})
-		this.getPageData()
+		this.setPageData()
 	}
 
-	handleCheckboxSelect = (label, badge) => {
+	handleCheckboxSelect = async (label, badge) => {
 		const active = _.xor(this.state[label], [badge])
-		this.setState({
+		await this.setState({
 			[label]: active,
 			displaySize: this.state.loadingSize
 		})
-		this.getPageData()
+		this.setPageData()
 	}
 
-	handleCheckboxReset = () => {
-		this.setState({
+	handleCheckboxReset = async () => {
+		await this.setState({
 			activeCategories: [],
 			activeTags: [],
 			displaySize: this.state.loadingSize
 		})
+		this.setPageData()
 	}
 
-	handleDrawerToggle = () => {
-		this.setState({
+	handleDrawerToggle = async () => {
+		await this.setState({
 			filterDrawerIsOpen: !this.state.filterDrawerIsOpen
 		})
 		if (this.state.filterDrawerIsOpen) {
-			const { activeTags, activeCategories } = this.state
-			localStorage.setItem("activeTags", JSON.stringify(activeTags))
-			localStorage.setItem("activeCategories", JSON.stringify(activeCategories))
+			this.setPageData()
 		}
 	}
 
