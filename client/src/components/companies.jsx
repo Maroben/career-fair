@@ -10,6 +10,7 @@ import { getCompanies, deleteCompany } from "../services/companyService"
 import auth from "../services/authService"
 import CompaniesHeader from "./headers/companiesHeader"
 import CompanyList from "./lists/companyList"
+import ChipsSearchList from "./lists/chipsSearchList"
 import FilterDrawer from "./sideDrawer/filterDrawer"
 
 import Drawer from "@material-ui/core/Drawer"
@@ -214,6 +215,12 @@ class Companies extends Component {
 		this.setPageData()
 	}
 
+	handleFilterDelete = (event, label) => {
+		console.log(event)
+
+		console.log(label)
+	}
+
 	handleDrawerToggle = async () => {
 		await this.setState({
 			filterDrawerIsOpen: !this.state.filterDrawerIsOpen
@@ -267,6 +274,21 @@ class Companies extends Component {
 					<Typography align="center" color="textSecondary" className={classes.container}>
 						{`${companiesFiltered.length} Unternehmen`}
 					</Typography>
+
+					<ChipsSearchList
+						items={activeCategories}
+						labels={[
+							"activeCategories",
+							"Ausgewählte Studiengänge",
+							"Ausgewählter Studiengang"
+						]}
+						onDelete={this.handleCheckboxSelect}
+					/>
+					<ChipsSearchList
+						items={activeTags}
+						labels={["activeTags", "Ausgewählte Kategorien", "Ausgewählte Kategorie"]}
+						onDelete={this.handleCheckboxSelect}
+					/>
 
 					<CompanyList
 						companies={companiesDisplayed}
