@@ -21,7 +21,6 @@ import NotFound from "./components/404"
 
 import "react-toastify/dist/ReactToastify.css"
 import "font-awesome/css/font-awesome.min.css"
-import "./App.scss"
 
 const theme = createMuiTheme({
 	palette: {

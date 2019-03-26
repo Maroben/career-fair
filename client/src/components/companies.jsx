@@ -126,6 +126,7 @@ class Companies extends Component {
 	}
 
 	getLocalStorage = () => {
+		const user = auth.getCurrentUser()
 		const {
 			companies,
 			companiesFiltered,
@@ -139,6 +140,7 @@ class Companies extends Component {
 		} = JSON.parse(localStorage.getItem("companiesState"))
 
 		this.setState({
+			user,
 			companies,
 			companiesFiltered,
 			companiesDisplayed,

@@ -61,7 +61,7 @@ const CompanyCard = (props) => {
 					{/* <InfoChips items={company.categories.concat(company.tags)} /> */}
 				</CardContent>
 			</CardActionArea>
-			{user && (
+			{user && user.isAdmin && (
 				<CardActions>
 					<Button size="small" color="secondary" onClick={() => onDelete(company._id)}>
 						delete
