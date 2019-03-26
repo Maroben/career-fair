@@ -1,14 +1,14 @@
 {
-	"name": "hsrcareer",
+	"name": "career-fair",
 	"version": "0.1.0",
-	"description": "HSRCareer - Client",
+	"description": "Career Fair Client",
 	"author": {
 		"name": "Maroben"
 	},
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/Maroben/HSR-Career.git"
+		"url": "git://github.com/Maroben/Career-Fair.git"
 	},
 	"dependencies": {
 		"@material-ui/core": "^3.9.2",

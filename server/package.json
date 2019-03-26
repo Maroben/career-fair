@@ -1,14 +1,14 @@
 {
-	"name": "hsrcareer",
+	"name": "career-fair",
 	"version": "0.3.0",
-	"description": "HSRCareer - Server",
+	"description": "Career Fair Server",
 	"author": {
 		"name": "Maroben"
 	},
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/Maroben/HSR-Career.git"
+		"url": "git://github.com/Maroben/Career-Fair.git"
 	},
 	"dependencies": {
 		"bcryptjs": "^2.4.3",
