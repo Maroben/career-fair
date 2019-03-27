@@ -5,9 +5,14 @@ const config = require("config")
 
 const users = [
 	{
-		name: "Maroben",
-		email: "maroben@hsrstellenboerse.ch",
-		password: "admin123"
+		name: "Admin",
+		email: "admin@admin.io",
+		password: "admin1234"
+	},
+	{
+		name: "Userino",
+		email: "user@user.io",
+		password: "user1234"
 	}
 ]
 

@@ -9,7 +9,7 @@ const companySchema = new mongoose.Schema({
 		minlength: 3,
 		maxlength: 18
 	},
-	loc: {
+	location: {
 		type: String,
 		required: true,
 		maxlength: 18
@@ -38,17 +38,15 @@ const companySchema = new mongoose.Schema({
 
 const Company = mongoose.model("Companies", companySchema)
 
-const companyAttr = ["name", "loc", "info", "description", "categories", "tags", "links"]
+const companyAttr = ["name", "location", "info", "description", "categories", "tags", "links"]
 
 function validateCompany(body) {
-	company = getCompanyBig(body)
-
 	const schema = {
 		name: Joi.string()
 			.min(3)
 			.max(64)
 			.required(),
-		loc: Joi.string()
+		location: Joi.string()
 			.max(18)
 			.required(),
 		info: Joi.string()
@@ -60,10 +58,10 @@ function validateCompany(body) {
 			.required(),
 		categories: Joi.string(),
 		tags: Joi.string(),
-		links: Joi.string()
+		links: Joi.object()
 	}
 
-	return Joi.validate(company, schema)
+	return Joi.validate(body, schema)
 }
 
 module.exports.getCompanies = async function(req, res) {
