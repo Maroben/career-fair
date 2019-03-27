@@ -10,6 +10,7 @@ const styles = (theme) => ({
 	formControl: {
 		width: "-webkit-fill-available",
 		margin: theme.spacing.unit * 2,
+		marginTop: theme.spacing.unit,
 		marginBottom: 0
 	},
 	label: {

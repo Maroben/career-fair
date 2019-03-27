@@ -1,325 +1,215 @@
 import React, { Component } from "react"
-import PropTypes from "prop-types"
-import { withStyles } from "@material-ui/core/styles"
-import { Link } from "react-router-dom"
+import { Route, Switch } from "react-router-dom"
 import _ from "lodash"
-import { toast } from "react-toastify"
 
-import { filtering, getAllFilters, searching } from "../utils/filtering"
-import { getCompanies, deleteCompany } from "../services/companyService"
 import auth from "../services/authService"
-import CompaniesHeader from "./headers/companiesHeader"
-import CompanyList from "./lists/companyList"
-import ChipsSearchList from "./lists/chipsSearchList"
-import FilterDrawer from "./sideDrawer/filterDrawer"
+import service from "../services/companyService"
+import CompanyForm from "./forms/companyForm"
+import ProtectedRoute from "./common/protectedRoute"
+import { filtering, getAllFilters, searching } from "../utils/filtering"
 
-import Drawer from "@material-ui/core/Drawer"
-import Fab from "@material-ui/core/Fab"
-import Typography from "@material-ui/core/Typography"
-import AddIcon from "@material-ui/icons/Add"
-
-const styles = (theme) => ({
-	root: {
-		...theme.mixins.gutters(),
-		paddingTop: theme.spacing.unit * 2,
-		paddingBottom: theme.spacing.unit * 2,
-		margin: theme.spacing.unit * 2
-	},
-	container: {
-		margin: theme.spacing.unit * 2,
-		marginBottom: 0
-	},
-	buttonMore: {
-		width: 200,
-		textAlign: "center"
-	},
-	button: {
-		margin: theme.spacing.unit
-	},
-	fab: {
-		position: "fixed",
-		bottom: theme.spacing.unit * 2,
-		right: theme.spacing.unit * 2
-	}
-})
+import CompaniesList from "./lists/companiesList"
+import CompanyDetails from "./details/companyDetails"
 
 class Companies extends Component {
-	state = {
-		filterDrawerIsOpen: false,
-		companies: [],
-		companiesFiltered: [],
-		companiesDisplayed: [],
-		categories: [],
-		activeCategories: [],
-		tags: [],
-		activeTags: [],
-		loadingSize: 7,
-		displaySize: 7,
-		isEmptyErrorMessage: "",
-		searchAttributes: ["name", "info"],
-		searchQuery: ""
+	constructor(props) {
+		super(props)
+		this.state = {
+			user: null,
+			companies: [],
+			hasMounted: false,
+			filterData: {
+				companies: [],
+				filterCount: 0,
+				displaySize: 7,
+				loadingSize: 7,
+				search: {
+					query: "",
+					attr: ["name", "info", "description", "categories", "tags"]
+				},
+				filters: {
+					all: {
+						categories: [],
+						tags: []
+					},
+					active: {
+						categories: [],
+						tags: []
+					},
+					labels: [["categories", "Studiengänge"], ["tags", "Kategorien"]]
+				}
+			},
+			messages: {
+				isEmptyError: ""
+			}
+		}
 	}
 
-	componentDidMount() {
-		if (localStorage.hasOwnProperty("companiesState")) return this.getLocalStorage()
-		return this.initializeData()
-	}
-
-	initializeData = async () => {
+	async componentDidMount() {
 		const user = await auth.getCurrentUser()
-		const companies = await getCompanies()
-		const categories = getAllFilters(companies, "categories")
-		const activeCategories = []
-		const tags = getAllFilters(companies, "tags")
-		const activeTags = []
-		const displaySize = 7
+		const companies = await service.getCompanies()
+		let { filterData, hasMounted } = this.state
+		let { all: allFilters, labels } = filterData.filters
 
-		this.setState({
-			user,
-			companies,
-			categories,
-			activeCategories,
-			tags,
-			activeTags,
-			displaySize
-		})
+		filterData.companies = companies
+		labels.map((label) => (allFilters[label[0]] = getAllFilters(companies, label[0])))
+		filterData.filters.all = allFilters
+		hasMounted = true
 
-		await this.setPageData()
+		await this.setState({ user, companies, hasMounted, filterData })
+		this.handleData()
 	}
 
-	setPageData() {
-		let {
-			companies,
-			displaySize,
-			activeCategories,
-			activeTags,
-			searchAttributes,
-			searchQuery,
-			isEmptyErrorMessage
-		} = this.state
+	handleData = () => {
+		let { companies, filterData, messages } = this.state
+		let { filters, search } = filterData
 
-		let companiesFiltered =
-			activeCategories.length > 0 || activeTags.length > 0
-				? filtering(companies, ["categories", "tags"], [activeCategories, activeTags])
-				: companies
+		let companiesFiltered = filtering(companies, filters)
 
-		if (searchQuery) {
-			companiesFiltered = searching(companiesFiltered, searchAttributes, searchQuery)
-		}
+		companiesFiltered = searching(companiesFiltered, search)
+		const filterCount = companiesFiltered.length
 
-		if (companiesFiltered.length === 0) {
-			isEmptyErrorMessage = "Es wurde kein Unternehmen gefunden."
-		}
+		messages.isEmptyError = filterCount === 0 ? "Es wurden keine Unternehmen gefunden." : ""
 
-		const companiesDisplayed = _(companiesFiltered)
+		companiesFiltered = _(companiesFiltered)
 			.slice(0)
-			.take(displaySize)
+			.take(filterData.displaySize)
 			.value()
 
-		this.setState({
-			companiesFiltered,
-			companiesDisplayed,
-			isEmptyErrorMessage
-		})
+		filterData.companies = companiesFiltered
+		filterData.filterCount = filterCount
 
-		this.setLocalStorage()
-	}
-
-	getLocalStorage = () => {
-		const user = auth.getCurrentUser()
-		const {
-			companies,
-			companiesFiltered,
-			companiesDisplayed,
-			categories,
-			activeCategories,
-			tags,
-			activeTags,
-			displaySize,
-			isEmptyErrorMessage
-		} = JSON.parse(localStorage.getItem("companiesState"))
-
-		this.setState({
-			user,
-			companies,
-			companiesFiltered,
-			companiesDisplayed,
-			categories,
-			activeCategories,
-			tags,
-			activeTags,
-			displaySize,
-			isEmptyErrorMessage
-		})
-	}
-
-	setLocalStorage = () => {
-		const companiesState = _.pick(this.state, [
-			"companies",
-			"companiesFiltered",
-			"companiesDisplayed",
-			"categories",
-			"activeCategories",
-			"tags",
-			"activeTags",
-			"displaySize",
-			"isEmptyErrorMessage"
-		])
-
-		localStorage.setItem("companiesState", JSON.stringify(companiesState))
+		this.setState({ filterData, messages })
 	}
 
 	handleDelete = async (id) => {
-		const companies = this.state.companies
+		const { companies } = this.state
 		const deleted = companies.filter((company) => company._id !== id)
-		this.setState({ companies: deleted })
+		await this.setState({ companies: deleted })
+		this.handleData()
 
-		await deleteCompany(id)
-			.then(() => {
-				toast.info("Company deleted", { autoClose: 1500 })
-			})
-			.catch((error) => {
-				toast.error("An unexpected Error occurred!")
-				this.setState({ companies })
-			})
-	}
-
-	handleContentLoader = () => {
-		const { displaySize, loadingSize } = this.state
-		let newContentCount = displaySize + loadingSize
-		this.setState({ displaySize: newContentCount })
-		this.setPageData()
-	}
-
-	handleSearch = async (e) => {
-		await this.setState({
-			searchQuery: e.target.value,
-			displaySize: this.state.loadingSize
+		await service.deleteCompany(id).catch(() => {
+			this.setState({ companies })
+			this.handleData()
 		})
-		this.setPageData()
+	}
+
+	handleSearch = async (event) => {
+		let { filterData } = this.state
+
+		filterData = {
+			...filterData,
+			searchQuery: event.target.value,
+			displaySize: filterData.loadingSize
+		}
+
+		await this.setState({ filterData })
+		this.handleData()
+	}
+
+	handleContentLoader = async () => {
+		let { filterData } = this.state
+
+		filterData.displaySize += filterData.loadingSize
+
+		await this.setState({ filterData })
+		this.handleData()
 	}
 
 	handleCheckboxSelect = async (label, badge) => {
-		const active = _.xor(this.state[label], [badge])
-		await this.setState({
-			[label]: active,
-			displaySize: this.state.loadingSize
-		})
-		this.setPageData()
+		let { filterData } = this.state
+		filterData.filters.active[label] = _.xor(filterData.filters.active[label], [badge])
+		filterData.displaySize = filterData.loadingSize
+
+		await this.setState({ filterData })
+		this.handleData()
 	}
 
 	handleCheckboxReset = async () => {
-		await this.setState({
-			activeCategories: [],
-			activeTags: [],
-			displaySize: this.state.loadingSize
-		})
-		this.setPageData()
-	}
+		let { filterData } = this.state
+		let { active, labels } = filterData.filters
 
-	handleFilterDelete = (event, label) => {
-		console.log(event)
-
-		console.log(label)
-	}
-
-	handleDrawerToggle = async () => {
-		await this.setState({
-			filterDrawerIsOpen: !this.state.filterDrawerIsOpen
-		})
-		if (this.state.filterDrawerIsOpen) {
-			this.setPageData()
+		for (let i = 0; i < labels.length; i++) {
+			active[labels[i][0]] = []
 		}
+
+		filterData.filters.active = active
+		filterData.displaySize = filterData.loadingSize
+
+		await this.setState({ filterData })
+		this.handleData()
 	}
 
 	render() {
-		const {
-			user,
-			companiesFiltered,
-			companiesDisplayed,
-			searchQuery,
-			categories,
-			activeCategories,
-			tags,
-			activeTags,
-			isEmptyErrorMessage
-		} = this.state
+		const { user, companies, hasMounted, filterData, messages } = this.state
 
-		const { classes } = this.props
+		const labels = {
+			messages: messages,
+			title: "HSR Stellenbörse",
+			path: "/companies"
+		}
 
-		const sideFilters = (
-			<FilterDrawer
-				count={companiesFiltered.length}
-				categories={categories}
-				activeCategories={activeCategories}
-				tags={tags}
-				activeTags={activeTags}
-				onCheckboxSelect={this.handleCheckboxSelect}
-				onCheckboxReset={this.handleCheckboxReset}
-				onClose={this.handleDrawerToggle}
-			/>
-		)
+		const onEvents = {
+			onDelete: this.handleDelete,
+			onSearch: this.handleSearch,
+			onLoad: this.handleContentLoader,
+			onCheckboxSelect: this.handleCheckboxSelect,
+			onCheckboxReset: this.handleCheckboxReset
+		}
 
 		return (
-			<React.Fragment>
-				<CompaniesHeader
-					name="HSR Stellenbörse"
-					value={searchQuery}
-					onSearch={this.handleSearch}
-					onFilterSelect={this.handleDrawerToggle}
-				/>
-				<main>
-					<Drawer open={this.state.filterDrawerIsOpen} onClose={this.handleDrawerToggle}>
-						<div>{sideFilters}</div>
-					</Drawer>
-
-					<Typography align="center" color="textSecondary" className={classes.container}>
-						{`${companiesFiltered.length} Unternehmen`}
-					</Typography>
-
-					<ChipsSearchList
-						items={activeCategories}
-						labels={[
-							"activeCategories",
-							"Ausgewählte Studiengänge",
-							"Ausgewählter Studiengang"
-						]}
-						onDelete={this.handleCheckboxSelect}
-					/>
-					<ChipsSearchList
-						items={activeTags}
-						labels={["activeTags", "Ausgewählte Kategorien", "Ausgewählte Kategorie"]}
-						onDelete={this.handleCheckboxSelect}
-					/>
-
-					<CompanyList
-						companies={companiesDisplayed}
-						user={user}
-						count={companiesFiltered.length}
-						isEmptyErrorMessage={isEmptyErrorMessage}
-						onDelete={this.handleDelete}
-						onLoad={this.handleContentLoader}
-					/>
-
-					{user && user.isAdmin && (
-						<Fab
-							color="secondary"
-							aria-label="Add"
-							className={classes.fab}
-							component={Link}
-							to="/companies/new"
-						>
-							<AddIcon />
-						</Fab>
+			<Switch>
+				<ProtectedRoute
+					path="/companies/edit/:id"
+					user={user}
+					render={(props) => (
+						<CompanyForm
+							{...props}
+							hasMounted={hasMounted}
+							isEditing={true}
+							filterData={filterData}
+						/>
 					)}
-				</main>
-			</React.Fragment>
+				/>
+				<ProtectedRoute
+					path="/companies/new"
+					user={user}
+					render={(props) => (
+						<CompanyForm
+							{...props}
+							hasMounted={hasMounted}
+							isEditing={false}
+							filterData={filterData}
+						/>
+					)}
+				/>
+				<Route
+					path="/companies/:id"
+					render={(props) => (
+						<CompanyDetails
+							{...props}
+							companies={companies}
+							hasMounted={hasMounted}
+							filterLabels={filterData.filters.labels}
+						/>
+					)}
+				/>
+				<Route
+					path="/companies/"
+					render={(props) => (
+						<CompaniesList
+							{...props}
+							user={user}
+							companies={companies}
+							labels={labels}
+							filterData={filterData}
+							onEvents={onEvents}
+						/>
+					)}
+				/>
+			</Switch>
 		)
 	}
 }
 
-Companies.propTypes = {
-	classes: PropTypes.object.isRequired
-}
-
-export default withStyles(styles)(Companies)
+export default Companies

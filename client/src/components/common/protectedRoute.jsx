@@ -6,7 +6,7 @@ const ProtectedRoute = ({ path, component: Component, render, user, ...rest }) =
 		<Route
 			{...rest}
 			render={(props) => {
-				if (!user)
+				if (!user || !user.isAdmin)
 					return (
 						<Redirect
 							to={{
