@@ -27,7 +27,7 @@ class Form extends Component {
 		const { error } = Joi.validate(this.state.data, this.schema, options)
 		if (!error) return null
 
-		const errors = {}
+		const errors = { links: {} }
 		for (let item of error.details) {
 			errors[item.path[0]] = item.message
 		}
@@ -70,7 +70,7 @@ class Form extends Component {
 		event.preventDefault() // keeps it from a full page refresh
 		const errors = this.validate()
 
-		this.setState({ errors: errors || {} }) // errors cannot be 'null'
+		this.setState({ errors: errors || { links: {} } }) // errors cannot be 'null'
 		if (errors) {
 			toast.error("Some form fields have errors ¯\\_(ツ)_/¯")
 			return
@@ -123,8 +123,7 @@ class Form extends Component {
 	}
 
 	renderLink(classes) {
-		const { data, errors, linksIsOpen } = this.state
-		const keys = Object.keys(data.links)
+		const { data, errors, links, linksIsOpen } = this.state
 
 		return (
 			<React.Fragment>
@@ -133,7 +132,7 @@ class Form extends Component {
 					{linksIsOpen ? <ExpandLess /> : <ExpandMore />}
 				</ListItem>
 				<Collapse in={linksIsOpen} timeout="auto" unmountOnExit>
-					{keys.map((key) => (
+					{links.map((key) => (
 						<InputComponent
 							key={key}
 							type={"text"}

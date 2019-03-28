@@ -6,6 +6,7 @@ import Form from "./form"
 
 import service from "../../services/companyService"
 import SimpleHeader from "../headers/simpleHeader"
+import { toast } from "react-toastify"
 
 const styles = (theme) => ({
 	header: {
@@ -45,7 +46,8 @@ class CompanyForm extends Form {
 		},
 		errors: {
 			links: {}
-		}
+		},
+		links: ["facebook", "homepage", "instagram", "linkedin", "twitter", "xing", "youtube"]
 	}
 
 	schema = {
@@ -83,8 +85,8 @@ class CompanyForm extends Form {
 	}
 
 	doSubmit = async () => {
-		const { isEditing, data } = this.state
-		console.log(data)
+		let { isEditing, data } = this.state
+
 		try {
 			if (isEditing) {
 				const { id } = this.props.match.params
@@ -92,12 +94,12 @@ class CompanyForm extends Form {
 			} else {
 				await service.createCompany(data)
 			}
-			window.location = "/companies"
+			window.history.back()
 		} catch (ex) {
 			if (ex.response && ex.response.status === 400) {
 				let errors = { ...this.state.erros }
 				errors = ex.response.data
-				this.setState({ errors })
+				toast.errors(errors)
 			}
 		}
 	}

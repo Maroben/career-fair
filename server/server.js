@@ -18,7 +18,8 @@ if (!config.get("jwtPrivateKey")) {
 mongoose
 	.connect(config.db, {
 		useNewUrlParser: true,
-		useCreateIndex: true
+		useCreateIndex: true,
+		useFindAndModify: false
 	})
 	.then(() => console.info("Connected to MongoDB ..."))
 	.catch((error) => console.error("Could not connect to MongoDB ..."))
