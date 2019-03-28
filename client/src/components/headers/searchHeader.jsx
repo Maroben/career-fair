@@ -98,7 +98,7 @@ class SearchHeader extends Component {
 		const { classes, name, value, onSearch, onFilterSelect } = this.props
 
 		return (
-			<AppBar position="static" className={classes.root}>
+			<AppBar position="sticky" className={classes.root}>
 				<Toolbar>
 					{!isSearching && (
 						<React.Fragment>

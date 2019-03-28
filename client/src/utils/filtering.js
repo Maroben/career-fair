@@ -30,9 +30,17 @@ module.exports.searching = function(items, { query, attr }) {
 
 	items.forEach((item) => {
 		for (let i in attr) {
-			if (item[attr[i]].toLowerCase().indexOf(query.toLowerCase()) > -1) {
-				result.push(item)
-				return
+			if (typeof item[attr[i]] != "object") {
+				if (item[attr[i]].toLowerCase().indexOf(query.toLowerCase()) > -1) {
+					return result.push(item)
+				}
+			} else {
+				item[attr[i]].map((j) => {
+					if (j.toLowerCase().indexOf(query.toLowerCase()) > -1) {
+						return result.push(item)
+					}
+					return null
+				})
 			}
 		}
 	})

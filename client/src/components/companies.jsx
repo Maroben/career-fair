@@ -106,11 +106,8 @@ class Companies extends Component {
 	handleSearch = async (event) => {
 		let { filterData } = this.state
 
-		filterData = {
-			...filterData,
-			searchQuery: event.target.value,
-			displaySize: filterData.loadingSize
-		}
+		filterData.search.query = event.target.value
+		filterData.displaySize = filterData.loadingSize
 
 		await this.setState({ filterData })
 		this.handleData()
