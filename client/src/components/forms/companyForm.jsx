@@ -66,19 +66,7 @@ class CompanyForm extends Form {
 			.required(),
 		categories: Joi.array(),
 		tags: Joi.array(),
-		links: Joi.object({
-			facebook: Joi.string().optional(),
-			homepage: Joi.string().optional(),
-			instagram: Joi.string().optional(),
-			linkedin: Joi.string().optional(),
-			twitter: Joi.string()
-				.optional()
-				.allow(null),
-			xing: Joi.string().optional(),
-			youtube: Joi.string()
-				.optional()
-				.allow(null)
-		})
+		links: Joi.object().pattern(/^/, Joi.string().allow(""))
 	}
 
 	async componentDidMount() {
