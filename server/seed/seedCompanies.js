@@ -81,7 +81,6 @@ seedCompanies = () => {
 
 			mongoose.disconnect()
 			console.info("Done!")
-			exit
 		})
 }
 

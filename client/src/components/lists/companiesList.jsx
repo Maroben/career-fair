@@ -76,7 +76,7 @@ class CompaniesList extends Component {
 					onEvents={onEvents}
 				/>
 
-				{user && user.isAdmin && (
+				{user && (
 					<Fab
 						color="primary"
 						className={classes.fab}

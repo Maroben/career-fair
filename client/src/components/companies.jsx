@@ -171,6 +171,7 @@ class Companies extends Component {
 				<ProtectedRoute
 					path="/companies/edit/:id"
 					user={user}
+					adminRequired={false}
 					render={(props) => (
 						<CompanyForm
 							{...props}
@@ -183,6 +184,7 @@ class Companies extends Component {
 				<ProtectedRoute
 					path="/companies/new"
 					user={user}
+					adminRequired={false}
 					render={(props) => (
 						<CompanyForm
 							{...props}

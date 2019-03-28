@@ -62,11 +62,17 @@ const CompanyCard = (props) => {
 				</CardContent>
 			</CardActionArea>
 
-			{user && user.isAdmin && (
+			{user && (
 				<CardActions>
-					<Button size="small" color="secondary" onClick={() => onDelete(company._id)}>
-						delete
-					</Button>
+					{user.isAdmin && (
+						<Button
+							size="small"
+							color="secondary"
+							onClick={() => onDelete(company._id)}
+						>
+							delete
+						</Button>
+					)}
 					<Button
 						size="small"
 						color="primary"
