@@ -94,7 +94,7 @@ class CompanyForm extends Form {
 			} else {
 				await service.createCompany(data)
 			}
-			window.history.back()
+			window.location = "/companies"
 		} catch (ex) {
 			if (ex.response && ex.response.status === 400) {
 				let errors = { ...this.state.erros }

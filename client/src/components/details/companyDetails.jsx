@@ -63,31 +63,35 @@ const CompanyDetails = (props) => {
 					</Typography>
 
 					<div className={classes.items}>
-						{linkKeys.map((key) => (
-							<Link key={key} href={company.links[key]} target={"_blank"}>
-								<Icons name={key} />
-							</Link>
-						))}
+						{linkKeys.map((key) =>
+							company.links[key].length === 0 ? null : (
+								<Link key={key} href={company.links[key]} target={"_blank"}>
+									<Icons name={key} />
+								</Link>
+							)
+						)}
 					</div>
 
-					{filterLabels.map((labels) => (
-						<div key={labels[0]}>
-							<Typography color="textPrimary" variant="subtitle1">
-								{labels[1]}
-							</Typography>
-							<div className={classes.items}>
-								{company[labels[0]].map((filter) => (
-									<Typography
-										key={filter}
-										color="textSecondary"
-										className={classes.item}
-									>
-										{filter}
-									</Typography>
-								))}
+					{filterLabels.map((labels) =>
+						company[labels[0]].length === 0 ? null : (
+							<div key={labels[0]}>
+								<Typography color="textPrimary" variant="subtitle1">
+									{labels[1]}
+								</Typography>
+								<div className={classes.items}>
+									{company[labels[0]].map((filter) => (
+										<Typography
+											key={filter}
+											color="textSecondary"
+											className={classes.item}
+										>
+											{filter}
+										</Typography>
+									))}
+								</div>
 							</div>
-						</div>
-					))}
+						)
+					)}
 				</div>
 			</React.Fragment>
 		)
