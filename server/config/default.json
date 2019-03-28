@@ -1,5 +1,8 @@
 {
 	"jwtPrivateKey": "",
+	"adminPw": "",
+	"marobenPw": "",
+	"userPw": "",
 	"mongoDb": "",
 	"mongoPort": "",
 	"mongoUser": "",

@@ -33,8 +33,8 @@ const styles = {
 }
 
 const CompanyCard = (props) => {
-	const { classes, user, labels, company, onDelete } = props
-	const chips = company.categories.concat(company.tags)
+	const { classes, user, labels, company, filterData, onDelete } = props
+	const filterLabels = filterData.filters.labels
 
 	return (
 		<Card className={classes.card}>
@@ -50,13 +50,15 @@ const CompanyCard = (props) => {
 						{company.info}
 					</Typography>
 
-					<div className={classes.chips}>
-						{chips.map((chip) => (
-							<div key={chip} className={classes.chip}>
-								<Typography color="textSecondary">{chip}</Typography>
-							</div>
-						))}
-					</div>
+					{filterLabels.map((label) => (
+						<div key={label} className={classes.chips}>
+							{company[label[0]].map((chip) => (
+								<div key={chip} className={classes.chip}>
+									<Typography color="textSecondary">{chip}</Typography>
+								</div>
+							))}
+						</div>
+					))}
 				</CardContent>
 			</CardActionArea>
 

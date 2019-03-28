@@ -7,7 +7,7 @@ const admin = require("../utils/admin")
 
 router.get("/", [auth, admin], service.getUsers)
 router.get("/:id", [auth, admin], service.getUser)
-router.post("/register", service.createUser)
+router.post("/register", [auth, admin], service.createUser)
 router.put("/:id", [auth, admin], service.updateUser)
 router.delete("/:id", [auth, admin], service.deleteUser)
 

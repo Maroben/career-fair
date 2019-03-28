@@ -5,8 +5,8 @@ const endpointApi = "/companies"
 function parseCompany(company) {
 	return {
 		...company,
-		categories: JSON.parse(company.categories),
-		tags: JSON.parse(company.tags),
+		subjects: JSON.parse(company.subjects),
+		employment: JSON.parse(company.employment),
 		links: JSON.parse(company.links)
 	}
 }
@@ -14,8 +14,8 @@ function parseCompany(company) {
 function stringifyCompany(company) {
 	return {
 		...company,
-		categories: JSON.stringify(company.categories),
-		tags: JSON.stringify(company.tags),
+		subjects: JSON.stringify(company.subjects),
+		employment: JSON.stringify(company.employment),
 		links: JSON.stringify(company.links)
 	}
 }

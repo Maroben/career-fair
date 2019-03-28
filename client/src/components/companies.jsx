@@ -25,18 +25,27 @@ class Companies extends Component {
 				loadingSize: 7,
 				search: {
 					query: "",
-					attr: ["name", "info", "description", "categories", "tags"]
+					attr: ["name", "info", "description", "subjects", "employment"]
 				},
 				filters: {
 					all: {
-						categories: [],
-						tags: []
+						subjects: [
+							"Bauingenieurwesen",
+							"Elektrotechnik",
+							"Erneuerbare Energien & Umwelttechnik",
+							"Informatik",
+							"Landschaftsarchitektur",
+							"Maschinentechnik / Innovation",
+							"Raumplanung",
+							"Wirtschaftsingenieurwesen"
+						],
+						employment: ["Full-Time", "Internship", "Trainee"]
 					},
 					active: {
-						categories: [],
-						tags: []
+						subjects: [],
+						employment: []
 					},
-					labels: [["categories", "Studiengänge"], ["tags", "Kategorien"]]
+					labels: [["subjects", "Studiengänge"], ["employment", "Anstellungsart"]]
 				}
 			},
 			messages: {

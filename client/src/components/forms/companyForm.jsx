@@ -32,8 +32,8 @@ class CompanyForm extends Form {
 			info: "",
 			location: "",
 			description: "",
-			categories: [],
-			tags: [],
+			subjects: [],
+			employment: [],
 			links: {
 				facebook: "",
 				homepage: "",
@@ -66,8 +66,8 @@ class CompanyForm extends Form {
 		description: Joi.string()
 			.min(5)
 			.required(),
-		categories: Joi.array(),
-		tags: Joi.array(),
+		subjects: Joi.array(),
+		employment: Joi.array(),
 		links: Joi.object().pattern(/^/, Joi.string().allow(""))
 	}
 

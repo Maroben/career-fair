@@ -1,222 +1,88 @@
 const { Company } = require("../services/companyService")
 const mongoose = require("mongoose")
 const config = require("config")
+const csv = require("csv-parser")
+const fs = require("fs")
 
-let companies = [
-	{
-		name: "Unternehmen 1",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["gross", "backend"]'
-	},
-	{
-		name: "Unternehmen 2",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["gross", "backend"]'
-	},
-	{
-		name: "Unternehmen 3",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["gross", "einzeln"]'
-	},
-	{
-		name: "Unternehmen 4",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["klein"]'
-	},
-	{
-		name: "Unternehmen 5",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["klein", "informatik"]'
-	},
-	{
-		name: "Unternehmen 6",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["klein", "frontend", "informatik"]'
-	},
-	{
-		name: "Unternehmen 7",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["klein", "frontend", "something"]'
-	},
-	{
-		name: "Unternehmen 8",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["mittel", "frontend", "something"]'
-	},
-	{
-		name: "Unternehmen 9",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["mittel", "backend", "something"]'
-	},
-	{
-		name: "Unternehmen 10",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["gross", "backend", "informatik"]'
-	},
-	{
-		name: "Unternehmen 12",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["gross", "backend", "informatik"]'
-	},
-	{
-		name: "Unternehmen 13",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["gross", "informatik"]'
-	},
-	{
-		name: "Unternehmen 14",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["klein", "informatik"]'
-	},
-	{
-		name: "Unternehmen 15",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["klein", "informatik"]'
-	},
-	{
-		name: "Unternehmen 16",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["klein", "frontend", "informatik"]'
-	},
-	{
-		name: "Unternehmen 17",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["klein", "frontend", "something"]'
-	},
-	{
-		name: "Unternehmen 18",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["mittel", "frontend", "something"]'
-	},
-	{
-		name: "Unternehmen 19",
-		info: "A short company description",
-		location: "Gebäude 1, Foyer",
-		categories: '["Informatik", "Elektrotechnik", "Maschinenbau"]',
-		links:
-			'{ "homepage": "https://www.hsr.ch", "twitter": "https://twitter.com/hsr_rapperswil", "facebook": "https://www.facebook.com/hochschule.rapperswil", "linkedin": "https://www.linkedin.com/school/hsr-hochschule-f%C3%BCr-technik-rapperswil/", "xing": "https://www.xing.com/companies/hsrhochschulefürtechnikrapperswil", "instagram": "https://www.instagram.com/hsr_rapperswil/", "youtube": "https://www.youtube.com/user/hsrwebmaster" }',
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-		tags: '["mittel", "backend", "something"]'
-	}
+const subjects = [
+	"Bauingenieurwesen",
+	"Elektrotechnik",
+	"Erneuerbare Energien & Umwelttechnik",
+	"Informatik",
+	"Landschaftsarchitektur",
+	"Maschinentechnik / Innovation",
+	"Raumplanung",
+	"Wirtschaftsingenieurwesen"
 ]
 
-async function seed() {
-	mongoose
-		.connect(config.db, {
-			useNewUrlParser: true,
-			useCreateIndex: true
-		})
-		.then(() => console.info("Connected to MongoDB ..."))
-		.catch((error) => console.error("Could not connect to MongoDB ..."))
+const employment = ["Internship", "Trainee", "Full-Time"]
 
-	await Company.deleteMany({})
-	await Company.insertMany(companies)
+const links = ["homepage", "linkedin", "xing", "facebook", "twitter", "instagram", "youtube"]
 
-	mongoose.disconnect()
-	console.info("Done!")
+const headers = ["name", "location", "info", "description"]
+	.concat(links)
+	.concat(subjects)
+	.concat(employment)
+
+getCompany = (data) => {
+	let dataSubjects = []
+	for (let i = 0; i < subjects.length; i++) {
+		if (data[subjects[i]]) {
+			dataSubjects.push(subjects[i])
+		}
+	}
+
+	let dataEmployment = []
+	for (let i = 0; i < employment.length; i++) {
+		if (data[employment[i]]) {
+			dataEmployment.push(employment[i])
+		}
+	}
+
+	let dataLinks = {}
+	for (let i = 0; i < links.length; i++) {
+		if (data[links[i]] != null) {
+			dataLinks[links[i]] = data[links[i]]
+		}
+	}
+
+	let company = {
+		name: data.name,
+		location: data.location,
+		info: data.info,
+		description: data.description,
+		subjects: JSON.stringify(dataSubjects),
+		employment: JSON.stringify(dataEmployment),
+		links: JSON.stringify(dataLinks)
+	}
+
+	return company
 }
 
-seed()
+seedCompanies = () => {
+	let companies = []
+
+	fs.createReadStream("seed/data.csv")
+		.pipe(csv(headers))
+		.on("data", (data) => {
+			companies.push(getCompany(data))
+		})
+		.on("end", async () => {
+			mongoose
+				.connect(config.db, {
+					useNewUrlParser: true,
+					useCreateIndex: true
+				})
+				.then(() => console.info("Connected to MongoDB ..."))
+				.catch((error) => console.error("Could not connect to MongoDB ..."))
+
+			await Company.deleteMany({})
+			await Company.insertMany(companies)
+
+			mongoose.disconnect()
+			console.info("Done!")
+			exit
+		})
+}
+
+seedCompanies()
