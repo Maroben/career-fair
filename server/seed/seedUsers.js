@@ -6,17 +6,20 @@ const config = require("config")
 const users = [
 	{
 		name: "Maroben",
-		email: "maroben@hsrstellenboerse.ch",
-		password: "admin123"
+		email: "maroben@daishen.ch",
+		password: config.marobenPw
+	},
+	{
+		name: "Admin",
+		email: "admin@hsrstellenboerse.ch",
+		password: config.adminPw
+	},
+	{
+		name: "Userino",
+		email: "user@hsrstellenboerse.ch",
+		password: config.userPw
 	}
 ]
-
-async function createUser(user) {
-	user = new User(user)
-	let salt = await bcrypt.genSalt(10)
-	user.password = await bcrypt.hash(user.password, salt)
-	await user.save()
-}
 
 async function seed() {
 	mongoose
@@ -25,11 +28,31 @@ async function seed() {
 			useCreateIndex: true
 		})
 		.then(() => console.info("Connected to MongoDB ..."))
-		.catch((error) => console.error("Could not connect to MongoDB ..."))
+		.catch((error) => {
+			console.error("Could not connect to MongoDB ...")
+			process.exit(1)
+		})
 
-	await User.deleteMany({})
+	await User.deleteMany({}).then(() => console.info("Deleted all Users ..."))
 
-	users.map(async (user) => await createUser(user))
+	for (let i = 0; i < users.length; i++) {
+		let user = new User(users[i])
+		const salt = await bcrypt.genSalt(10)
+		user.password = await bcrypt.hash(user.password, salt)
+		await user
+			.save()
+			.then((user) => {
+				console.info(`User ${user.name} created ...`)
+				if (i + 1 >= users.length) {
+					console.info("Done")
+					process.exit(0)
+				}
+			})
+			.catch((err) => {
+				console.error(err)
+				process.exit(1)
+			})
+	}
 }
 
 seed()

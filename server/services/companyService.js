@@ -7,17 +7,17 @@ const companySchema = new mongoose.Schema({
 		type: String,
 		required: true,
 		minlength: 3,
-		maxlength: 18
+		maxlength: 64
 	},
-	loc: {
+	location: {
 		type: String,
 		required: true,
-		maxlength: 18
+		maxlength: 64
 	},
 	info: {
 		type: String,
 		required: true,
-		minlength: 5,
+		minlength: 3,
 		maxlength: 512
 	},
 	description: {
@@ -25,10 +25,10 @@ const companySchema = new mongoose.Schema({
 		required: true,
 		minlength: 5
 	},
-	categories: {
+	subjects: {
 		type: String
 	},
-	tags: {
+	employment: {
 		type: String
 	},
 	links: {
@@ -38,17 +38,15 @@ const companySchema = new mongoose.Schema({
 
 const Company = mongoose.model("Companies", companySchema)
 
-const companyAttr = ["name", "loc", "info", "description", "categories", "tags", "links"]
+const companyAttr = ["name", "location", "info", "description", "subjects", "employment", "links"]
 
 function validateCompany(body) {
-	company = getCompanyBig(body)
-
 	const schema = {
 		name: Joi.string()
 			.min(3)
 			.max(64)
 			.required(),
-		loc: Joi.string()
+		location: Joi.string()
 			.max(18)
 			.required(),
 		info: Joi.string()
@@ -58,12 +56,12 @@ function validateCompany(body) {
 		description: Joi.string()
 			.min(5)
 			.required(),
-		categories: Joi.string(),
-		tags: Joi.string(),
-		links: Joi.string()
+		subjects: Joi.string(),
+		employment: Joi.string(),
+		links: Joi.object()
 	}
 
-	return Joi.validate(company, schema)
+	return Joi.validate(body, schema)
 }
 
 module.exports.getCompanies = async function(req, res) {

@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 
-import CompanyHeader from "./headers/companyHeader"
+import SimpleHeader from "./headers/simpleHeader"
 
 import Paper from "@material-ui/core/Paper"
 import Typography from "@material-ui/core/Typography"
@@ -20,21 +20,18 @@ const styles = (theme) => ({
 	}
 })
 
-const NotFound = ({ classes, match, history }) => {
+const NotFound = ({ classes, history }) => {
 	const handleBack = () => {
 		history.replace("/companies")
 	}
 
-	const error = match.params.id ? match.params.id : 0
-	const message = ["Nothing was found", "The company was not found", "The user was not found"]
-
 	return (
 		<React.Fragment>
-			<CompanyHeader label="404 | Not Found" />
+			<SimpleHeader title={"404 | Not Found"} />
 
 			<Paper className={classes.root}>
-				<Typography variant="body1" color="secondary" className={classes.message}>
-					{message[error]}
+				<Typography variant="body1" color="textPrimary" className={classes.message}>
+					This resource doesn't exist.
 				</Typography>
 				<Button variant="contained" color="primary" onClick={handleBack}>
 					Go to Home

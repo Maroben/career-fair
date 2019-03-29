@@ -4,40 +4,58 @@ import { withStyles } from "@material-ui/core/styles"
 import Joi from "joi-browser"
 import Form from "./form"
 
-import CompanyHeader from "../headers/companyHeader"
 import service from "../../services/companyService"
-import { getAllFilters } from "../../utils/filtering"
+import SimpleHeader from "../headers/simpleHeader"
+import { toast } from "react-toastify"
 
 const styles = (theme) => ({
 	header: {
 		margin: theme.spacing.unit * 2
 	},
+	container: {
+		marginTop: theme.spacing.unit * 2
+	},
 	button: {
 		margin: theme.spacing.unit * 2
+	},
+	filters: {
+		marginTop: theme.spacing.unit * 2
 	}
 })
 
 class CompanyForm extends Form {
 	state = {
-		exist: false,
+		isEditing: false,
+		hasMounted: false,
 		data: {
 			name: "",
 			info: "",
+			location: "",
 			description: "",
-			categories: [],
-			tags: [],
-			links: []
+			subjects: [],
+			employment: [],
+			links: {
+				facebook: "",
+				homepage: "",
+				instagram: "",
+				linkedin: "",
+				twitter: "",
+				xing: "",
+				youtube: ""
+			}
 		},
-		errors: {},
-		companies: {
-			// all possible tags and categories
-			categories: [],
-			tags: []
-		}
+		errors: {
+			links: {}
+		},
+		links: ["facebook", "homepage", "instagram", "linkedin", "twitter", "xing", "youtube"]
 	}
 
 	schema = {
 		name: Joi.string()
+			.min(3)
+			.max(64)
+			.required(),
+		location: Joi.string()
 			.min(3)
 			.max(64)
 			.required(),
@@ -48,77 +66,84 @@ class CompanyForm extends Form {
 		description: Joi.string()
 			.min(5)
 			.required(),
-		categories: Joi.array(),
-		tags: Joi.array(),
-		links: Joi.array()
+		subjects: Joi.array(),
+		employment: Joi.array(),
+		links: Joi.object().pattern(/^/, Joi.string().allow(""))
 	}
 
 	async componentDidMount() {
 		const { id } = this.props.match.params
-
-		const companies = await service.getCompanies()
-		const categories = getAllFilters(companies, "categories")
-		const tags = getAllFilters(companies, "tags")
-		this.setState({ companies: { categories, tags } })
+		const { hasMounted } = this.props
+		this.setState({ hasMounted })
 
 		if (id) {
 			const company = await service.getCompany(id)
-			this.handleEdit(company)
+			const data = { ...company }
+			delete data._id
+			this.setState({ isEditing: true, data })
 		}
-	}
-
-	handleEdit = (company) => {
-		company = {
-			name: company.name,
-			info: company.info,
-			description: company.description,
-			categories: company.categories,
-			tags: company.tags,
-			links: company.links
-		}
-		this.setState({ exist: true, data: company })
 	}
 
 	doSubmit = async () => {
-		const { exist } = this.state
+		let { isEditing, data } = this.state
+
 		try {
-			if (exist) {
+			if (isEditing) {
 				const { id } = this.props.match.params
-				await service.updateCompany(id, this.state.data)
+				await service.updateCompany(id, data)
 			} else {
-				await service.createCompany(this.state.data)
+				await service.createCompany(data)
 			}
 			window.location = "/companies"
 		} catch (ex) {
 			if (ex.response && ex.response.status === 400) {
 				let errors = { ...this.state.erros }
 				errors = ex.response.data
-				this.setState({ errors })
+				toast.errors(errors)
 			}
 		}
 	}
 
 	render() {
-		const { name } = this.state.data
-		const { categories, tags } = this.state.companies
-		const { classes } = this.props
+		const { classes, filterData } = this.props
+		const { isEditing, hasMounted } = this.state
 
-		return (
-			<React.Fragment>
-				<CompanyHeader label={name} isEditing={true} />
-				<main>
-					<form className={classes.container} onSubmit={this.handleSubmit}>
-						{this.renderInput("name", "Name")}
-						{this.renderInput("info", "Info", "text", true)}
-						{this.renderInput("description", "Description", "text", true)}
-						{this.renderCheckbox("categories", "Categories", categories)}
-						{this.renderCheckbox("tags", "Tags", tags)}
-						{this.renderSecondaryButton("cancel", "cancel", "/companies", classes)}
-						{this.renderPrimaryButton("save", "submit", classes)}
-					</form>
-				</main>
-			</React.Fragment>
-		)
+		if (!hasMounted) {
+			return (
+				<React.Fragment>
+					<SimpleHeader
+						title={isEditing ? "Unternehmen bearbeiten" : "Unternehmen erstellen"}
+					/>
+				</React.Fragment>
+			)
+		} else {
+			const { all: allFilters, labels: filterLabels } = filterData.filters
+
+			return (
+				<React.Fragment>
+					<SimpleHeader
+						title={isEditing ? "Unternehmen bearbeiten" : "Unternehmen erstellen"}
+					/>
+
+					<main>
+						<form className={classes.container} onSubmit={this.handleSubmit}>
+							{this.renderInput("name", "Name")}
+							{this.renderInput("location", "Location")}
+							{this.renderInput("info", "Info", "text", true)}
+							{this.renderInput("description", "Description", "text", true)}
+							{this.renderLink(classes)}
+							{filterLabels.map((label) => (
+								<div key={label[0]} className={classes.filters}>
+									{this.renderCheckbox(label, allFilters[label[0]])}
+								</div>
+							))}
+							{this.renderSecondaryButton("cancel", "cancel", "/companies", classes)}
+							{this.renderPrimaryButton("save", "submit", classes)}
+						</form>
+					</main>
+				</React.Fragment>
+			)
+		}
 	}
 }
 

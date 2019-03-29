@@ -37,18 +37,14 @@ class ChipsSearchList extends Component {
 
 	render() {
 		const { isOpen } = this.state
-		const { labels, items, onDelete, classes } = this.props
+		const { classes, items, labels, onDelete } = this.props
 
 		return (
 			<div className={classes.container}>
 				{items.length > 0 && (
 					<React.Fragment>
 						<ListItem button onClick={this.handleToggle} className={classes.header}>
-							<ListItemText
-								secondary={`${items.length > 1 ? labels[1] : labels[2]}: ${
-									items.length
-								}`}
-							/>
+							<ListItemText secondary={`Ausgewählte ${labels[1]}: ${items.length}`} />
 							{isOpen ? <ExpandLess /> : <ExpandMore />}
 						</ListItem>
 						<Collapse in={isOpen} timeout="auto" unmountOnExit>

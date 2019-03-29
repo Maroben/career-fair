@@ -4,15 +4,17 @@
 
 A website to display a concise list of information with filtering and searching.
 
-This web application was made for the yearly HSR Career event. The purpose is to make it easier for the students to gather information about the companies that will be attending.
+This web application was made for the yearly HSR Career event. The purpose is to make it easier for students to gather information about the attending companies.
 
-The server application is running on a Windows Server.
+The application is deployed on a Windows Server [HSR Stellenbörse](https://www.hsrstellenboerse.ch).
 
 ## Development
 
 Install NodeJs and MongoDB
 
 Set the NODE_ENV variable to 'development'
+
+Create a 'career_fair_jwtPrivateKey' env variable to a random string.
 
 VS Code Prettier Plugin (Esben Petersen) Settings
 
@@ -23,23 +25,15 @@ VS Code Prettier Plugin (Esben Petersen) Settings
     "prettier.tabWidth": 4,
     "prettier.useTabs": true
 
-### Server
-
-1. Create custom env variable 'career_fair_jwtPrivateKey' with a random String
-2. Use nodemon, installation \$ npm i -g nodemon
-
-### Client
-
-1. Just run \$ npm start
-
 ## Production
 
 Set the NODE_ENV variable to 'production'
+Create a 'career_fair_jwtPrivateKey' env variable to a random string.
 
 ### Server
 
 1. install \$ npm i -g node-windows
-2. go to server directory and link \$ npm link node-windws
+2. go to server directory and link \$ npm link node-windows
 3. intall windows service with \$ npm run build
 4. remove windows service with \$ npm run clean
 
@@ -59,10 +53,10 @@ Set the NODE_ENV variable to 'production'
             "Best working place in the world. Join us for any reason you can find. We got them cookies and coffee, so it must be good.",
         category: '["Informatik", "Elektrotechnik"]',
         tags: '["frontend", "security", "competence"]',
-        links: '[
-            {"name": "linkedin", "link": "https://linkedin.com/companyXYZ"}",
-            {"name": "homepage", "link": "https://companyxyz.com"}
-        ]'
+        links: '{
+            "homepage": "https://www.company.io",
+            "linkedin": "https://www.linkedin.com/company"
+        }'
     }
 
 ## Author

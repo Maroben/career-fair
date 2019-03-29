@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
+
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
 import Checkbox from "@material-ui/core/Checkbox"
@@ -33,9 +34,7 @@ class CheckboxList extends Component {
 	render() {
 		const { classes, noMax, items, activeItems, labels, onSelect } = this.props
 		const { isOpen } = this.state
-		if (noMax) {
-			classes.root = ""
-		}
+		if (noMax) classes.root = ""
 
 		return (
 			<React.Fragment>

@@ -4,14 +4,13 @@ import { withStyles } from "@material-ui/core/styles"
 import { Redirect } from "react-router-dom"
 import Joi from "joi-browser"
 
-import CompanyHeader from "../headers/companyHeader"
+import SimpleHeader from "../headers/simpleHeader"
 
 import Form from "./form"
 import auth from "../../services/authService"
 
 const styles = (theme) => ({
 	root: {
-		...theme.mixins.gutters(),
 		margin: theme.spacing.unit * 2
 	},
 	button: {
@@ -65,7 +64,7 @@ class LoginForm extends Form {
 
 		return (
 			<React.Fragment>
-				<CompanyHeader label="Login" />
+				<SimpleHeader title="Login" />
 
 				<form onSubmit={this.handleSubmit} className={classes.root}>
 					{this.renderInput("email", "Email")}
