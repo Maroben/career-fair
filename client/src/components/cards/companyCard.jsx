@@ -33,8 +33,7 @@ const styles = {
 }
 
 const CompanyCard = (props) => {
-	const { classes, user, labels, company, filterData, onDelete } = props
-	const filterLabels = filterData.filters.labels
+	const { classes, user, labels, company, onDelete } = props
 
 	return (
 		<Card className={classes.card}>
@@ -42,7 +41,7 @@ const CompanyCard = (props) => {
 				<CardHeader
 					className={classes.header}
 					title={company.name}
-					subheader={company.loc}
+					subheader={company.location}
 				/>
 
 				<CardContent>
@@ -50,15 +49,13 @@ const CompanyCard = (props) => {
 						{company.info}
 					</Typography>
 
-					{filterLabels.map((label) => (
-						<div key={label} className={classes.chips}>
-							{company[label[0]].map((chip) => (
-								<div key={chip} className={classes.chip}>
-									<Typography color="textSecondary">{chip}</Typography>
-								</div>
-							))}
-						</div>
-					))}
+					<div className={classes.chips}>
+						{company.tags.map((chip) => (
+							<div key={company._id + chip} className={classes.chip}>
+								<Typography color="textSecondary">{chip}</Typography>
+							</div>
+						))}
+					</div>
 				</CardContent>
 			</CardActionArea>
 

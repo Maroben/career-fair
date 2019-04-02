@@ -7,6 +7,7 @@ function parseCompany(company) {
 		...company,
 		subjects: JSON.parse(company.subjects),
 		employment: JSON.parse(company.employment),
+		tags: JSON.parse(company.tags),
 		links: JSON.parse(company.links)
 	}
 }
@@ -16,6 +17,7 @@ function stringifyCompany(company) {
 		...company,
 		subjects: JSON.stringify(company.subjects),
 		employment: JSON.stringify(company.employment),
+		tags: JSON.stringify(company.tags),
 		links: JSON.stringify(company.links)
 	}
 }

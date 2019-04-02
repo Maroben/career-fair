@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { Route, Switch, Redirect } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 
-import Companies from "./components/Companies"
+import Companies from "./components/companies"
 import NotFound from "./components/404"
 import AuthForm from "./components/forms/authForm"
 import Logout from "./components/common/logout"

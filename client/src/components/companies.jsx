@@ -25,27 +25,29 @@ class Companies extends Component {
 				loadingSize: 7,
 				search: {
 					query: "",
-					attr: ["name", "info", "description", "subjects", "employment"]
+					attr: ["name", "info", "description", "subjects", "employment", "tags"]
 				},
 				filters: {
 					all: {
-						subjects: [
-							"Bauingenieurwesen",
-							"Elektrotechnik",
-							"Erneuerbare Energien & Umwelttechnik",
-							"Informatik",
-							"Landschaftsarchitektur",
-							"Maschinentechnik / Innovation",
-							"Raumplanung",
-							"Wirtschaftsingenieurwesen"
-						],
-						employment: ["Full-Time", "Internship", "Trainee"]
+						subjects: [],
+						employment: [],
+						tags: []
+					},
+					displayed: {
+						subjects: [],
+						employment: [],
+						tags: []
 					},
 					active: {
 						subjects: [],
-						employment: []
+						employment: [],
+						tags: []
 					},
-					labels: [["subjects", "Studiengänge"], ["employment", "Anstellungsart"]]
+					labels: [
+						["subjects", "Studiengänge"],
+						["employment", "Anstellungsart"],
+						["tags", "Kategorien"]
+					]
 				}
 			},
 			messages: {
@@ -57,11 +59,13 @@ class Companies extends Component {
 	async componentDidMount() {
 		const user = await auth.getCurrentUser()
 		const companies = await service.getCompanies()
+
 		let { filterData, hasMounted } = this.state
 		let { all: allFilters, labels } = filterData.filters
 
 		filterData.companies = companies
 		labels.map((label) => (allFilters[label[0]] = getAllFilters(companies, label[0])))
+
 		filterData.filters.all = allFilters
 		hasMounted = true
 

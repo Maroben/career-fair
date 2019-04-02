@@ -18,7 +18,7 @@ const FilterDrawer = (props) => {
 	const { classes, filterData, onCheckboxSelect, onCheckboxReset, onClose } = props
 	const { all, active, labels } = filterData.filters
 	return (
-		<div>
+		<div className={classes.root}>
 			<Typography className={classes.header} variant="body1">{`${
 				filterData.filterCount
 			} Unternehmen gefunden`}</Typography>

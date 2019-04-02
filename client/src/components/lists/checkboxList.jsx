@@ -11,9 +11,7 @@ import ExpandMore from "@material-ui/icons/ExpandMore"
 
 const styles = (theme) => ({
 	root: {
-		width: "100%",
-		minWidth: 220,
-		maxWidth: 360
+		width: 410
 	},
 	pos: {
 		paddingTop: 0,
