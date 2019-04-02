@@ -16,19 +16,18 @@ const companySchema = new mongoose.Schema({
 	},
 	info: {
 		type: String,
-		required: true,
-		minlength: 3,
 		maxlength: 512
 	},
 	description: {
-		type: String,
-		required: true,
-		minlength: 5
+		type: String
 	},
 	subjects: {
 		type: String
 	},
 	employment: {
+		type: String
+	},
+	tags: {
 		type: String
 	},
 	links: {
@@ -38,7 +37,16 @@ const companySchema = new mongoose.Schema({
 
 const Company = mongoose.model("Companies", companySchema)
 
-const companyAttr = ["name", "location", "info", "description", "subjects", "employment", "links"]
+const companyAttr = [
+	"name",
+	"location",
+	"info",
+	"description",
+	"subjects",
+	"employment",
+	"links",
+	"tags"
+]
 
 function validateCompany(body) {
 	const schema = {
@@ -49,15 +57,11 @@ function validateCompany(body) {
 		location: Joi.string()
 			.max(18)
 			.required(),
-		info: Joi.string()
-			.min(5)
-			.max(512)
-			.required(),
-		description: Joi.string()
-			.min(5)
-			.required(),
+		info: Joi.string().max(512),
+		description: Joi.string().min(5),
 		subjects: Joi.string(),
 		employment: Joi.string(),
+		tags: Joi.string(),
 		links: Joi.object()
 	}
 

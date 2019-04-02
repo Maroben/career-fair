@@ -10,19 +10,19 @@ const subjects = [
 	"Erneuerbare Energien & Umwelttechnik",
 	"Informatik",
 	"Landschaftsarchitektur",
-	"Maschinentechnik / Innovation",
+	"Maschinentechnik & Innovation",
 	"Raumplanung",
 	"Wirtschaftsingenieurwesen"
 ]
-
 const employment = ["Internship", "Trainee", "Full-Time"]
-
 const links = ["homepage", "linkedin", "xing", "facebook", "twitter", "instagram", "youtube"]
+const tags = ["tag_0", "tag_1", "tag_2", "tag_3", "tag_4"]
 
 const headers = ["name", "location", "info", "description"]
 	.concat(links)
 	.concat(subjects)
 	.concat(employment)
+	.concat(tags)
 
 getCompany = (data) => {
 	let dataSubjects = []
@@ -46,6 +46,13 @@ getCompany = (data) => {
 		}
 	}
 
+	let dataTags = []
+	for (let i = 0; i < tags.length; i++) {
+		if (data[tags[i]].length > 0) {
+			dataTags.push(data[tags[i]])
+		}
+	}
+
 	let company = {
 		name: data.name,
 		location: data.location,
@@ -53,16 +60,17 @@ getCompany = (data) => {
 		description: data.description,
 		subjects: JSON.stringify(dataSubjects),
 		employment: JSON.stringify(dataEmployment),
+		tags: JSON.stringify(dataTags),
 		links: JSON.stringify(dataLinks)
 	}
 
 	return company
 }
 
-seedCompanies = () => {
+seedCompaniesCSV = () => {
 	let companies = []
 
-	fs.createReadStream("seed/data.csv")
+	fs.createReadStream("seed/data6.csv")
 		.pipe(csv(headers))
 		.on("data", (data) => {
 			companies.push(getCompany(data))
@@ -84,4 +92,29 @@ seedCompanies = () => {
 		})
 }
 
-seedCompanies()
+seedCompaniesJSON = () => {
+	let companies = []
+
+	fs.readFile("seed/data.json", async (err, data) => {
+		if (err) throw err
+
+		let parsed = JSON.parse(data)
+		console.log(typeof parsed)
+		for (let i = 0; i < parsed.length; i++) {
+			companies.push(getCompany(parsed[i]))
+		}
+
+		mongoose
+			.connect(config.db, {
+				useNewUrlParser: true,
+				useCreateIndex: true
+			})
+			.then(() => console.info("Connected to MongoDB ..."))
+			.catch((error) => console.error("Could not connect to MongoDB ..."))
+
+		await Company.deleteMany({})
+		await Company.insertMany(companies)
+	})
+}
+
+seedCompaniesJSON()
