@@ -10,9 +10,13 @@ import FilterDrawer from "../sideDrawers/filterDrawer"
 
 import Fab from "@material-ui/core/Fab"
 import Drawer from "@material-ui/core/Drawer"
+import Chip from "@material-ui/core/Chip"
 import AddIcon from "@material-ui/icons/Add"
 
 const styles = (theme) => ({
+	container: {
+		margin: theme.spacing.unit * 2
+	},
 	fab: {
 		position: "fixed",
 		bottom: theme.spacing.unit * 2,
@@ -58,6 +62,15 @@ class CompaniesList extends Component {
 					onSearch={onEvents.onSearch}
 					onFilterSelect={this.handleFilterDrawer}
 				/>
+
+				{filterData.search.query && (
+					<Chip
+						label={`Suche: ${filterData.search.query}`}
+						variant={"default"}
+						className={classes.container}
+						onDelete={onEvents.onSearchDelete}
+					/>
+				)}
 
 				{filterLabels.map((filterLabel) => (
 					<ChipsSearchList

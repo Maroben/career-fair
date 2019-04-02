@@ -122,6 +122,16 @@ class Companies extends Component {
 		this.handleData()
 	}
 
+	handleSearchDelete = async () => {
+		let { filterData } = this.state
+
+		filterData.search.query = ""
+		filterData.displaySize = filterData.loadingSize
+
+		await this.setState({ filterData })
+		this.handleData()
+	}
+
 	handleContentLoader = async () => {
 		let { filterData } = this.state
 
@@ -167,6 +177,7 @@ class Companies extends Component {
 		const onEvents = {
 			onDelete: this.handleDelete,
 			onSearch: this.handleSearch,
+			onSearchDelete: this.handleSearchDelete,
 			onLoad: this.handleContentLoader,
 			onCheckboxSelect: this.handleCheckboxSelect,
 			onCheckboxReset: this.handleCheckboxReset
