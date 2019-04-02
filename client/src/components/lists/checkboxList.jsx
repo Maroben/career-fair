@@ -10,9 +10,6 @@ import ExpandLess from "@material-ui/icons/ExpandLess"
 import ExpandMore from "@material-ui/icons/ExpandMore"
 
 const styles = (theme) => ({
-	root: {
-		width: 410
-	},
 	pos: {
 		paddingTop: 0,
 		paddingBottom: 0
@@ -36,7 +33,7 @@ class CheckboxList extends Component {
 
 		return (
 			<React.Fragment>
-				<ListItem button onClick={this.handleToggle} className={classes.root}>
+				<ListItem button onClick={this.handleToggle}>
 					<ListItemText primary={labels[1]} />
 					{isOpen ? <ExpandLess /> : <ExpandMore />}
 				</ListItem>
@@ -49,11 +46,7 @@ class CheckboxList extends Component {
 							role={undefined}
 							button
 						>
-							<Checkbox
-								checked={activeItems.indexOf(item) > -1}
-								tabIndex={-1}
-								disableRipple
-							/>
+							<Checkbox checked={activeItems.indexOf(item) > -1} />
 							<ListItemText primary={item} />
 						</ListItem>
 					))}
