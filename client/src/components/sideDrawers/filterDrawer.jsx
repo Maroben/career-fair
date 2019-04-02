@@ -16,7 +16,7 @@ const styles = (theme) => ({
 
 const FilterDrawer = (props) => {
 	const { classes, filterData, onCheckboxSelect, onCheckboxReset, onClose } = props
-	const { all, active, labels } = filterData.filters
+	const { displayed, active, labels } = filterData.filters
 	return (
 		<div className={classes.root}>
 			<Typography className={classes.header} variant="body1">{`${
@@ -26,7 +26,7 @@ const FilterDrawer = (props) => {
 			{labels.map((label) => (
 				<CheckboxList
 					key={label[0]}
-					items={all[label[0]]}
+					items={displayed[label[0]]}
 					activeItems={active[label[0]]}
 					labels={label}
 					onSelect={onCheckboxSelect}

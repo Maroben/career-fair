@@ -67,6 +67,7 @@ class Companies extends Component {
 		labels.map((label) => (allFilters[label[0]] = getAllFilters(companies, label[0])))
 
 		filterData.filters.all = allFilters
+		filterData.filters.displayed = allFilters
 		hasMounted = true
 
 		await this.setState({ user, companies, hasMounted, filterData })
@@ -76,11 +77,15 @@ class Companies extends Component {
 	handleData = () => {
 		let { companies, filterData, messages } = this.state
 		let { filters, search } = filterData
+		let { labels, displayed } = filters
 
 		let companiesFiltered = filtering(companies, filters)
 
 		companiesFiltered = searching(companiesFiltered, search)
 		const filterCount = companiesFiltered.length
+
+		labels.map((label) => (displayed[label[0]] = getAllFilters(companiesFiltered, label[0])))
+		filterData.filters.displayed = displayed
 
 		messages.isEmptyError = filterCount === 0 ? "Es wurden keine Unternehmen gefunden." : ""
 
