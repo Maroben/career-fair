@@ -34,6 +34,9 @@ const CompanyDetails = (props) => {
 	const { id } = match.params
 	let company = companies.filter((c) => c._id === id)
 
+	// somehow if I don't scroll to the top the position will be at the lowest possible position, as in the list view.
+	window.scrollTo(0, 0)
+
 	if (!hasMounted)
 		return (
 			<React.Fragment>
@@ -47,11 +50,10 @@ const CompanyDetails = (props) => {
 
 		return (
 			<React.Fragment>
-				<SimpleHeader title={"Company"} />
+				<SimpleHeader title={company.name} />
 
 				<div className={classes.root}>
-					<Typography variant="h5">{company.name}</Typography>
-					<Typography variant="subtitle1" color="textSecondary" className={classes.body}>
+					<Typography variant="h5" className={classes.body}>
 						{company.location}
 					</Typography>
 
