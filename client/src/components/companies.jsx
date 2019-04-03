@@ -165,6 +165,11 @@ class Companies extends Component {
 		this.handleData()
 	}
 
+	handleReset = async () => {
+		this.handleCheckboxReset()
+		this.handleSearchDelete()
+	}
+
 	render() {
 		const { user, companies, hasMounted, filterData, messages } = this.state
 
@@ -175,6 +180,7 @@ class Companies extends Component {
 		}
 
 		const onEvents = {
+			onReset: this.handleReset,
 			onDelete: this.handleDelete,
 			onSearch: this.handleSearch,
 			onSearchDelete: this.handleSearchDelete,

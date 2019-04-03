@@ -78,11 +78,7 @@ const CompaniesCardsList = (props) => {
 			{labels.messages.isEmptyError && (
 				<Paper className={classes.empty} elevation={1}>
 					<Typography variant="body1">{labels.messages.isEmptyError}</Typography>
-					<Button
-						color="primary"
-						className={classes.button}
-						onClick={onEvents.onCheckboxReset}
-					>
+					<Button color="primary" className={classes.button} onClick={onEvents.onReset}>
 						Reset Filters
 					</Button>
 				</Paper>

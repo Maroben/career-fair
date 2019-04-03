@@ -5,7 +5,6 @@ import { Link } from "react-router-dom"
 
 import SearchHeader from "../headers/searchHeader"
 import CompaniesCardsList from "./companiesCardsList"
-import ChipsSearchList from "./chipsSearchList"
 import FilterDrawer from "../sideDrawers/filterDrawer"
 
 import Fab from "@material-ui/core/Fab"
