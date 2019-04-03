@@ -21,8 +21,8 @@ class Companies extends Component {
 			filterData: {
 				companies: [],
 				filterCount: 0,
-				displaySize: 7,
-				loadingSize: 7,
+				displaySize: 15,
+				loadingSize: 15,
 				search: {
 					query: "",
 					attr: ["name", "info", "description", "subjects", "employment", "tags"]

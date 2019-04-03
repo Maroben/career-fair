@@ -15,7 +15,11 @@ import { fade } from "@material-ui/core/styles/colorManipulator"
 const styles = (theme) => ({
 	root: {
 		width: "100%",
-		marginBottom: theme.spacing.unit
+		marginBottom: theme.spacing.unit,
+		[theme.breakpoints.up("md")]: {
+			marginLeft: 300,
+			width: `calc(100% - ${300}px)`
+		}
 	},
 	grow: {
 		flexGrow: 1
@@ -34,7 +38,7 @@ const styles = (theme) => ({
 		},
 		marginRight: theme.spacing.unit * 2,
 		marginLeft: 0,
-		[theme.breakpoints.up("sm")]: {
+		[theme.breakpoints.up("md")]: {
 			display: "block"
 		}
 	},
@@ -62,19 +66,19 @@ const styles = (theme) => ({
 		paddingLeft: theme.spacing.unit * 10,
 		transition: theme.transitions.create("width"),
 		width: "100%",
-		[theme.breakpoints.up("sm")]: {
+		[theme.breakpoints.up("md")]: {
 			width: 200
 		}
 	},
 	sectionDesktop: {
 		display: "none",
-		[theme.breakpoints.up("sm")]: {
+		[theme.breakpoints.up("md")]: {
 			display: "flex"
 		}
 	},
 	sectionMobile: {
 		display: "flex",
-		[theme.breakpoints.up("sm")]: {
+		[theme.breakpoints.up("md")]: {
 			display: "none"
 		}
 	}
@@ -128,16 +132,6 @@ class SearchHeader extends Component {
 								/>
 							</div>
 
-							<div className={classes.sectionDesktop}>
-								<IconButton
-									aria-haspopup="true"
-									onClick={onFilterSelect}
-									color="inherit"
-								>
-									{/* <MoreIcon /> */}
-									Filter
-								</IconButton>
-							</div>
 							<div className={classes.sectionMobile}>
 								<Button
 									aria-haspopup="true"

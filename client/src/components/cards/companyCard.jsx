@@ -11,16 +11,19 @@ import CardContent from "@material-ui/core/CardContent"
 import CardActions from "@material-ui/core/CardActions"
 import CardActionArea from "@material-ui/core/CardActionArea"
 
-const styles = {
+const styles = (theme) => ({
 	card: {
-		minWidth: 275,
-		margin: 16
+		margin: theme.spacing.unit * 2,
+		minWidth: 300,
+		[theme.breakpoints.up("md")]: {
+			width: 300
+		}
 	},
 	header: {
 		paddingBottom: 0
 	},
 	pos: {
-		marginBottom: 12
+		marginBottom: theme.spacing.unit
 	},
 	chips: {
 		display: "flex",
@@ -30,7 +33,7 @@ const styles = {
 	chip: {
 		paddingRight: 8
 	}
-}
+})
 
 const CompanyCard = (props) => {
 	const { classes, user, labels, company, onDelete } = props

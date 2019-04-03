@@ -7,7 +7,12 @@ import Typography from "@material-ui/core/Typography"
 
 const styles = (theme) => ({
 	root: {
-		width: "100vw"
+		width: 300
+	},
+	desktop: {
+		[theme.breakpoints.up("md")]: {
+			display: "none"
+		}
 	},
 	button: {
 		margin: theme.spacing.unit
@@ -20,6 +25,7 @@ const styles = (theme) => ({
 const FilterDrawer = (props) => {
 	const { classes, filterData, onCheckboxSelect, onCheckboxReset, onClose } = props
 	const { displayed, active, labels } = filterData.filters
+
 	return (
 		<div className={classes.root}>
 			<Typography className={classes.header} variant="body1">{`${
@@ -39,7 +45,11 @@ const FilterDrawer = (props) => {
 			<Button className={classes.button} onClick={onCheckboxReset}>
 				Reset
 			</Button>
-			<Button color="primary" className={classes.button} onClick={onClose}>
+			<Button
+				color="primary"
+				className={`${classes.button} ${classes.desktop}`}
+				onClick={onClose}
+			>
 				Apply
 			</Button>
 		</div>

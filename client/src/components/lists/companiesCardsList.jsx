@@ -14,7 +14,10 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 const styles = (theme) => ({
 	root: {
 		width: "100%",
-		maxWidth: 600
+		[theme.breakpoints.up("md")]: {
+			display: "flex",
+			flexWrap: "wrap"
+		}
 	},
 	container: {
 		margin: theme.spacing.unit * 2,

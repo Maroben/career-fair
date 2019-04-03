@@ -9,18 +9,33 @@ import ChipsSearchList from "./chipsSearchList"
 import FilterDrawer from "../sideDrawers/filterDrawer"
 
 import Fab from "@material-ui/core/Fab"
+import Hidden from "@material-ui/core/Hidden"
 import Drawer from "@material-ui/core/Drawer"
 import Chip from "@material-ui/core/Chip"
 import AddIcon from "@material-ui/icons/Add"
+
+const drawerWidth = 300
 
 const styles = (theme) => ({
 	container: {
 		margin: theme.spacing.unit * 2
 	},
+	content: {
+		[theme.breakpoints.up("md")]: {
+			marginLeft: drawerWidth,
+			paddingLeft: theme.spacing.unit * 2
+		}
+	},
 	fab: {
 		position: "fixed",
 		bottom: theme.spacing.unit * 2,
 		right: theme.spacing.unit * 2
+	},
+	drawer: {
+		[theme.breakpoints.up("md")]: {
+			width: drawerWidth,
+			flexShrink: 0
+		}
 	}
 })
 
@@ -37,7 +52,7 @@ class CompaniesList extends Component {
 
 	render() {
 		const { filterDrawerIsOpen } = this.state
-		const { classes, user, companies, labels, filterData, onEvents } = this.props
+		const { classes, theme, user, companies, labels, filterData, onEvents } = this.props
 		const { active, labels: filterLabels } = filterData.filters
 
 		const sideFilterDrawer = (
@@ -51,11 +66,7 @@ class CompaniesList extends Component {
 		)
 
 		return (
-			<React.Fragment>
-				<Drawer open={filterDrawerIsOpen} onClose={this.handleFilterDrawer}>
-					{sideFilterDrawer}
-				</Drawer>
-
+			<div className={classes.root}>
 				<SearchHeader
 					name={labels.title}
 					value={filterData.searchQuery}
@@ -63,43 +74,63 @@ class CompaniesList extends Component {
 					onFilterSelect={this.handleFilterDrawer}
 				/>
 
-				{filterData.search.query && (
-					<Chip
-						label={`Suche: ${filterData.search.query}`}
-						variant={"default"}
-						className={classes.container}
-						onDelete={onEvents.onSearchDelete}
+				<nav className={classes.drawer}>
+					<Hidden mdUp implementation="css">
+						<Drawer
+							variant="temporary"
+							anchor={theme.direction === "rtl" ? "right" : "left"}
+							open={filterDrawerIsOpen}
+							onClose={this.handleFilterDrawer}
+						>
+							{sideFilterDrawer}
+						</Drawer>
+					</Hidden>
+					<Hidden smDown implementation="css">
+						<Drawer variant="permanent" open>
+							{sideFilterDrawer}
+						</Drawer>
+					</Hidden>
+				</nav>
+
+				<main className={classes.content}>
+					{filterData.search.query && (
+						<Chip
+							label={`Suche: ${filterData.search.query}`}
+							variant={"default"}
+							className={classes.container}
+							onDelete={onEvents.onSearchDelete}
+						/>
+					)}
+
+					{filterLabels.map((filterLabel) => (
+						<ChipsSearchList
+							key={filterLabel[0]}
+							items={active[filterLabel[0]]}
+							labels={filterLabel}
+							onDelete={onEvents.onCheckboxSelect}
+						/>
+					))}
+
+					<CompaniesCardsList
+						user={user}
+						companies={companies}
+						labels={labels}
+						filterData={filterData}
+						onEvents={onEvents}
 					/>
-				)}
 
-				{filterLabels.map((filterLabel) => (
-					<ChipsSearchList
-						key={filterLabel[0]}
-						items={active[filterLabel[0]]}
-						labels={filterLabel}
-						onDelete={onEvents.onCheckboxSelect}
-					/>
-				))}
-
-				<CompaniesCardsList
-					user={user}
-					companies={companies}
-					labels={labels}
-					filterData={filterData}
-					onEvents={onEvents}
-				/>
-
-				{user && (
-					<Fab
-						color="primary"
-						className={classes.fab}
-						component={Link}
-						to={`${labels.path}/new`}
-					>
-						<AddIcon />
-					</Fab>
-				)}
-			</React.Fragment>
+					{user && (
+						<Fab
+							color="primary"
+							className={classes.fab}
+							component={Link}
+							to={`${labels.path}/new`}
+						>
+							<AddIcon />
+						</Fab>
+					)}
+				</main>
+			</div>
 		)
 	}
 }
@@ -108,4 +139,4 @@ CompaniesList.propTypes = {
 	classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(CompaniesList)
+export default withStyles(styles, { withTheme: true })(CompaniesList)
