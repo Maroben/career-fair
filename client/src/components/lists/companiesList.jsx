@@ -18,7 +18,8 @@ const drawerWidth = 300
 
 const styles = (theme) => ({
 	container: {
-		margin: theme.spacing.unit * 2
+		marginTop: theme.spacing.unit * 2,
+		marginLeft: theme.spacing.unit * 2
 	},
 	content: {
 		[theme.breakpoints.up("md")]: {
@@ -103,12 +104,19 @@ class CompaniesList extends Component {
 					)}
 
 					{filterLabels.map((filterLabel) => (
-						<ChipsSearchList
-							key={filterLabel[0]}
-							items={active[filterLabel[0]]}
-							labels={filterLabel}
-							onDelete={onEvents.onCheckboxSelect}
-						/>
+						<React.Fragment key={filterLabel}>
+							{active[filterLabel[0]].map((filter) => (
+								<Chip
+									key={`${filterLabel}${filter}`}
+									label={filter}
+									variant={"default"}
+									className={classes.container}
+									onDelete={() =>
+										onEvents.onCheckboxSelect(filterLabel[0], filter)
+									}
+								/>
+							))}
+						</React.Fragment>
 					))}
 
 					<CompaniesCardsList
