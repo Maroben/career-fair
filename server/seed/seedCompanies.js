@@ -41,8 +41,20 @@ getCompany = (data) => {
 
 	let dataLinks = {}
 	for (let i = 0; i < links.length; i++) {
-		if (data[links[i]] != null) {
-			dataLinks[links[i]] = data[links[i]]
+		if (data[links[i]].length > 0) {
+			link = data[links[i]]
+			if (link.substring(0, 1) === " ") {
+				link = link.slice(1, link.length)
+			}
+
+			if (link.substring(0, 4) === "http") {
+				dataLinks[links[i]] = link
+			} else if (link.substring(0, 3) === "www") {
+				dataLinks[links[i]] = `https://${link}`
+			} else {
+				dataLinks[links[i]] = `https://www.${link}`
+			}
+			console.log(dataLinks[links[i]])
 		}
 	}
 
