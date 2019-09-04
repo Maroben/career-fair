@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs")
-const Joi = require("joi")
+const Joi = require("@hapi/joi")
 const _ = require("lodash")
 
 const { User } = require("./userService")

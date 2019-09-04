@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
 const config = require("config")
 const _ = require("lodash")
-const Joi = require("joi")
+const Joi = require("@hapi/joi")
 
 const userSchema = new mongoose.Schema({
 	name: {

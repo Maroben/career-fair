@@ -1,5 +1,5 @@
 const _ = require("lodash")
-const Joi = require("joi")
+const Joi = require("@hapi/joi")
 const mongoose = require("mongoose")
 
 const companySchema = new mongoose.Schema({
