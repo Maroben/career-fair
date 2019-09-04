@@ -5,7 +5,6 @@ const path = require("path")
 const config = require("config")
 const mongoose = require("mongoose")
 
-const auth = require("./routes/authRoutes")
 const users = require("./routes/usersRoutes")
 const companies = require("./routes/companiesRoutes")
 
@@ -22,7 +21,7 @@ mongoose
 		useFindAndModify: false
 	})
 	.then(() => console.info("Connected to MongoDB ..."))
-	.catch((error) => console.error("Could not connect to MongoDB ..."))
+	.catch(() => console.error("Could not connect to MongoDB ..."))
 
 server.disable("x-powered-by")
 server.use(bodyParser.json())
@@ -37,7 +36,6 @@ if (process.env.NODE_ENV != "production") {
 	})
 }
 
-server.use("/api/auth", auth)
 server.use("/api/companies", companies)
 server.use("/api/users", users)
 

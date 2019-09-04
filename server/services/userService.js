@@ -80,3 +80,18 @@ module.exports.deleteUser = async (req, res) => {
 			res.status(404).send(`The selected user doesn't exist ${error}`)
 		})
 }
+
+module.exports.loginUser = async ({ body }, res) => {
+	const { error } = User.validate(body)
+	if (error) return res.status(400).send(error.details[0].message)
+
+	let user = await User.Model.findOne({ email: body.email })
+	if (!user) return res.status(400).send("Invalid email or password.")
+
+	const validPassword = await bcrypt.compare(body.password, user.password)
+	if (!validPassword) return res.status(400).send("Invalid email or password.")
+
+	res.header("x-auth-token", user.generateAuthToken())
+		.header("access-control-expose-headers", "x-auth-token")
+		.send(_.pick(user, User.attr[1]))
+}
