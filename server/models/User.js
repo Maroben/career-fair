@@ -40,7 +40,7 @@ userSchema.methods.generateAuthToken = () => {
 }
 
 module.exports = {
-	Model: mongoose.model("Users", userSchema),
+	Model: mongoose.model("users", userSchema),
 	attr: [["email", "password"], ["_id", "email", "isAdmin"]],
 	validate: (user) => {
 		return Joi.validate(user, userJoi)

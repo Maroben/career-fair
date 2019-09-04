@@ -1,78 +1,11 @@
 const _ = require("lodash")
-const Joi = require("@hapi/joi")
-const mongoose = require("mongoose")
+const Company = require("../models/Company")
 
-const companySchema = new mongoose.Schema({
-	name: {
-		type: String,
-		required: true,
-		minlength: 3,
-		maxlength: 64
-	},
-	location: {
-		type: String,
-		required: true,
-		maxlength: 64
-	},
-	info: {
-		type: String,
-		maxlength: 512
-	},
-	description: {
-		type: String
-	},
-	subjects: {
-		type: String
-	},
-	employment: {
-		type: String
-	},
-	tags: {
-		type: String
-	},
-	links: {
-		type: String
-	}
-})
-
-const Company = mongoose.model("Companies", companySchema)
-
-const companyAttr = [
-	"name",
-	"location",
-	"info",
-	"description",
-	"subjects",
-	"employment",
-	"links",
-	"tags"
-]
-
-function validateCompany(body) {
-	const schema = {
-		name: Joi.string()
-			.min(3)
-			.max(64)
-			.required(),
-		location: Joi.string()
-			.max(18)
-			.required(),
-		info: Joi.string().max(512),
-		description: Joi.string().min(5),
-		subjects: Joi.string(),
-		employment: Joi.string(),
-		tags: Joi.string(),
-		links: Joi.object()
-	}
-
-	return Joi.validate(body, schema)
-}
-
-module.exports.getCompanies = async function(req, res) {
-	await Company.find()
+module.exports.getCompanies = async (req, res) => {
+	await Company.Model.find()
 		.then((companies) => {
 			companies = companies.map((company) => {
-				return _.pick(company, ["_id", ...companyAttr])
+				return _.pick(company, Company.attr[1])
 			})
 			res.send(companies)
 		})
@@ -81,12 +14,9 @@ module.exports.getCompanies = async function(req, res) {
 		})
 }
 
-module.exports.getCompany = async function(req, res) {
-	const _id = req.params.id
-
-	await Company.findOne({ _id })
+module.exports.getCompany = async (req, res) => {
+	await Company.Model.findOne({ _id: req.params.id })
 		.then((company) => {
-			company = _.pick(company, ["_id", ...companyAttr])
 			res.send(company)
 		})
 		.catch((error) => {
@@ -94,14 +24,14 @@ module.exports.getCompany = async function(req, res) {
 		})
 }
 
-module.exports.createCompany = async function(req, res) {
-	const { error } = validateCompany(req.body)
+module.exports.createCompany = async ({ body }, res) => {
+	const { error } = Company.validate(body)
 	if (error) return res.status(400).send(error.details[0].message)
 
-	let company = await Company.findOne({ name: req.body.name })
+	let company = await Company.Model.findOne({ name: body.name })
 	if (company) return res.status(400).send("This company name has already been used.")
 
-	await new Company(_.pick(req.body, companyAttr))
+	await new Company.Model(_.pick(body, Company.attr[0]))
 		.save()
 		.then((company) => {
 			res.send(company)
@@ -111,13 +41,11 @@ module.exports.createCompany = async function(req, res) {
 		})
 }
 
-module.exports.updateCompany = async function(req, res) {
-	const _id = req.params.id
-
-	const { error } = validateCompany(req.body)
+module.exports.updateCompany = async (req, res) => {
+	const { error } = Company.validateCompany(req.body)
 	if (error) return res.status(400).send(error.details[0].message)
 
-	await Company.findOneAndUpdate({ _id }, _.pick(req.body, companyAttr))
+	await Company.Model.findOneAndUpdate({ _id: req.params.id }, _.pick(req.body, Company.attr[0]))
 		.then((company) => {
 			res.send(company)
 		})
@@ -126,10 +54,21 @@ module.exports.updateCompany = async function(req, res) {
 		})
 }
 
-module.exports.deleteCompany = async function(req, res) {
-	const _id = req.params.id
+module.exports.updateCompanyLocation = async (req, res) => {
+	const { error } = Company.validateLocation(req.body.location)
+	if (error) return res.status(400).send(error.details[0].message)
 
-	await Company.findOneAndDelete({ _id })
+	await Company.Model.findOneAndUpdate({ _id: req.params.id }, { location: req.body.location })
+		.then((company) => {
+			res.send(company)
+		})
+		.catch((error) => {
+			res.status(404).send(`Could not update company ${error}`)
+		})
+}
+
+module.exports.deleteCompany = async (req, res) => {
+	await Company.findOneAndDelete({ _id: req.params.id })
 		.then((company) => {
 			res.send(company)
 		})
