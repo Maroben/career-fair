@@ -20,23 +20,23 @@ const styles = (theme) => ({
 		}
 	},
 	container: {
-		margin: theme.spacing.unit * 2,
+		margin: theme.spacing(2),
 		marginBottom: 0
 	},
 	empty: {
 		...theme.mixins.gutters(),
-		paddingTop: theme.spacing.unit * 2,
-		paddingBottom: theme.spacing.unit * 2,
-		margin: theme.spacing.unit * 2
+		paddingTop: theme.spacing(2),
+		paddingBottom: theme.spacing(2),
+		margin: theme.spacing(2)
 	},
 	progress: {
-		margin: theme.spacing.unit * 2
+		margin: theme.spacing(2)
 	},
 	noMore: {
-		marginBottom: theme.spacing.unit * 2
+		marginBottom: theme.spacing(2)
 	},
 	button: {
-		marginTop: theme.spacing.unit
+		marginTop: theme.spacing()
 	}
 })
 
@@ -56,10 +56,6 @@ const CompaniesCardsList = (props) => {
 		>
 			{!labels.messages.isEmptyError && (
 				<React.Fragment>
-					<Typography color="textSecondary" className={classes.container}>
-						{`${filterData.filterCount} Unternehmen gefunden`}
-					</Typography>
-
 					<List className={classes.root}>
 						{filterData.companies.map((company) => (
 							<CompanyCard

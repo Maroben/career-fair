@@ -1,11 +1,11 @@
-import React, { Component } from "react"
+import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 
 import AppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"
-import Typography from "@material-ui/core/Typography"
 import InputBase from "@material-ui/core/InputBase"
+import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import ClickAwayListener from "@material-ui/core/ClickAwayListener"
 import SearchIcon from "@material-ui/icons/Search"
@@ -14,7 +14,7 @@ import { fade } from "@material-ui/core/styles/colorManipulator"
 const styles = (theme) => ({
 	root: {
 		width: "100%",
-		marginBottom: theme.spacing.unit,
+		marginBottom: theme.spacing(),
 		[theme.breakpoints.up("md")]: {
 			marginLeft: 300,
 			width: `calc(100% - ${300}px)`
@@ -35,7 +35,7 @@ const styles = (theme) => ({
 		"&:hover": {
 			backgroundColor: fade(theme.palette.common.white, 0.25)
 		},
-		marginRight: theme.spacing.unit * 2,
+		marginRight: theme.spacing(2),
 		marginLeft: 0,
 		[theme.breakpoints.up("md")]: {
 			display: "block"
@@ -46,7 +46,7 @@ const styles = (theme) => ({
 		width: "100%"
 	},
 	searchIcon: {
-		width: theme.spacing.unit * 9,
+		width: theme.spacing(9),
 		height: "100%",
 		position: "absolute",
 		pointerEvents: "none",
@@ -59,10 +59,10 @@ const styles = (theme) => ({
 		width: "100%"
 	},
 	inputInput: {
-		paddingTop: theme.spacing.unit,
-		paddingRight: theme.spacing.unit,
-		paddingBottom: theme.spacing.unit,
-		paddingLeft: theme.spacing.unit * 10,
+		paddingTop: theme.spacing(),
+		paddingRight: theme.spacing(),
+		paddingBottom: theme.spacing(),
+		paddingLeft: theme.spacing(10),
 		transition: theme.transitions.create("width"),
 		width: "100%",
 		[theme.breakpoints.up("md")]: {
@@ -83,44 +83,60 @@ const styles = (theme) => ({
 	}
 })
 
-class SearchHeader extends Component {
-	state = {
-		isSearching: false
-	}
+const SearchHeader = (props) => {
+	const { classes, name, value, onSearch, onFilterSelect } = props
 
-	handleClickAway = () => {
-		this.setState({ isSearching: false })
-	}
+	const [search, setSearch] = React.useState(false)
 
-	handleSearchSelect = () => {
-		this.setState({ isSearching: !this.state.isSearching })
-	}
+	return (
+		<AppBar position="sticky" className={classes.root}>
+			<Toolbar>
+				{!search && (
+					<React.Fragment>
+						<Typography className={classes.title} variant="h6" color="inherit" noWrap>
+							{name}
+						</Typography>
+						<div className={classes.grow} />
+						<div className={classes.search}>
+							<div className={classes.searchIcon}>
+								<SearchIcon />
+							</div>
 
-	render() {
-		const { isSearching } = this.state
-		const { classes, name, value, onSearch, onFilterSelect } = this.props
+							<InputBase
+								placeholder="Suche..."
+								value={value}
+								autoFocus={true}
+								onChange={onSearch}
+								classes={{
+									root: classes.inputRoot,
+									input: classes.inputInput
+								}}
+							/>
+						</div>
 
-		return (
-			<AppBar position="sticky" className={classes.root}>
-				<Toolbar>
-					{!isSearching && (
-						<React.Fragment>
-							<Typography
-								className={classes.title}
-								variant="h6"
+						<div className={classes.sectionMobile}>
+							<Button
+								aria-haspopup="true"
+								onClick={() => setSearch(!search)}
 								color="inherit"
-								noWrap
 							>
-								{name}
-							</Typography>
-							<div className={classes.grow} />
-							<div className={classes.search}>
-								<div className={classes.searchIcon}>
-									<SearchIcon />
-								</div>
-
+								Suche
+							</Button>
+							<Button aria-haspopup="true" onClick={onFilterSelect} color="inherit">
+								Filter
+							</Button>
+						</div>
+					</React.Fragment>
+				)}
+				{search && (
+					<React.Fragment>
+						<div className={`${classes.search} ${classes.searchActive}`}>
+							<div className={classes.searchIcon}>
+								<SearchIcon />
+							</div>
+							<ClickAwayListener onClickAway={() => setSearch(false)}>
 								<InputBase
-									placeholder="Search…"
+									placeholder="Suche..."
 									value={value}
 									autoFocus={true}
 									onChange={onSearch}
@@ -129,54 +145,16 @@ class SearchHeader extends Component {
 										input: classes.inputInput
 									}}
 								/>
-							</div>
-
-							<div className={classes.sectionMobile}>
-								<Button
-									aria-haspopup="true"
-									onClick={this.handleSearchSelect}
-									color="inherit"
-								>
-									Search
-								</Button>
-								<Button
-									aria-haspopup="true"
-									onClick={onFilterSelect}
-									color="inherit"
-								>
-									Filter
-								</Button>
-							</div>
-						</React.Fragment>
-					)}
-					{isSearching && (
-						<React.Fragment>
-							<div className={`${classes.search} ${classes.searchActive}`}>
-								<div className={classes.searchIcon}>
-									<SearchIcon />
-								</div>
-								<ClickAwayListener onClickAway={this.handleClickAway}>
-									<InputBase
-										placeholder="Search…"
-										value={value}
-										autoFocus={true}
-										onChange={onSearch}
-										classes={{
-											root: classes.inputRoot,
-											input: classes.inputInput
-										}}
-									/>
-								</ClickAwayListener>
-							</div>
-							<Button aria-haspopup="true" onClick={onFilterSelect} color="inherit">
-								Filter
-							</Button>
-						</React.Fragment>
-					)}
-				</Toolbar>
-			</AppBar>
-		)
-	}
+							</ClickAwayListener>
+						</div>
+						<Button aria-haspopup="true" onClick={onFilterSelect} color="inherit">
+							Filter
+						</Button>
+					</React.Fragment>
+				)}
+			</Toolbar>
+		</AppBar>
+	)
 }
 
 SearchHeader.propTypes = {

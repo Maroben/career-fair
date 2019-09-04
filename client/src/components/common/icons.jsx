@@ -7,7 +7,7 @@ import Home from "@material-ui/icons/Home"
 
 const styles = (theme) => ({
 	icon: {
-		marginRight: theme.spacing.unit * 2,
+		marginRight: theme.spacing(2),
 		fontSize: "32px"
 	}
 })

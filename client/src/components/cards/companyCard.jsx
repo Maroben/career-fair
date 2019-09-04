@@ -13,7 +13,7 @@ import CardActionArea from "@material-ui/core/CardActionArea"
 
 const styles = (theme) => ({
 	card: {
-		margin: theme.spacing.unit * 2,
+		margin: theme.spacing(2),
 		minWidth: 300,
 		[theme.breakpoints.up("md")]: {
 			width: 300
@@ -23,7 +23,7 @@ const styles = (theme) => ({
 		paddingBottom: 0
 	},
 	pos: {
-		marginBottom: theme.spacing.unit
+		marginBottom: theme.spacing()
 	},
 	chips: {
 		display: "flex",

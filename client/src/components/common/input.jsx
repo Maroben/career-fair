@@ -9,8 +9,8 @@ import InputLabel from "@material-ui/core/InputLabel"
 const styles = (theme) => ({
 	formControl: {
 		width: "-webkit-fill-available",
-		margin: theme.spacing.unit * 2,
-		marginTop: theme.spacing.unit,
+		margin: theme.spacing(2),
+		marginTop: theme.spacing(),
 		marginBottom: 0
 	},
 	label: {

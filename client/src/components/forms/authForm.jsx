@@ -11,10 +11,10 @@ import auth from "../../services/authService"
 
 const styles = (theme) => ({
 	root: {
-		margin: theme.spacing.unit * 2
+		margin: theme.spacing(2)
 	},
 	button: {
-		margin: theme.spacing.unit * 2
+		margin: theme.spacing(2)
 	}
 })
 

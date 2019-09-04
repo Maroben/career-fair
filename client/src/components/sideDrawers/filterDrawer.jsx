@@ -15,10 +15,10 @@ const styles = (theme) => ({
 		}
 	},
 	button: {
-		margin: theme.spacing.unit
+		margin: theme.spacing()
 	},
 	header: {
-		margin: theme.spacing.unit * 2
+		margin: theme.spacing(2)
 	}
 })
 
@@ -28,9 +28,10 @@ const FilterDrawer = (props) => {
 
 	return (
 		<div className={classes.root}>
-			<Typography className={classes.header} variant="body1">{`${
-				filterData.filterCount
-			} Unternehmen gefunden`}</Typography>
+			<Typography
+				className={classes.header}
+				variant="body1"
+			>{`${filterData.filterCount} Unternehmen gefunden`}</Typography>
 
 			{labels.map((label) => (
 				<CheckboxList

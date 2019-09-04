@@ -10,22 +10,22 @@ import Link from "@material-ui/core/Link"
 
 const styles = (theme) => ({
 	root: {
-		margin: theme.spacing.unit * 2
+		margin: theme.spacing(2)
 	},
 	container: {
-		margin: theme.spacing.unit
+		margin: theme.spacing()
 	},
 	body: {
-		marginBottom: theme.spacing.unit * 2
+		marginBottom: theme.spacing(2)
 	},
 	items: {
 		display: "flex",
 		justifyContent: "start",
 		flexWrap: "wrap",
-		marginBottom: theme.spacing.unit * 2
+		marginBottom: theme.spacing(2)
 	},
 	item: {
-		marginRight: theme.spacing.unit
+		marginRight: theme.spacing()
 	}
 })
 

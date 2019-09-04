@@ -11,11 +11,11 @@ import ExpandMore from "@material-ui/icons/ExpandMore"
 
 const styles = (theme) => ({
 	chips: {
-		marginRight: theme.spacing.unit,
-		marginBottom: theme.spacing.unit
+		marginRight: theme.spacing(),
+		marginBottom: theme.spacing()
 	},
 	container: {
-		margin: theme.spacing.unit * 2,
+		margin: theme.spacing(2),
 		marginTop: 0,
 		marginBottom: 0
 	},

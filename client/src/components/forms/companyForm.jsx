@@ -10,16 +10,16 @@ import { toast } from "react-toastify"
 
 const styles = (theme) => ({
 	header: {
-		margin: theme.spacing.unit * 2
+		margin: theme.spacing(2)
 	},
 	container: {
-		marginTop: theme.spacing.unit * 2
+		marginTop: theme.spacing(2)
 	},
 	button: {
-		margin: theme.spacing.unit * 2
+		margin: theme.spacing(2)
 	},
 	filters: {
-		marginTop: theme.spacing.unit * 2
+		marginTop: theme.spacing(2)
 	}
 })
 

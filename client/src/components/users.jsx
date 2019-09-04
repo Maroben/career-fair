@@ -9,10 +9,10 @@ import { toast } from "react-toastify"
 
 const styles = (theme) => ({
 	button: {
-		margin: theme.spacing.unit
+		margin: theme.spacing()
 	},
 	header: {
-		margin: theme.spacing.unit * 2
+		margin: theme.spacing(2)
 	}
 })
 

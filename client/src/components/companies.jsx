@@ -229,7 +229,7 @@ class Companies extends Component {
 					)}
 				/>
 				<Route
-					path="/companies/"
+					path="/companies"
 					render={(props) => (
 						<CompaniesList
 							{...props}
