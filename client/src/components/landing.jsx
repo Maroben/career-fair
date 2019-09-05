@@ -37,8 +37,7 @@ const styles = (theme) => ({
 
 class Landing extends Component {
 	state = {
-		activeStep: -1,
-		persona: "na",
+		activeStep: 0,
 		subject: "na",
 		employment: "na",
 		submitVariant: "text"
@@ -46,22 +45,11 @@ class Landing extends Component {
 
 	handleReset = () => {
 		this.setState({
-			activeStep: -1,
-			persona: "na",
+			activeStep: 0,
 			subject: "na",
 			employment: "na",
 			submitVariant: "text"
 		})
-	}
-
-	handlePersona = (persona) => {
-		const { subject, employment } = this.state
-		if (this.state.persona === persona) {
-			this.handleReset()
-		} else {
-			this.setState({ persona, activeStep: 0 })
-			this.handleSubmit({ persona, subject, employment })
-		}
 	}
 
 	getButtonColor = (persona) => {
@@ -69,7 +57,7 @@ class Landing extends Component {
 	}
 
 	handleSubject = (subject) => {
-		const { persona, employment } = this.state
+		const { employment } = this.state
 		if (this.state.subject === subject) {
 			subject = "na"
 			this.setState({
@@ -82,11 +70,11 @@ class Landing extends Component {
 				activeStep: 1
 			})
 		}
-		this.handleSubmit({ persona, subject, employment })
+		this.handleSubmit({ subject, employment })
 	}
 
 	handleEmployment = (employment) => {
-		const { persona, subject } = this.state
+		const { subject } = this.state
 		if (this.state.employment === employment) {
 			employment = "na"
 			this.setState({
@@ -99,28 +87,15 @@ class Landing extends Component {
 				activeStep: 2
 			})
 		}
-		this.handleSubmit({ persona, subject, employment })
+		this.handleSubmit({ subject, employment })
 	}
 
-	handleSubmit = ({ persona, subject, employment }) => {
-		if (persona === "na" || subject === "na" || employment === "na") {
+	handleSubmit = ({ subject, employment }) => {
+		if (subject === "na" || employment === "na") {
 			this.setState({ submitVariant: "text" })
 		} else {
 			this.setState({ submitVariant: "contained" })
 		}
-	}
-
-	renderPersonaButton = (persona, label) => {
-		return (
-			<Button
-				onClick={() => this.handlePersona(persona)}
-				color={this.getButtonColor(persona)}
-				variant="contained"
-				className={this.props.classes.persona}
-			>
-				{label}
-			</Button>
-		)
 	}
 
 	renderButton = (color, onClick, label) => {
@@ -149,7 +124,7 @@ class Landing extends Component {
 
 	render() {
 		const { classes } = this.props
-		const { submitVariant, activeStep, persona, subject, employment } = this.state
+		const { submitVariant, activeStep, subject, employment } = this.state
 
 		const subjects = [
 			"Bauingenieurwesen",
@@ -165,90 +140,47 @@ class Landing extends Component {
 
 		return (
 			<>
-				<SimpleHeader title="HSR Stellenbörse" />
+				<SimpleHeader title="HSR Stellenbörse - 22. April 2020" />
 
 				<div className={classes.container}>
 					<Typography variant="h5" align="center" className={classes.title}>
-						Wegfinder für
+						Wegfinder für Studenten
 					</Typography>
 
-					<div className={classes.personaBox}>
-						{this.renderPersonaButton("student", "Studenten")}
-						{this.renderPersonaButton("company", "Unternehmen")}
-					</div>
+					<Typography variant="h6" align="center" className={classes.subtitle}>
+						Studiengang
+					</Typography>
 
-					{activeStep >= 0 && (
-						<>
-							{persona === "student" ? (
-								<>
-									<Typography
-										variant="h6"
-										align="center"
-										className={classes.subtitle}
-									>
-										Studiengang
-									</Typography>
-									{subject !== "na"
-										? this.renderButton(
-												"secondary",
-												() => this.handleSubject(subject),
-												subject
-										  )
-										: subjects.map((sub) =>
-												this.renderButton(
-													"default",
-													() => this.handleSubject(sub),
-													sub
-												)
-										  )}
-								</>
-							) : (
-								<>
-									<Typography variant="h6" className={classes.description}>
-										Login
-									</Typography>
-								</>
-							)}
-						</>
-					)}
+					{subject !== "na"
+						? this.renderButton("secondary", () => this.handleSubject(subject), subject)
+						: subjects.map((sub) =>
+								this.renderButton("default", () => this.handleSubject(sub), sub)
+						  )}
 
-					{activeStep >= 1 && (
+					{activeStep > 0 && (
 						<>
-							{persona === "student" ? (
-								<>
-									<Typography
-										variant="h6"
-										align="center"
-										className={classes.description}
-									>
-										Anstellungsart
-									</Typography>
-									{employment !== "na"
-										? this.renderButton(
-												"secondary",
-												() => this.handleEmployment(employment),
-												employment
-										  )
-										: employments.map((emp) =>
-												this.renderButton(
-													"default",
-													() => this.handleEmployment(emp),
-													emp
-												)
-										  )}
-								</>
-							) : (
-								<>
-									<Typography variant="h6" className={classes.description}>
-										Registrieren
-									</Typography>
-								</>
-							)}
+							<Typography variant="h6" align="center" className={classes.description}>
+								Anstellungsart
+							</Typography>
+
+							{employment !== "na"
+								? this.renderButton(
+										"secondary",
+										() => this.handleEmployment(employment),
+										employment
+								  )
+								: employments.map((emp) =>
+										this.renderButton(
+											"default",
+											() => this.handleEmployment(emp),
+											emp
+										)
+								  )}
 						</>
 					)}
 				</div>
-				{persona != "company" &&
-					this.renderSubmitButton(submitVariant, "Zu den Unternehmen")}
+
+				{this.renderSubmitButton(submitVariant, "Zu den Unternehmen")}
 			</>
 		)
 	}
