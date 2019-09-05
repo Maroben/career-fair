@@ -5,10 +5,11 @@ const service = require("../services/userService")
 const auth = require("../utils/auth")
 const admin = require("../utils/admin")
 
-router.get("/", [auth, admin], service.getUsers)
-router.get("/:id", [auth, admin], service.getUser)
-router.post("/register", [auth, admin], service.createUser)
-router.put("/:id", [auth, admin], service.updateUser)
-router.delete("/:id", [auth, admin], service.deleteUser)
+router.get("/", service.getUsers)
+router.get("/:id", service.getUser)
+router.post("/register", service.createUser)
+router.post("/login", service.loginUser)
+router.put("/:id", service.updateUser)
+router.delete("/:id", service.deleteUser)
 
 module.exports = router

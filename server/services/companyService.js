@@ -68,7 +68,7 @@ module.exports.updateCompanyLocation = async (req, res) => {
 }
 
 module.exports.deleteCompany = async (req, res) => {
-	await Company.findOneAndDelete({ _id: req.params.id })
+	await Company.Model.findOneAndDelete({ _id: req.params.id })
 		.then((company) => {
 			res.send(company)
 		})

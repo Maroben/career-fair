@@ -7,8 +7,9 @@ const admin = require("../utils/admin")
 
 router.get("/", service.getCompanies)
 router.get("/:id", service.getCompany)
-router.post("/new", [auth], service.createCompany)
-router.put("/:id", [auth], service.updateCompany)
-router.delete("/:id", [auth, admin], service.deleteCompany)
+router.post("/new", service.createCompany)
+router.put("/locations/:id", service.updateCompanyLocation)
+router.put("/:id", service.updateCompany)
+router.delete("/:id", service.deleteCompany)
 
 module.exports = router
