@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 import SearchHeader from "../headers/searchHeader"
 import CompaniesCardsList from "./companiesCardsList"
 import FilterDrawer from "../sideDrawers/filterDrawer"
-import FloorMap from "../FloorMap"
+import FloorMap from "../floorMap"
 
 import Fab from "@material-ui/core/Fab"
 import Hidden from "@material-ui/core/Hidden"

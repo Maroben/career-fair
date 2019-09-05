@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { Route, Switch, Redirect } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 
+import Landing from "./components/landing"
 import Companies from "./components/companies"
 import NotFound from "./components/404"
 import AuthForm from "./components/forms/authForm"
@@ -33,9 +34,9 @@ class App extends Component {
 						<Route path="/companies" render={(props) => <Companies {...props} />} />
 						<Route path="/auth" component={AuthForm} />
 						<Route path="/logout" component={Logout} />
-
 						<Route path="/404" component={NotFound} />
-						<Redirect from="/" to="companies" exact />
+						<Route path="/" component={Landing} />
+
 						<Redirect to="/404" />
 					</Switch>
 				</MuiThemeProvider>

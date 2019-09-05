@@ -86,7 +86,7 @@ const styles = (theme) => ({
 const SearchHeader = (props) => {
 	const { classes, name, value, onSearch, onFilterSelect } = props
 
-	const [search, setSearch] = React.useState(false)
+	const [search, setSearch] = useState(false)
 
 	return (
 		<AppBar position="sticky" className={classes.root}>

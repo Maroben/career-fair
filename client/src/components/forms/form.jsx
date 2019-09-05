@@ -28,7 +28,7 @@ class Form extends Component {
 		if (!error) return null
 
 		const errors = { links: {} }
-		for (let item of error.details) {
+		for (var item of error.details) {
 			errors[item.path[0]] = item.message
 		}
 		return errors

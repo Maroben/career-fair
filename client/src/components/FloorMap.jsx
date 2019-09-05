@@ -1,7 +1,6 @@
-import React, { useState } from "react"
+import React from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
-import _ from "lodash"
 import Building1 from "../maps/building1"
 
 const styles = (theme) => ({

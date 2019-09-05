@@ -48,7 +48,7 @@ module.exports.searching = function(items, { query, attr }) {
 	let result = []
 
 	items.forEach((item) => {
-		for (let i in attr) {
+		for (var i in attr) {
 			if (typeof item[attr[i]] != "object") {
 				if (item[attr[i]].toLowerCase().indexOf(query.toLowerCase()) > -1) {
 					return result.push(item)
