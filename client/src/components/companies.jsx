@@ -30,17 +30,17 @@ class Companies extends Component {
 				filters: {
 					all: {
 						subjects: [],
-						employment: [],
+						employments: [],
 						tags: []
 					},
 					displayed: {
 						subjects: [],
-						employment: [],
+						employments: [],
 						tags: []
 					},
 					active: {
 						subjects: [],
-						employment: [],
+						employments: [],
 						tags: []
 					},
 					labels: [

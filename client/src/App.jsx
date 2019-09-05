@@ -35,7 +35,7 @@ class App extends Component {
 						<Route path="/auth" component={AuthForm} />
 						<Route path="/logout" component={Logout} />
 						<Route path="/404" component={NotFound} />
-						<Route path="/" component={Landing} />
+						<Route path="/" exact component={Landing} />
 
 						<Redirect to="/404" />
 					</Switch>

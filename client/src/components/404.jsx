@@ -22,7 +22,7 @@ const styles = (theme) => ({
 
 const NotFound = ({ classes, history }) => {
 	const handleBack = () => {
-		history.replace("/companies")
+		history.replace("/")
 	}
 
 	return (
