@@ -40,6 +40,9 @@ const companyJoi = {
 		.max(32)
 		.required(),
 	info: Joi.string().max(512),
+	location: Joi.string()
+		.max(16)
+		.allow(""),
 	description: Joi.string().max(2056),
 	subjects: Joi.array(),
 	employments: Joi.array(),
@@ -53,6 +56,7 @@ const locationJoi = {
 
 module.exports = {
 	Model: mongoose.model("companies", companySchema),
+	schema: companySchema,
 	attr: [
 		["name", "location", "info", "description", "subjects", "employments", "links", "tags"],
 		["_id", "name", "location", "info", "subjects", "tags"]

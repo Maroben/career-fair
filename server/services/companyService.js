@@ -14,6 +14,19 @@ module.exports.getCompanies = async (req, res) => {
 		})
 }
 
+module.exports.getCompanyLocations = async (req, res) => {
+	await Company.Model.find()
+		.then((companies) => {
+			companies = companies.map((company) => {
+				return _.pick(company, ["name", "location"])
+			})
+			res.send(companies)
+		})
+		.catch((error) => {
+			res.status(404).send(`No companies were found ${error}`)
+		})
+}
+
 module.exports.getCompany = async (req, res) => {
 	await Company.Model.findOne({ _id: req.params.id })
 		.then((company) => {
@@ -24,14 +37,17 @@ module.exports.getCompany = async (req, res) => {
 		})
 }
 
-module.exports.createCompany = async ({ body }, res) => {
-	const { error } = Company.validate(body)
+module.exports.createCompany = async (req, res) => {
+	let company = _.pick(req.body, Company.attr[0])
+	company.location = ""
+
+	const { error } = Company.validateCompany(company)
 	if (error) return res.status(400).send(error.details[0].message)
 
-	let company = await Company.Model.findOne({ name: body.name })
-	if (company) return res.status(400).send("This company name has already been used.")
+	let oldCompany = await Company.Model.findOne({ name: company.name })
+	if (oldCompany) return res.status(400).send("This company name has already been used.")
 
-	await new Company.Model(_.pick(body, Company.attr[0]))
+	await new Company.Model(company)
 		.save()
 		.then((company) => {
 			res.send(company)
@@ -42,10 +58,14 @@ module.exports.createCompany = async ({ body }, res) => {
 }
 
 module.exports.updateCompany = async (req, res) => {
-	const { error } = Company.validateCompany(req.body)
+	let company = _.pick(req.body, Company.attr[0])
+	let oldCompany = await Company.Model.findOne({ name: company.name })
+	company.location = oldCompany.location
+
+	const { error } = Company.validateCompany(company)
 	if (error) return res.status(400).send(error.details[0].message)
 
-	await Company.Model.findOneAndUpdate({ _id: req.params.id }, _.pick(req.body, Company.attr[0]))
+	await Company.Model.findOneAndUpdate({ _id: req.params.id }, company)
 		.then((company) => {
 			res.send(company)
 		})
@@ -55,10 +75,15 @@ module.exports.updateCompany = async (req, res) => {
 }
 
 module.exports.updateCompanyLocation = async (req, res) => {
-	const { error } = Company.validateLocation(req.body.location)
+	let companyLocation = _.pick(req.body, "location")
+	const { error } = Company.validateLocation(companyLocation)
 	if (error) return res.status(400).send(error.details[0].message)
 
-	await Company.Model.findOneAndUpdate({ _id: req.params.id }, { location: req.body.location })
+	await Company.Model.findOneAndUpdate(
+		{ _id: req.params.id },
+		{ location: companyLocation.location },
+		{ new: true }
+	)
 		.then((company) => {
 			res.send(company)
 		})

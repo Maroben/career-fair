@@ -63,11 +63,11 @@ Create a 'career_fair_jwtPrivateKey' env variable to a random string.
 
 ### Version 1
 
--   Maroben (Dijan Helbling)
+-   Maroben
 
 ## License (MIT)
 
-Copyright (c) 2019 Maroben (Dijan Helbling)
+Copyright (c) 2019 Maroben
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

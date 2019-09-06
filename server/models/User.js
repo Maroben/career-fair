@@ -2,6 +2,7 @@ const mongoose = require("mongoose")
 const jwt = require("jsonwebtoken")
 const config = require("config")
 const Joi = require("@hapi/joi")
+const Company = require("./Company")
 
 const userSchema = new mongoose.Schema({
 	email: {
@@ -17,7 +18,8 @@ const userSchema = new mongoose.Schema({
 		minlength: 5,
 		maxlength: 1024
 	},
-	isAdmin: Boolean
+	isAdmin: Boolean,
+	company: Company.schema
 })
 
 const userJoi = {
@@ -41,7 +43,7 @@ userSchema.methods.generateAuthToken = () => {
 
 module.exports = {
 	Model: mongoose.model("users", userSchema),
-	attr: [["email", "password"], ["_id", "email", "isAdmin"]],
+	attr: [["email", "password"], ["_id", "email", "isAdmin", "company"]],
 	validate: (user) => {
 		return Joi.validate(user, userJoi)
 	}

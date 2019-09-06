@@ -41,6 +41,7 @@ module.exports.createUser = async ({ body }, res) => {
 	const salt = await bcrypt.genSalt(10)
 	user.password = await bcrypt.hash(user.password, salt)
 	user.isAdmin = false
+	user.company = null
 
 	await user
 		.save()
