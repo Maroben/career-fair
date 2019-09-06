@@ -45,7 +45,7 @@ class Companies extends Component {
 					},
 					labels: [
 						["subjects", "Studiengänge"],
-						["employment", "Anstellungsart"],
+						["employments", "Anstellungsart"],
 						["tags", "Kategorien"]
 					]
 				}

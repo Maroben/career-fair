@@ -17,6 +17,7 @@ import Switch from "@material-ui/core/Switch"
 
 import ListIcon from "@material-ui/icons/List"
 import MapIcon from "@material-ui/icons/Map"
+
 const ViewSwitch = withStyles((theme) => ({
 	switchBase: {
 		color: theme.palette.primary.main

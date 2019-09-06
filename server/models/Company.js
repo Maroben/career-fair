@@ -59,7 +59,7 @@ module.exports = {
 	schema: companySchema,
 	attr: [
 		["name", "location", "info", "description", "subjects", "employments", "links", "tags"],
-		["_id", "name", "location", "info", "subjects", "tags"]
+		["_id", "name", "location", "info", "subjects", "tags", "employments"]
 	],
 	validateCompany: (company) => {
 		return Joi.validate(company, companyJoi)
