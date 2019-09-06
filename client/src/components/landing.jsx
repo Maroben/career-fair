@@ -1,28 +1,17 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
+import { Link } from "react-router-dom"
 
 import SimpleHeader from "./headers/simpleHeader"
-import { Typography } from "@material-ui/core"
-import Button from "@material-ui/core/Button"
+import { Typography, Button } from "@material-ui/core"
 
 const styles = (theme) => ({
 	container: {
 		margin: theme.spacing(2)
 	},
-	title: {
-		marginBottom: theme.spacing(2)
-	},
-	subtitle: {
+	smContainer: {
 		marginBottom: theme.spacing()
-	},
-	personaBox: {
-		display: "flex",
-		justifyContent: "space-between",
-		marginBottom: theme.spacing(2)
-	},
-	persona: {
-		width: "47%"
 	},
 	button: {
 		width: "100%",
@@ -58,44 +47,33 @@ class Landing extends Component {
 
 	handleSubject = (subject) => {
 		const { employment } = this.state
+		let activeStep
 		if (this.state.subject === subject) {
 			subject = "na"
-			this.setState({
-				subject,
-				activeStep: 0
-			})
+			activeStep = 0
 		} else {
-			this.setState({
-				subject,
-				activeStep: 1
-			})
+			activeStep = 1
 		}
-		this.handleSubmit({ subject, employment })
+		this.handleSubmit({ subject, employment, activeStep })
 	}
 
 	handleEmployment = (employment) => {
 		const { subject } = this.state
+		let activeStep
 		if (this.state.employment === employment) {
 			employment = "na"
-			this.setState({
-				employment,
-				activeStep: 1
-			})
+			activeStep = 1
 		} else {
-			this.setState({
-				employment: employment,
-				activeStep: 2
-			})
+			activeStep = 2
 		}
-		this.handleSubmit({ subject, employment })
+		this.handleSubmit({ subject, employment, activeStep })
 	}
 
-	handleSubmit = ({ subject, employment }) => {
-		if (subject === "na" || employment === "na") {
-			this.setState({ submitVariant: "text" })
-		} else {
-			this.setState({ submitVariant: "contained" })
-		}
+	handleSubmit = (data) => {
+		this.setState({
+			submitVariant: data.subject === "na" || data.employment === "na" ? "text" : "contained",
+			...data
+		})
 	}
 
 	renderButton = (color, onClick, label) => {
@@ -109,16 +87,6 @@ class Landing extends Component {
 			>
 				{label}
 			</Button>
-		)
-	}
-
-	renderSubmitButton = (submitVariant, label) => {
-		return (
-			<div className={this.props.classes.submit}>
-				<Button color="primary" variant={submitVariant}>
-					{label}
-				</Button>
-			</div>
 		)
 	}
 
@@ -143,11 +111,11 @@ class Landing extends Component {
 				<SimpleHeader title="HSR Stellenbörse - 22. April 2020" />
 
 				<div className={classes.container}>
-					<Typography variant="h5" align="center" className={classes.title}>
+					<Typography variant="h5" align="center" className={classes.container}>
 						Wegfinder für Studenten
 					</Typography>
 
-					<Typography variant="h6" align="center" className={classes.subtitle}>
+					<Typography variant="h6" align="center" className={classes.smContainer}>
 						Studiengang
 					</Typography>
 
@@ -159,7 +127,7 @@ class Landing extends Component {
 
 					{activeStep > 0 && (
 						<>
-							<Typography variant="h6" align="center" className={classes.description}>
+							<Typography variant="h6" align="center" className={classes.smContainer}>
 								Anstellungsart
 							</Typography>
 
@@ -180,7 +148,22 @@ class Landing extends Component {
 					)}
 				</div>
 
-				{this.renderSubmitButton(submitVariant, "Zu den Unternehmen")}
+				<div className={this.props.classes.submit}>
+					<Button
+						color="primary"
+						variant={submitVariant}
+						component={Link}
+						to={{
+							pathname: "/companies",
+							query: {
+								subject,
+								employment
+							}
+						}}
+					>
+						Zu den Unternehmen
+					</Button>
+				</div>
 			</>
 		)
 	}
