@@ -12,7 +12,7 @@ export async function getUser(id) {
 	return user
 }
 
-export function register({ email, password }) {
+export function register(email, password) {
 	return http.post(`${endpointApi}/register`, { email, password })
 }
 

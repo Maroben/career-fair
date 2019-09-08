@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
+import { Redirect } from "react-router-dom"
 
 import Joi from "joi-browser"
 
@@ -52,6 +53,20 @@ class RegisterForm extends Form {
 			.label("ConfirmPassword")
 	}
 
+	validateProperty = ({ name, value }) => {
+		const obj = { [name]: value }
+		const schema = { [name]: this.schema[name] }
+		const { error } = Joi.validate(obj, schema)
+
+		if (name === "confirmPassword") {
+			if (value !== this.state.data.password) {
+				return "Not the same!"
+			}
+		}
+
+		return error ? error.details[0].message : null
+	}
+
 	doSubmit = async () => {
 		try {
 			const { email, password } = this.state.data
@@ -59,9 +74,10 @@ class RegisterForm extends Form {
 			authService.loginWithJwt(response.headers["x-auth-token"])
 			window.location = "/account"
 		} catch (ex) {
+			console.log(ex.response)
 			if (ex.response && ex.response.status === 400) {
 				let errors = { ...this.state.errors }
-				errors = ex.response.data
+				errors.email = ex.response.data
 				this.setState({ errors })
 			}
 		}
@@ -71,6 +87,8 @@ class RegisterForm extends Form {
 		const { classes } = this.props
 		return (
 			<>
+				{authService.getCurrentUser() && <Redirect to="/account" />}
+
 				<Typography className={classes.info}>
 					Teilnehmende Unternehmen können sich hier registrieren.
 				</Typography>

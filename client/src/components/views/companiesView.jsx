@@ -1,18 +1,14 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
-import { Link } from "react-router-dom"
-
 import SearchHeader from "../headers/searchHeader"
 import CompaniesListView from "./companiesListView"
 import CompaniesMapView from "./companiesMapView"
 import FilterDrawer from "../sideDrawers/filterDrawer"
 
-import Fab from "@material-ui/core/Fab"
 import Hidden from "@material-ui/core/Hidden"
 import Drawer from "@material-ui/core/Drawer"
 import Chip from "@material-ui/core/Chip"
-import AddIcon from "@material-ui/icons/Add"
 import Switch from "@material-ui/core/Switch"
 
 import ListIcon from "@material-ui/icons/List"
@@ -149,17 +145,6 @@ const CompaniesView = (props) => {
 				) : (
 					<CompaniesMapView />
 				)}
-
-				{/* {user && (
-					<Fab
-						color="primary"
-						className={classes.fab}
-						component={Link}
-						to={`${labels.path}/new`}
-					>
-						<AddIcon />
-					</Fab>
-				)} */}
 			</main>
 		</div>
 	)

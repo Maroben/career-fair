@@ -1,11 +1,13 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
+import { Redirect } from "react-router-dom"
 
 import Joi from "joi-browser"
 
 import Form from "./form"
 import auth from "../../services/authService"
+import authService from "../../services/authService"
 
 const styles = (theme) => ({
 	buttonBox: {
@@ -59,14 +61,18 @@ class LoginForm extends Form {
 		const { classes } = this.props
 
 		return (
-			<form onSubmit={this.handleSubmit}>
-				{this.renderInput("email", "Email")}
-				{this.renderInput("password", "Passwort", "password")}
-				<div className={classes.buttonBox}>
-					{this.renderSecondaryAction("Registrieren", "/account/register", classes)}
-					{this.renderSubmit("Login", classes)}
-				</div>
-			</form>
+			<>
+				{authService.getCurrentUser() && <Redirect to="/account" />}
+
+				<form onSubmit={this.handleSubmit}>
+					{this.renderInput("email", "Email")}
+					{this.renderInput("password", "Passwort", "password")}
+					<div className={classes.buttonBox}>
+						{this.renderSecondaryAction("Registrieren", "/account/register", classes)}
+						{this.renderSubmit("Login", classes)}
+					</div>
+				</form>
+			</>
 		)
 	}
 }
