@@ -1,14 +1,19 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
+import { Link } from "react-router-dom"
 
 import AppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"
 import InputBase from "@material-ui/core/InputBase"
 import Typography from "@material-ui/core/Typography"
-import Button from "@material-ui/core/Button"
+import { IconButton } from "@material-ui/core"
+
 import ClickAwayListener from "@material-ui/core/ClickAwayListener"
 import SearchIcon from "@material-ui/icons/Search"
+import FilterIcon from "@material-ui/icons/FilterList"
+import AccountIcon from "@material-ui/icons/Person"
+
 import { fade } from "@material-ui/core/styles/colorManipulator"
 
 const styles = (theme) => ({
@@ -84,7 +89,7 @@ const styles = (theme) => ({
 })
 
 const SearchHeader = (props) => {
-	const { classes, name, value, onSearch, onFilterSelect } = props
+	const { classes, name, value, onSearch, onFilterSelect, user } = props
 
 	const [search, setSearch] = useState(false)
 
@@ -92,7 +97,7 @@ const SearchHeader = (props) => {
 		<AppBar position="sticky" className={classes.root}>
 			<Toolbar>
 				{!search && (
-					<React.Fragment>
+					<>
 						<Typography className={classes.title} variant="h6" color="inherit" noWrap>
 							{name}
 						</Typography>
@@ -115,21 +120,38 @@ const SearchHeader = (props) => {
 						</div>
 
 						<div className={classes.sectionMobile}>
-							<Button
+							<IconButton
 								aria-haspopup="true"
-								onClick={() => setSearch(!search)}
+								edge="end"
 								color="inherit"
+								onClick={() => setSearch(!search)}
 							>
-								Suche
-							</Button>
-							<Button aria-haspopup="true" onClick={onFilterSelect} color="inherit">
-								Filter
-							</Button>
+								<SearchIcon />
+							</IconButton>
+							<IconButton
+								aria-haspopup="true"
+								edge="end"
+								color="inherit"
+								onClick={onFilterSelect}
+							>
+								<FilterIcon />
+							</IconButton>
+							{user && (
+								<IconButton
+									aria-haspopup="true"
+									edge="end"
+									color="inherit"
+									component={Link}
+									to={"/account"}
+								>
+									<AccountIcon />
+								</IconButton>
+							)}
 						</div>
-					</React.Fragment>
+					</>
 				)}
 				{search && (
-					<React.Fragment>
+					<>
 						<div className={`${classes.search} ${classes.searchActive}`}>
 							<div className={classes.searchIcon}>
 								<SearchIcon />
@@ -147,10 +169,26 @@ const SearchHeader = (props) => {
 								/>
 							</ClickAwayListener>
 						</div>
-						<Button aria-haspopup="true" onClick={onFilterSelect} color="inherit">
-							Filter
-						</Button>
-					</React.Fragment>
+						<IconButton
+							aria-haspopup="true"
+							edge="end"
+							color="inherit"
+							onClick={onFilterSelect}
+						>
+							<FilterIcon />
+						</IconButton>
+						{user && (
+							<IconButton
+								aria-haspopup="true"
+								edge="end"
+								color="inherit"
+								component={Link}
+								to={"/account"}
+							>
+								<AccountIcon />
+							</IconButton>
+						)}
+					</>
 				)}
 			</Toolbar>
 		</AppBar>

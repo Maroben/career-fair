@@ -4,8 +4,6 @@ import { withStyles } from "@material-ui/core/styles"
 import { Redirect } from "react-router-dom"
 import Joi from "joi-browser"
 
-import SimpleHeader from "../headers/simpleHeader"
-
 import Form from "./form"
 import auth from "../../services/authService"
 
@@ -47,7 +45,7 @@ class LoginForm extends Form {
 			await auth.login(data.email, data.password)
 
 			const { state } = this.props
-			window.location = state ? state.from.pathname : "/companies"
+			window.location = state ? state.from.pathname : "/account"
 		} catch (ex) {
 			if (ex.response && ex.response.status === 400) {
 				const errors = { ...this.state.errors }
@@ -58,20 +56,16 @@ class LoginForm extends Form {
 	}
 
 	render() {
-		if (auth.getCurrentUser()) return <Redirect to="/" />
+		if (auth.getCurrentUser()) return <Redirect to="/account" />
 
 		const { classes } = this.props
 
 		return (
-			<React.Fragment>
-				<SimpleHeader title="Login" />
-
-				<form onSubmit={this.handleSubmit} className={classes.root}>
-					{this.renderInput("email", "Email")}
-					{this.renderInput("password", "Password", "password")}
-					{this.renderPrimaryButton("Login", "submit", classes)}
-				</form>
-			</React.Fragment>
+			<form onSubmit={this.handleSubmit} className={classes.root}>
+				{this.renderInput("email", "Email")}
+				{this.renderInput("password", "Password", "password")}
+				{this.renderPrimaryButton("Login", "submit", classes)}
+			</form>
 		)
 	}
 }

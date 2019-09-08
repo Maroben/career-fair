@@ -95,13 +95,13 @@ class Landing extends Component {
 		const { submitVariant, activeStep, subject, employment } = this.state
 
 		const subjects = [
-			"Bauingenieurwesen",
-			"Elektrotechnik",
-			"Ernerbare Energien & Umwelttechnik",
 			"Informatik",
-			"Landschaftsarchitektur",
 			"Raumplanung",
-			"Wirtschaftsingenieurwesen"
+			"Elektrotechnik",
+			"Bauingenieurwesen",
+			"Landschaftsarchitektur",
+			"Wirtschaftsingenieurwesen",
+			"Ernerbare Energien & Umwelttechnik"
 		]
 
 		const employments = ["Vollzeit", "Praktikum", "Training", "Teilzeit"]

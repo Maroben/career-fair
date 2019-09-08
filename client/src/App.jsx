@@ -3,10 +3,11 @@ import { Route, Switch, Redirect } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 
 import Landing from "./components/landing"
+import Account from "./components/account"
 import Companies from "./components/companies"
+
+import Logout from "./components/logout"
 import NotFound from "./components/404"
-import AuthForm from "./components/forms/authForm"
-import Logout from "./components/common/logout"
 
 import CssBaseline from "@material-ui/core/CssBaseline"
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles"
@@ -32,7 +33,7 @@ class App extends Component {
 					<ToastContainer />
 					<Switch>
 						<Route path="/companies" render={(props) => <Companies {...props} />} />
-						<Route path="/auth" component={AuthForm} />
+						<Route path="/account" component={Account} />
 						<Route path="/logout" component={Logout} />
 						<Route path="/404" component={NotFound} />
 						<Route path="/" exact component={Landing} />

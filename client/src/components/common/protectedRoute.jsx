@@ -1,13 +1,18 @@
 import React from "react"
 import { Route, Redirect } from "react-router-dom"
+import authService from "../../services/authService"
 
 const ProtectedRoute = ({ path, component: Component, render, user, adminRequired, ...rest }) => {
 	return (
 		<Route
 			{...rest}
 			render={(props) => {
-				if (!user || (adminRequired && !user.isAdmin)) {
-					return <Redirect to={{ pathname: "/auth", state: { from: props.location } }} />
+				if (!authService.getCurrentUser()) {
+					return (
+						<Redirect
+							to={{ pathname: "/account/login", state: { from: props.location } }}
+						/>
+					)
 				}
 				return Component ? <Component {...props} /> : render(props)
 			}}

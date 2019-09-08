@@ -77,15 +77,15 @@ class RegisterForm extends Form {
 
 	render() {
 		const { title, cancel, save, password } = this.state.page
+		const { classes } = this.props
 		return (
 			<div>
 				<h3>{title}</h3>
 				<form onSubmit={this.handleSubmit}>
-					{this.renderInput("name", "Username")}
 					{this.renderInput("email", "Email")}
 					{this.renderInput("password", password, "password")}
-					{this.renderSecondaryButton(cancel, "/admin/users")}
-					{this.renderPrimaryButton(save)}
+					{/* {this.renderSecondaryButton(cancel, "/admin/users", classes)} */}
+					{this.renderPrimaryButton(save, "text", classes)}
 				</form>
 			</div>
 		)

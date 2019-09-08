@@ -1,7 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
-import Building1 from "../maps/building1"
+
+import Building1 from "../../maps/building1"
 
 const styles = (theme) => ({
 	box: {
@@ -11,7 +12,7 @@ const styles = (theme) => ({
 	}
 })
 
-const Building = ({ classes }) => {
+const CompaniesMapView = ({ classes }) => {
 	const handleClick = (event) => {
 		console.log(event.target.id)
 	}
@@ -23,8 +24,8 @@ const Building = ({ classes }) => {
 	)
 }
 
-Building.propTypes = {
+CompaniesMapView.propTypes = {
 	classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(Building)
+export default withStyles(styles)(CompaniesMapView)

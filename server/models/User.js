@@ -34,9 +34,9 @@ const userJoi = {
 		.required()
 }
 
-userSchema.methods.generateAuthToken = () => {
+userSchema.methods.generateAuthToken = (user) => {
 	return jwt.sign(
-		{ _id: this._id, email: this.email, isAdmin: this.isAdmin },
+		{ _id: user._id, email: user.email, isAdmin: user.isAdmin },
 		config.get("jwtPrivateKey")
 	)
 }

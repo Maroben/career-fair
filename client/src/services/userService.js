@@ -12,12 +12,8 @@ export async function getUser(id) {
 	return user
 }
 
-export function createUser(user) {
-	return http.post(`${endpointApi}/register`, {
-		name: user.name,
-		email: user.email,
-		password: user.password
-	})
+export function register({ email, password }) {
+	return http.post(`${endpointApi}/register`, { email, password })
 }
 
 export async function updateUser(id, body) {

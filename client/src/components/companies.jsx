@@ -2,13 +2,13 @@ import React, { Component } from "react"
 import { Route, Switch } from "react-router-dom"
 import _ from "lodash"
 
-import auth from "../services/authService"
-import service from "../services/companyService"
+import authService from "../services/authService"
+import companyService from "../services/companyService"
 import CompanyForm from "./forms/companyForm"
 import ProtectedRoute from "./common/protectedRoute"
 import { filtering, getAllFilters, searching } from "../utils/filtering"
 
-import CompaniesList from "./lists/companiesList"
+import CompaniesView from "./views/companiesView"
 import CompanyDetails from "./details/companyDetails"
 
 class Companies extends Component {
@@ -57,8 +57,8 @@ class Companies extends Component {
 	}
 
 	async componentDidMount() {
-		const user = await auth.getCurrentUser()
-		const companies = await service.getCompanies()
+		const user = await authService.getCurrentUser()
+		const companies = await companyService.getCompanies()
 
 		let { filterData, hasMounted } = this.state
 		let { all: allFilters, labels } = filterData.filters
@@ -106,7 +106,7 @@ class Companies extends Component {
 		await this.setState({ companies: deleted })
 		this.handleData()
 
-		await service.deleteCompany(id).catch(() => {
+		await companyService.deleteCompany(id).catch(() => {
 			this.setState({ companies })
 			this.handleData()
 		})
@@ -231,7 +231,7 @@ class Companies extends Component {
 				<Route
 					path="/companies"
 					render={(props) => (
-						<CompaniesList
+						<CompaniesView
 							{...props}
 							user={user}
 							companies={companies}

@@ -46,7 +46,7 @@ module.exports.createUser = async ({ body }, res) => {
 	await user
 		.save()
 		.then((user) => {
-			res.header("x-auth-token", user.generateAuthToken())
+			res.header("x-auth-token", user.generateAuthToken(user))
 				.header("access-control-expose-headers", "x-auth-token")
 				.send(_.pick(user, User.attr[1]))
 		})
@@ -92,7 +92,7 @@ module.exports.loginUser = async ({ body }, res) => {
 	const validPassword = await bcrypt.compare(body.password, user.password)
 	if (!validPassword) return res.status(400).send("Invalid email or password.")
 
-	res.header("x-auth-token", user.generateAuthToken())
+	res.header("x-auth-token", user.generateAuthToken(user))
 		.header("access-control-expose-headers", "x-auth-token")
 		.send(_.pick(user, User.attr[1]))
 }

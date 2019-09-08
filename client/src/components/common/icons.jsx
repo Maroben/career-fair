@@ -15,15 +15,15 @@ const styles = (theme) => ({
 const Icons = ({ classes, name }) => {
 	const icons = {
 		homepage: <Home className={classes.icon} />,
-		twitter: <Icon className={`fa fa-twitter ${classes.icon}`} />,
-		instagram: <Icon className={`fa fa-instagram ${classes.icon}`} />,
-		linkedin: <Icon className={`fa fa-linkedin ${classes.icon}`} />,
-		xing: <Icon className={`fa fa-xing ${classes.icon}`} />,
-		facebook: <Icon className={`fa fa-facebook ${classes.icon}`} />,
-		youtube: <Icon className={`fa fa-youtube-play ${classes.icon}`} />
+		twitter: <Icon className={`fab fa-twitter ${classes.icon}`} />,
+		instagram: <Icon className={`fab fa-instagram ${classes.icon}`} />,
+		linkedin: <Icon className={`fab fa-linkedin ${classes.icon}`} />,
+		xing: <Icon className={`fab fa-xing ${classes.icon}`} />,
+		facebook: <Icon className={`fab fa-facebook ${classes.icon}`} />,
+		youtube: <Icon className={`fab fa-youtube-play ${classes.icon}`} />
 	}
 
-	return <React.Fragment>{icons[name]}</React.Fragment>
+	return <>{icons[name]}</>
 }
 
 Icons.propTypes = {
