@@ -23,7 +23,7 @@ export async function getCompany(id) {
 }
 
 export async function createCompany(body) {
-	body = stringifyCompany(body)
+	// body = stringifyCompany(body)
 	return await http.post(`${endpointApi}/new`, body)
 }
 

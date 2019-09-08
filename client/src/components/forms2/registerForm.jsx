@@ -125,7 +125,7 @@ class RegisterForm extends Form {
 
 					{this.props.user ? (
 						<CardActions className={classes.cardAction}>
-							{this.renderCancel("Cancel", classes, onUpdateUser)}
+							{this.renderCancel("Abbrechen", classes, onUpdateUser)}
 							{this.renderSubmit("Update", classes)}
 						</CardActions>
 					) : (

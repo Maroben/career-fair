@@ -12,6 +12,7 @@ import RegisterForm from "./forms2/registerForm"
 import authService from "../services/authService"
 import ProtectedRoute from "./common/protectedRoute"
 
+import global from "./../utils/global"
 const styles = (theme) => ({
 	container: {
 		margin: theme.spacing(2)
@@ -34,8 +35,9 @@ class Account extends Component {
 
 	async componentDidMount() {
 		const user = await authService.getCurrentUser()
-		console.log(user)
 		await this.setState({ user })
+		global.subjects = "new"
+		console.log(global)
 	}
 
 	render() {

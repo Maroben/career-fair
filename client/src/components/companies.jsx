@@ -25,7 +25,7 @@ class Companies extends Component {
 				loadingSize: 15,
 				search: {
 					query: "",
-					attr: ["name", "info", "description", "subjects", "employment", "tags"]
+					attr: ["name", "info", "description", "subjects", "employments", "tags"]
 				},
 				filters: {
 					all: {

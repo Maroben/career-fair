@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 
 import InputComponent from "../common/input"
 
-import { Button } from "@material-ui/core"
+import { Button, Typography } from "@material-ui/core"
 
 class Form extends Component {
 	state = {
@@ -104,6 +104,19 @@ class Form extends Component {
 			>
 				{label}
 			</Button>
+		)
+	}
+
+	renderButtonList = (name, label, items, classes) => {
+		return (
+			<div className={classes.buttonList}>
+				<Typography variant="h6">{label}</Typography>
+				{items.map((item) => (
+					<Button key={item} variant="outlined" className={classes.button}>
+						{item}
+					</Button>
+				))}
+			</div>
 		)
 	}
 }
