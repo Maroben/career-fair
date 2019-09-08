@@ -65,7 +65,9 @@ module.exports.updateUser = async (req, res) => {
 
 	await User.Model.findOneAndUpdate({ _id: req.params.id }, user)
 		.then((user) => {
-			res.send(_.pick(user, User.attr[1]))
+			res.header("x-auth-token", user.generateAuthToken(user))
+				.header("access-control-expose-headers", "x-auth-token")
+				.send(_.pick(user, User.attr[1]))
 		})
 		.catch((error) => {
 			res.status(404).send(`The selected user doesn't exist ${error}`)

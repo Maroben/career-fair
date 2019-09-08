@@ -2,25 +2,35 @@ import React from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 import { Redirect } from "react-router-dom"
-
+import { toast } from "react-toastify"
 import Joi from "joi-browser"
 
 import Form from "./form"
 import authService from "../../services/authService"
-import { register } from "../../services/userService"
-import { Typography } from "@material-ui/core"
+import { register, updateUser } from "../../services/userService"
+
+import { CardActions } from "@material-ui/core"
 
 const styles = (theme) => ({
+	container: {
+		marginTop: theme.spacing()
+	},
 	buttonBox: {
 		display: "flex",
-		justifyContent: "flex-end"
+		justifyContent: "flex-end",
+		marginTop: theme.spacing(2)
+	},
+	cardAction: {
+		marginTop: theme.spacing(),
+		justifyContent: "flex-end",
+		padding: 0
 	},
 	button: {
 		margin: theme.spacing(2),
 		marginLeft: 0
 	},
 	info: {
-		margin: theme.spacing(2)
+		margin: theme.spacing()
 	}
 })
 
@@ -32,6 +42,17 @@ class RegisterForm extends Form {
 			confirmPassword: ""
 		},
 		errors: {}
+	}
+
+	componentDidMount = () => {
+		const { user } = this.props
+		if (!user) return
+		let data = {
+			email: user.email,
+			password: "",
+			confirmPassword: ""
+		}
+		this.setState({ data })
 	}
 
 	schema = {
@@ -70,11 +91,19 @@ class RegisterForm extends Form {
 	doSubmit = async () => {
 		try {
 			const { email, password } = this.state.data
-			const response = await register(email, password)
-			authService.loginWithJwt(response.headers["x-auth-token"])
-			window.location = "/account"
+			const { user } = this.props
+			const res = user
+				? await updateUser(user._id, { email, password })
+				: await register(email, password)
+			authService.loginWithJwt(res.headers["x-auth-token"])
+
+			if (user) {
+				this.props.onUpdateUser()
+				toast.info("Update Erfolgreich", { autoClose: 2500 })
+			} else {
+				window.location = "/account"
+			}
 		} catch (ex) {
-			console.log(ex.response)
 			if (ex.response && ex.response.status === 400) {
 				let errors = { ...this.state.errors }
 				errors.email = ex.response.data
@@ -84,23 +113,27 @@ class RegisterForm extends Form {
 	}
 
 	render() {
-		const { classes } = this.props
+		const { classes, onUpdateUser } = this.props
 		return (
 			<>
 				{authService.getCurrentUser() && <Redirect to="/account" />}
 
-				<Typography className={classes.info}>
-					Teilnehmende Unternehmen können sich hier registrieren.
-				</Typography>
-
-				<form onSubmit={this.handleSubmit}>
+				<form onSubmit={this.handleSubmit} className={classes.container}>
 					{this.renderInput("email", "Email")}
 					{this.renderInput("password", "Passwort", "password")}
 					{this.renderInput("confirmPassword", "Passwort bestätigen", "password")}
-					<div className={classes.buttonBox}>
-						{this.renderSecondaryAction("Login", "/account/login", classes)}
-						{this.renderSubmit("Registrieren", classes)}
-					</div>
+
+					{this.props.user ? (
+						<CardActions className={classes.cardAction}>
+							{this.renderCancel("Cancel", classes, onUpdateUser)}
+							{this.renderSubmit("Update", classes)}
+						</CardActions>
+					) : (
+						<div className={classes.buttonBox}>
+							{this.renderSecondaryAction("Login", "/account/login", classes)}
+							{this.renderSubmit("Registrieren", classes)}
+						</div>
+					)}
 				</form>
 			</>
 		)

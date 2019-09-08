@@ -12,7 +12,8 @@ import authService from "../../services/authService"
 const styles = (theme) => ({
 	buttonBox: {
 		display: "flex",
-		justifyContent: "flex-end"
+		justifyContent: "flex-end",
+		marginTop: theme.spacing(2)
 	},
 	button: {
 		margin: theme.spacing(2),

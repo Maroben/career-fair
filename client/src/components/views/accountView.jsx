@@ -9,9 +9,12 @@ import Typography from "@material-ui/core/Typography"
 import CardHeader from "@material-ui/core/CardHeader"
 import CardActions from "@material-ui/core/CardActions"
 
+import RegisterForm from "./../forms2/registerForm"
+
 const styles = (theme) => ({
 	card: {
 		marginBottom: theme.spacing(2),
+		padding: theme.spacing(),
 		minWidth: 300,
 		[theme.breakpoints.up("md")]: {
 			width: 300
@@ -21,7 +24,7 @@ const styles = (theme) => ({
 		paddingBottom: 0
 	},
 	pos: {
-		marginBottom: theme.spacing()
+		margin: theme.spacing(2)
 	},
 	cardAction: {
 		justifyContent: "flex-end"
@@ -31,7 +34,7 @@ const styles = (theme) => ({
 	}
 })
 
-const AccountView = ({ classes, hasUser, user, company, filterLabels }) => {
+const AccountView = ({ classes, user, company, filterLabels }) => {
 	const [userEdit, setUserEdit] = useState(false)
 	// const [companyEdit, setCompanyEdit] = useState(false)
 
@@ -39,49 +42,31 @@ const AccountView = ({ classes, hasUser, user, company, filterLabels }) => {
 
 	return (
 		<>
-			{hasUser ? (
+			{user ? (
 				<>
-					{userEdit ? (
-						<Card className={classes.card}>
-							<CardHeader
-								className={classes.header}
-								title={"Benutzer"}
-								subheader={user.email}
-							/>
+					<Card className={classes.card}>
+						<CardHeader className={classes.header} title={"Benutzer"} />
 
-							{user && (
+						{userEdit ? (
+							<RegisterForm user={user} onUpdateUser={() => setUserEdit(false)} />
+						) : (
+							<>
+								<Typography className={classes.pos} color="textPrimary">
+									{user.email}
+								</Typography>
+
 								<CardActions className={classes.cardAction}>
 									<Button
-										size="small"
-										color="primary"
-										onClick={() => setUserEdit(false)}
-									>
-										save
-									</Button>
-								</CardActions>
-							)}
-						</Card>
-					) : (
-						<Card className={classes.card}>
-							<CardHeader
-								className={classes.header}
-								title={"Benutzer"}
-								subheader={user.email}
-							/>
-
-							{user && (
-								<CardActions className={classes.cardAction}>
-									<Button
-										size="small"
+										variant="contained"
 										color="primary"
 										onClick={() => setUserEdit(true)}
 									>
 										edit
 									</Button>
 								</CardActions>
-							)}
-						</Card>
-					)}
+							</>
+						)}
+					</Card>
 
 					{company ? (
 						<>

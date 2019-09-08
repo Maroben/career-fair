@@ -164,6 +164,15 @@ class Landing extends Component {
 						Zu den Unternehmen
 					</Button>
 				</div>
+
+				<Button
+					color="secondary"
+					variant="contained"
+					component={Link}
+					to={"/account/login"}
+				>
+					Login
+				</Button>
 			</>
 		)
 	}

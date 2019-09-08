@@ -85,6 +85,14 @@ class Form extends Component {
 		)
 	}
 
+	renderCancel = (label, classes, onClick) => {
+		return (
+			<Button color="primary" className={classes.button} onClick={onClick}>
+				{label}
+			</Button>
+		)
+	}
+
 	renderSecondaryAction = (label, path, classes) => {
 		return (
 			<Button

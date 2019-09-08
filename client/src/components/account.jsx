@@ -34,6 +34,7 @@ class Account extends Component {
 
 	async componentDidMount() {
 		const user = await authService.getCurrentUser()
+		console.log(user)
 		await this.setState({ user })
 	}
 
