@@ -8,3 +8,21 @@ Object {
   "name": "Name1",
 }
 `;
+
+exports[`Company Model CRUD Company 2`] = `
+Object {
+  "description": "Description2",
+  "info": "Info2",
+  "location": "Location2",
+  "name": "Name2",
+}
+`;
+
+exports[`Company Model CRUD Company 3`] = `
+Object {
+  "description": "Description5",
+  "info": "Info5",
+  "location": "Location5",
+  "name": "Name5",
+}
+`;
