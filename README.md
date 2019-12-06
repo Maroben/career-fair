@@ -4,70 +4,71 @@
 
 A website to display a concise list of information with filtering and searching.
 
-This web application was made for the yearly HSR Career event. The purpose is to make it easier for students to gather information about the attending companies.
+This web application was made for the yearly HSR Career Fair. The purpose is to make it easier for students to gather information about the attending companies.
 
-The application is deployed on a Windows Server [HSR Stellenbörse](https://www.hsrstellenboerse.ch).
+The application is deployed on [HSR Stellenbörse](https://www.hsrstellenboerse.ch).
 
-## Development
+Technologies used:
 
-Install NodeJs and MongoDB
+-   Express
+-   React
+-   Mongoose
+-   Typescript
+-   Jest
+-   Parcel
+-   Nodemon
 
-Set the NODE_ENV variable to 'development'
+## Set-Up
 
-Create a 'career_fair_jwtPrivateKey' env variable to a random string.
+### Requirements
 
-VS Code Prettier Plugin (Esben Petersen) Settings
+-   NodeJS (v12.9.1)
+-   Yarn (v1.19.1)
+-   MongoDB (v4.2.1)
+-   VS Code (v1.40.2)
+-   Prettier (v3.11.0)
 
-    "editor.formatOnSave": true,
-    "prettier.arrowParens": "always",
-    "prettier.printWidth": 100,
-    "prettier.semi": false,
-    "prettier.tabWidth": 4,
-    "prettier.useTabs": true
+### Development
 
-## Production
+Install Dependencies
 
-Set the NODE_ENV variable to 'production'
-Create a 'career_fair_jwtPrivateKey' env variable to a random string.
+    $ yarn
 
-### Server
+Start Development Server
 
-1. install \$ npm i -g node-windows
-2. go to server directory and link \$ npm link node-windows
-3. intall windows service with \$ npm run build
-4. remove windows service with \$ npm run clean
+    $ yarn start
 
-### Client
+-   Nodemon will start the Express Server and serve React statically from the dist/frontend folder.
+-   Parcel watches and builds the React App to dist/frontend
 
-1. Just run \$ npm run build
+### Testing
 
-## Datastructure
+Test Project
 
-### Companies
+    $ yarn test
 
-    {
-        name: "Company XYZ",
-        loc: "Building 1, Foyer",
-        info: "A great company in whatever we are doing.",
-        description:
-            "Best working place in the world. Join us for any reason you can find. We got them cookies and coffee, so it must be good.",
-        category: '["Informatik", "Elektrotechnik"]',
-        tags: '["frontend", "security", "competence"]',
-        links: '{
-            "homepage": "https://www.company.io",
-            "linkedin": "https://www.linkedin.com/company"
-        }'
-    }
+-   Jest is used for testing
+
+### Build
+
+Build Project
+
+    $ yarn build
+
+-   TSC builds the Express Server to dist
+-   Parcel builds the React App to dist/frontend
+
+### Deployment
+
+TBD
 
 ## Author
 
-### Version 1
-
--   Maroben
+Dijan Helbling
 
 ## License (MIT)
 
-Copyright (c) 2019 Maroben
+Copyright (c) 2019 Dijan Helbling
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

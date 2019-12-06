@@ -1,4 +1,5 @@
-node-modules
-dist
 .env
 .cache
+
+dist
+node_modules
