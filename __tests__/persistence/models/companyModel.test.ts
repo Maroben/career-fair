@@ -3,7 +3,7 @@ import Company, {
     ICompany,
     validate,
     properties
-} from "../../../src/persistence/models/companyModel"
+} from "../../../src/persistence/models/CompanyModel"
 
 describe("Company Model", () => {
     describe("Valid Company Creations", () => {

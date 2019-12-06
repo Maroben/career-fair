@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`User Model Valid User Creations Simple User 1`] = `
+Object {
+  "email": "maroben@example.com",
+  "isAdmin": false,
+  "password": "security_lv_9000",
+}
+`;

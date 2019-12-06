@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Company Model CRUD Company 1`] = `
+exports[`Database with Company CRUD Company 1`] = `
 Object {
   "description": "Description1",
   "info": "Info1",
@@ -9,7 +9,7 @@ Object {
 }
 `;
 
-exports[`Company Model CRUD Company 2`] = `
+exports[`Database with Company CRUD Company 2`] = `
 Object {
   "description": "Description2",
   "info": "Info2",
@@ -18,7 +18,7 @@ Object {
 }
 `;
 
-exports[`Company Model CRUD Company 3`] = `
+exports[`Database with Company CRUD Company 3`] = `
 Object {
   "description": "Description5",
   "info": "Info5",

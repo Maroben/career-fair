@@ -1,10 +1,10 @@
 import mongoose from "mongoose"
-import _ from "lodash"
 import config from "config"
-import Database from "../../src/persistence/database"
-import Company, { ICompany, properties } from "../../src/persistence/models/companyModel"
+import _ from "lodash"
+import Database from "../../src/persistence/Database"
+import Company, { ICompany, properties } from "../../src/persistence/models/CompanyModel"
 
-describe("Company Model", () => {
+describe("Database with Company", () => {
     beforeAll(async () => {
         await mongoose.connect(config.get("db"), {
             useNewUrlParser: true,

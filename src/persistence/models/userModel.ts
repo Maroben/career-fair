@@ -1,12 +1,25 @@
 import mongoose, { Schema, Document } from "mongoose"
-import { ICompany } from "./companyModel"
+import Joi, { ObjectSchema } from "@hapi/joi"
+import _ from "lodash"
 
 export interface IUser extends Document {
     email: string
     password: string
     isAdmin: string
-    company: ICompany
 }
+
+const joiSchema: ObjectSchema = Joi.object<IUser>({
+    email: Joi.string()
+        .min(6)
+        .max(255)
+        .required()
+        .email(),
+    password: Joi.string()
+        .min(5)
+        .max(20)
+        .required(),
+    isAdmin: Joi.boolean
+})
 
 const userSchema: Schema = new Schema({
     email: {
@@ -22,8 +35,15 @@ const userSchema: Schema = new Schema({
         minlength: 5,
         maxlength: 1024
     },
-    isAdmin: Boolean,
-    company: { type: mongoose.Schema.Types.ObjectId, ref: "companies" }
+    isAdmin: Boolean
 })
 
-export default mongoose.model<IUser>("companies", userSchema)
+export const properties = ["email", "password", "isAdmin"]
+
+export const validate = async (user: IUser) => {
+    return await joiSchema.validateAsync(_.pick(user, properties), {
+        abortEarly: false
+    })
+}
+
+export default mongoose.model<IUser>("users", userSchema)

@@ -16,9 +16,13 @@ server.disable("x-powered-by")
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: true }))
 
+// Define API routes
 import CompanyRoutes from "./communication/CompanyRoutes"
+import UserRoutes from "./communication/UserRoutes"
 server.use("/api/companies", CompanyRoutes)
+server.use("/api/user", UserRoutes)
 
+// Serve React App statically
 server.use(express.static(path.join(__dirname, "..", "dist", "frontend")))
 server.use("/*", (req, res) => {
     res.sendFile(path.join(__dirname, "..", "dist", "frontend", "index.html"))
