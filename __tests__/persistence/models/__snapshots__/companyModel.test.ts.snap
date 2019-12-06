@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Company Model Valid Company Creations Minimal Company 1`] = `
+Object {
+  "description": "",
+  "info": "",
+  "location": "",
+  "name": "Name",
+}
+`;
+
+exports[`Company Model Valid Company Creations Simple Company 1`] = `
+Object {
+  "description": "Description",
+  "info": "Info",
+  "location": "Location",
+  "name": "Name",
+}
+`;

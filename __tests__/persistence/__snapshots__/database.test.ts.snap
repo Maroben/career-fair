@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Company Model CRUD Company 1`] = `
+Object {
+  "description": "Description1",
+  "info": "Info1",
+  "location": "Location1",
+  "name": "Name1",
+}
+`;

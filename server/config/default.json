@@ -1,7 +1,0 @@
-{
-	"jwtPrivateKey": "",
-	"adminPw": "",
-	"marobenPw": "",
-	"userPw": "",
-	"db": "mongodb://localhost:27017/career"
-}
