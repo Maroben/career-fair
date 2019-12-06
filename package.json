@@ -5,7 +5,7 @@
     "author": "Dijan Helbling",
     "license": "MIT",
     "scripts": {
-        "test": "jest",
+        "test": "set NODE_ENV=testing&& jest",
         "start:server": "nodemon",
         "start:client": "parcel watch src/frontend/index.html --out-dir dist/frontend",
         "start": "concurrently \"yarn start:server\" \"yarn start:client\"",

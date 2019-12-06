@@ -1,3 +1,4 @@
 {
-    "db": "mongodb://localhost:27017/career-dev"
+    "db": "mongodb://localhost:27017/career-dev",
+    "port": 3800
 }
