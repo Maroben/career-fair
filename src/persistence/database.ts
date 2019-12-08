@@ -10,21 +10,20 @@ export default class Database<T extends mongoose.Document> {
                 return documents
             })
             .catch((err) => {
-                throw new Error(`No Documents found!`)
+                console.error(err)
+                throw new Error(`!`)
             })
     }
 
-    public async get(_id: string): Promise<T> {
+    public async get(filter: { [key: string]: string }): Promise<T> {
         return await this.model
-            .findOne({ _id })
+            .findOne(filter)
             .then((document) => {
-                if (document) {
-                    return document as T
-                }
-                throw Error
+                return document as T
             })
             .catch((err) => {
-                throw new Error(`Document with ID: ${_id} not found!`)
+                console.error(err)
+                throw new Error(`Document with filter: ${filter} not found!`)
             })
     }
 
@@ -35,6 +34,7 @@ export default class Database<T extends mongoose.Document> {
                 return document as T
             })
             .catch((err) => {
+                console.error(err)
                 throw new Error(`Failed to create Document!`)
             })
     }
@@ -44,10 +44,7 @@ export default class Database<T extends mongoose.Document> {
         return await this.model
             .findOneAndUpdate({ _id: _id }, document, { new: true })
             .then((document) => {
-                if (document) {
-                    return document as T
-                }
-                throw Error
+                return document as T
             })
             .catch((err) => {
                 console.error(err)
@@ -59,10 +56,7 @@ export default class Database<T extends mongoose.Document> {
         return await this.model
             .findOneAndDelete({ _id })
             .then((document) => {
-                if (document) {
-                    return document as T
-                }
-                throw Error
+                return document as T
             })
             .catch((err) => {
                 console.error(err)

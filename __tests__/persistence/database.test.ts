@@ -22,7 +22,7 @@ describe("Database with Company", () => {
     it("CRUD Company", async () => {
         const db = new Database<ICompany>(Company)
 
-        expect(async () => await db.get("fakeid")).rejects
+        expect(async () => await db.get({ _id: "fakeid" })).rejects
 
         const company1: ICompany = new Company({
             name: "Name1",

@@ -1,9 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`User Model Joi User Validation Rejections Permission Level Admin 1`] = `[Function]`;
+
 exports[`User Model Valid User Creations Simple User 1`] = `
 Object {
   "email": "maroben@example.com",
-  "isAdmin": false,
+  "level": 2,
   "password": "security_lv_9000",
 }
 `;

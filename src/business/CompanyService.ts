@@ -16,10 +16,10 @@ export default class CompanyService {
 
     public getCompany = async (req: Request, res: Response) => {
         try {
-            const document = await this.db.get(req.params.id)
-            res.send(document)
+            const document = await this.db.get({ _id: req.params.id })
+            document ? res.send(document) : res.status(404).send("Company not found")
         } catch (err) {
-            res.status(404).send(err.message)
+            res.status(500).send(err.message)
         }
     }
 
@@ -41,16 +41,16 @@ export default class CompanyService {
             await validate(company)
 
             const document = await this.db.put(company, req.params.id)
-            res.send(document)
+            document ? res.send(document) : res.status(404).send("Company not found")
         } catch (err) {
-            res.status(404).send(err.message)
+            res.status(400).send(err.message)
         }
     }
 
     public deleteCompany = async (req: Request, res: Response) => {
         try {
             const document = await this.db.delete(req.params.id)
-            res.send(document)
+            document ? res.send(document) : res.status(404).send("Company not found")
         } catch (err) {
             res.status(404).send(err.message)
         }

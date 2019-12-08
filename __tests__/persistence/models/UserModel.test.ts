@@ -1,5 +1,5 @@
 import _ from "lodash"
-import User, { IUser, validate, properties } from "../../../src/persistence/models/UserModel"
+import User, { IUser, validate, properties, level } from "../../../src/persistence/models/UserModel"
 
 describe("User Model", () => {
     describe("Valid User Creations", () => {
@@ -7,7 +7,7 @@ describe("User Model", () => {
             const user: IUser = new User({
                 email: "maroben@example.com",
                 password: "security_lv_9000",
-                isAdmin: false
+                level: level.user
             })
             expect(_.pick(user, properties)).toMatchSnapshot()
             expect(async () => await validate(user)).resolves
@@ -25,7 +25,7 @@ describe("User Model", () => {
                 const user: IUser = new User({
                     email: "",
                     password: "very secure",
-                    isAdmin: false
+                    level: level.user
                 })
                 expect(async () => await validate(user)).rejects
             })
@@ -34,7 +34,7 @@ describe("User Model", () => {
                 const user: IUser = new User({
                     email: "this is not an email",
                     password: "very secure",
-                    isAdmin: false
+                    level: level.admin
                 })
                 expect(async () => await validate(user)).rejects
             })
@@ -43,7 +43,7 @@ describe("User Model", () => {
                 const user: IUser = new User({
                     email: "fake@totoally",
                     password: "very secure",
-                    isAdmin: false
+                    level: level.root
                 })
                 expect(async () => await validate(user)).rejects
             })
@@ -52,7 +52,7 @@ describe("User Model", () => {
                 const user: IUser = new User({
                     email: "might@look,correct",
                     password: "very secure",
-                    isAdmin: false
+                    level: level.user
                 })
                 expect(async () => await validate(user)).rejects
             })
@@ -61,7 +61,7 @@ describe("User Model", () => {
                 const user: IUser = new User({
                     email: "might(at)look.correct",
                     password: "very secure",
-                    isAdmin: false
+                    level: level.user
                 })
                 expect(async () => await validate(user)).rejects
             })
@@ -72,7 +72,7 @@ describe("User Model", () => {
                 const user: IUser = new User({
                     email: "maroben@example.com",
                     password: "",
-                    isAdmin: false
+                    level: level.user
                 })
                 expect(async () => await validate(user)).rejects
             })
@@ -81,7 +81,36 @@ describe("User Model", () => {
                 const user: IUser = new User({
                     email: "maroben@example.com",
                     password: "wayyyyy tooooo looooong",
-                    isAdmin: false
+                    level: level.user
+                })
+                expect(async () => await validate(user)).rejects
+            })
+        })
+
+        describe("Permission Level", () => {
+            it("Admin", () => {
+                const user: IUser = new User({
+                    email: "maroben@example.com",
+                    password: "",
+                    level: level.admin
+                })
+                expect(async () => await validate(user)).toMatchSnapshot()
+            })
+
+            it("negative", () => {
+                const user: IUser = new User({
+                    email: "maroben@example.com",
+                    password: "",
+                    level: level.root - 1
+                })
+                expect(async () => await validate(user)).rejects
+            })
+
+            it("too high", () => {
+                const user: IUser = new User({
+                    email: "maroben@example.com",
+                    password: "",
+                    level: level.user + 1
                 })
                 expect(async () => await validate(user)).rejects
             })
@@ -91,7 +120,7 @@ describe("User Model", () => {
             const user: IUser = new User({
                 email: 8,
                 password: {},
-                isAdmin: "true"
+                level: "admin"
             })
             expect(async () => await validate(user)).rejects
         })
