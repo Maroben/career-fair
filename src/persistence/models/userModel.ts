@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose"
 import Joi, { ObjectSchema } from "@hapi/joi"
+import config from "config"
 import _ from "lodash"
 import jwt from "jsonwebtoken"
 
@@ -56,7 +57,10 @@ const userSchema: Schema = new Schema(
 )
 
 export const generateAuthToken = (user: IUser): string => {
-    return jwt.sign({ _id: user._id, email: user.email, isAdmin: user.level }, "very private key")
+    return jwt.sign(
+        { _id: user._id, email: user.email, level: user.level },
+        config.get("jwtPrivateKey")
+    )
 }
 
 export const properties = ["email", "password", "level"]

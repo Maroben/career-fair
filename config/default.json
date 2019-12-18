@@ -1,4 +1,5 @@
 {
+    "jwtPrivateKey": "",
     "db": "",
     "port": 3000
 }

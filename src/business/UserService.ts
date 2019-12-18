@@ -2,7 +2,8 @@ import { Response, Request } from "express"
 import bcrypt from "bcryptjs"
 import _ from "lodash"
 import Database from "../persistence/Database"
-import User, { IUser, validate, generateAuthToken, level } from "../persistence/models/UserModel"
+import User, { IUser, validate, generateAuthToken } from "../persistence/models/UserModel"
+import { isAuthorized } from "./AuthService"
 
 export default class UserService {
     private readonly db = new Database<IUser>(User)
@@ -10,7 +11,7 @@ export default class UserService {
     public getUsers = async (req: Request, res: Response) => {
         try {
             const documents = await this.db.getAll()
-            res.send(_.map(documents, (doc) => this.truncate(doc)))
+            res.send(_.map(documents, (document) => this.truncate(document)))
         } catch (err) {
             res.status(404).send(err.message)
         }
@@ -25,43 +26,52 @@ export default class UserService {
         }
     }
 
-    public postUser = async (req: Request, res: Response) => {
+    public postUser = async (req: Request, res: Response): Promise<Response> => {
         try {
-            const body: IUser = await this.createUser(req, level.user)
+            const body: IUser = this.createUser(req)
             await validate(body)
-            if (await this.userExists(body)) {
-                res.status(400).send("This Email is already registered.")
+
+            if (!isAuthorized(req.header("x-auth-token") as string, body)) {
+                return res.status(403).send("Insufficient Permissions.")
+            } else if (await this.userExists(body)) {
+                return res.status(400).send("This Email is already registered.")
             }
 
             const document = await this.db.post(await this.prepare(body))
-            document
+            return document
                 ? res
                       .header("x-auth-token", generateAuthToken(document))
                       .header("access-control-expose-headers", "x-auth-token")
                       .send(this.truncate(document))
                 : res.status(404).send("User not found")
         } catch (err) {
-            res.status(400).send(err.message)
+            return res.status(400).send(err.message)
         }
     }
 
-    public putUser = async (req: Request, res: Response) => {
+    public putUser = async (req: Request, res: Response): Promise<Response> => {
         try {
-            const body: IUser = await this.createUser(req, level.user)
+            const body: IUser = this.createUser(req)
             await validate(body)
-            if ((await this.emailChanged(body, req.params.id)) && this.userExists(body)) {
-                res.status(400).send("This Email is already registered.")
+
+            if (!isAuthorized(req.header("x-auth-token") as string, body)) {
+                return res.status(403).send("Insufficient Permissions.")
+            } else if (
+                (await this.emailChanged(body, req.params.id)) &&
+                (await this.userExists(body))
+            ) {
+                return res.status(400).send("This Email is already registered.")
             }
 
             const document = await this.db.put(await this.prepare(body), req.params.id)
-            document
+            return document
                 ? res
                       .header("x-auth-token", generateAuthToken(document))
                       .header("access-control-expose-headers", "x-auth-token")
                       .send(this.truncate(document))
                 : res.status(404).send("User not found")
         } catch (err) {
-            res.status(400).send(err.message)
+            return res.status(400).send(err.message)
         }
     }
 
@@ -74,11 +84,29 @@ export default class UserService {
         }
     }
 
-    private async createUser({ body }: Request, lv: level): Promise<IUser> {
+    public login = async (req: Request, res: Response): Promise<Response> => {
+        try {
+            const body: IUser = this.createUser(req)
+            await validate(body)
+
+            const user: IUser = await this.db.get({ email: body.email })
+            const valid = await bcrypt.compare(body.password, user.password)
+            if (!valid) throw Error
+
+            return res
+                .header("x-auth-token", generateAuthToken(user))
+                .header("access-control-expose-headers", "x-auth-token")
+                .send(this.truncate(user))
+        } catch (err) {
+            return res.status(400).send("Invalid E-Mail or password.")
+        }
+    }
+
+    private createUser({ body }: Request): IUser {
         return new User({
             email: body.email,
             password: body.password,
-            level: lv.valueOf()
+            level: body.level
         })
     }
 

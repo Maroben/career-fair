@@ -5,6 +5,11 @@ import path from "path"
 import express from "express"
 const server = express()
 
+if (!config.get("jwtPrivateKey")) {
+    console.error("FATAL ERROR: jwtPrivateKey is not defined.")
+    process.exit(1)
+}
+
 mongoose.connect(config.get("db"), {
     useNewUrlParser: true,
     useUnifiedTopology: true,
