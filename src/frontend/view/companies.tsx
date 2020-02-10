@@ -2,6 +2,9 @@ import React, { Component } from "react"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
+import SimpleHeader from "../components/headers/simpleHeader"
+import Info from "../types/IInfo"
+
 const styles = (theme: Theme) =>
     createStyles({
         main: {
@@ -9,12 +12,19 @@ const styles = (theme: Theme) =>
         }
     })
 
-interface Props extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> {
+    info: Info
+}
+
 type State = {}
 
 class Companies extends Component<Props, State> {
     render() {
-        return <>Companies</>
+        return (
+            <>
+                <SimpleHeader title={"Unternehmen"} />
+            </>
+        )
     }
 }
 

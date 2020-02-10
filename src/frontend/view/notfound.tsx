@@ -27,7 +27,7 @@ interface Props extends WithStyles<typeof styles> {}
 const NotFound: FunctionComponent<Props> = ({ classes }: Props) => {
     return (
         <>
-            <SimpleHeader title={"404 | Not Found"} />
+            <SimpleHeader title={"404"} />
 
             <div className={classes.main}>
                 <Paper className={classes.paper}>
