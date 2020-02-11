@@ -1,5 +1,6 @@
 {
     "jwtPrivateKey": "",
     "db": "",
-    "port": 3000
+    "port": 3000,
+    "endpoint": "http://localhost:3000/api"
 }

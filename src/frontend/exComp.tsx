@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react"
+import React from "react"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
@@ -11,7 +11,7 @@ const styles = (theme: Theme) =>
 
 interface Props extends WithStyles<typeof styles> {}
 
-const ExComponent: FunctionComponent<Props> = ({ classes }: Props) => {
+const ExComponent = ({ classes }: Props) => {
     return (
         <>
             <div className={classes.main}></div>

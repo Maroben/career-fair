@@ -24,7 +24,7 @@ const styles = (theme: Theme) =>
 
 interface Props extends WithStyles<typeof styles> {}
 
-const NotFound: FunctionComponent<Props> = ({ classes }: Props) => {
+const NotFoundView = ({ classes }: Props) => {
     return (
         <>
             <SimpleHeader title={"404"} />
@@ -46,4 +46,4 @@ const NotFound: FunctionComponent<Props> = ({ classes }: Props) => {
     )
 }
 
-export default withStyles(styles)(NotFound)
+export default withStyles(styles)(NotFoundView)

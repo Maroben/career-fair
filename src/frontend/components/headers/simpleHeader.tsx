@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react"
+import React from "react"
 import { createStyles } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
@@ -18,7 +18,7 @@ interface Props extends WithStyles<typeof styles> {
     title: string
 }
 
-const SimpleHeader: FunctionComponent<Props> = ({ classes, title }: Props) => {
+const SimpleHeader = ({ classes, title }: Props) => {
     return (
         <AppBar position="static" className={classes.header}>
             <Toolbar>

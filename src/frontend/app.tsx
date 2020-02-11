@@ -5,10 +5,13 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles"
 import { createStyles } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
-import Landing from "./view/landing"
-import Companies from "./view/companies"
-import NotFound from "./view/notfound"
+import CompaniesController from "./controller/companiesController"
+
+import LandingView from "./views/landingView"
+import NotFoundView from "./views/notfoundView"
+
 import Info from "./types/IInfo"
+import Filter from "./types/IFilter"
 
 const theme = createMuiTheme({
     palette: {
@@ -23,6 +26,7 @@ interface Props extends WithStyles<typeof styles> {}
 
 type State = {
     info: Info
+    filter: Filter
 }
 
 class App extends Component<Props, State> {
@@ -47,23 +51,49 @@ class App extends Component<Props, State> {
                 twitter: "",
                 youtube: ""
             }
+        },
+        filter: {
+            subjects: [],
+            employmentTypes: [],
+            query: ""
         }
     }
-    handleContinue = (subject: string, employmentType: string) => {}
+
+    handleContinue = (subject: string, employmentType: string) => {
+        const { filter } = this.state
+        filter.subjects = [subject]
+        filter.employmentTypes = [employmentType]
+        this.setState({ filter })
+    }
+
+    handleFilter = (filter: Filter) => {
+        this.setState({ filter })
+    }
 
     render() {
-        const { info } = this.state
+        const { info, filter } = this.state
         return (
             <>
                 <MuiThemeProvider theme={theme}>
                     <CssBaseline />
                     <Switch>
-                        <Route path="/404" component={NotFound} />
-                        <Route path="/companies" render={() => <Companies info={info} />} />
+                        <Route path="/404" component={NotFoundView} />
+                        <Route
+                            path="/companies"
+                            render={() => (
+                                <CompaniesController
+                                    info={info}
+                                    filter={filter}
+                                    onFilterChange={this.handleFilter}
+                                />
+                            )}
+                        />
                         <Route
                             path="/"
                             exact
-                            render={() => <Landing info={info} onContinue={this.handleContinue} />}
+                            render={() => (
+                                <LandingView info={info} onContinue={this.handleContinue} />
+                            )}
                         />
 
                         <Redirect to="/404" />

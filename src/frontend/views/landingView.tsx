@@ -1,7 +1,8 @@
 import React, { Component } from "react"
-import { createStyles, Theme, Color, PropTypes } from "@material-ui/core"
+import { createStyles, Theme, PropTypes } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 import { Typography, Button } from "@material-ui/core"
+import { Link } from "react-router-dom"
 
 import Info from "../types/IInfo"
 import { Material } from "../types/Material"
@@ -38,7 +39,7 @@ type State = {
     submitVariant: Material["variant"]
 }
 
-class Companies extends Component<Props, State> {
+class LandingView extends Component<Props, State> {
     state = {
         activeStep: 0,
         subject: "",
@@ -151,6 +152,8 @@ class Companies extends Component<Props, State> {
                         color="primary"
                         variant={submitVariant}
                         className={this.props.classes.button}
+                        component={Link}
+                        to={"/companies"}
                     >
                         {"Zu den Unternehmen"}
                     </Button>
@@ -160,4 +163,4 @@ class Companies extends Component<Props, State> {
     }
 }
 
-export default withStyles(styles)(Companies)
+export default withStyles(styles)(LandingView)

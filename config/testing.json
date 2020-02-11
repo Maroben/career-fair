@@ -1,4 +1,5 @@
 {
     "db": "mongodb://localhost:27017/career-test",
-    "port": 3801
+    "port": 3801,
+    "endpoint": "http://localhost:3801/api"
 }
