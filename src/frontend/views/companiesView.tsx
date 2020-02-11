@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
@@ -8,6 +8,7 @@ import { ICompany } from "../../persistence/models/CompanyModel"
 
 import SearchHeader from "../components/headers/searchHeader"
 import CompanyCard from "../components/cards/companyCard"
+import FilterDrawer from "../components/drawers/filterDrawer"
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -28,7 +29,9 @@ interface Props extends WithStyles<typeof styles> {
     onFilterChange: (filter: Filter) => void
 }
 
-const CompaniesView = ({ classes, filter, companies, onFilterChange }: Props) => {
+const CompaniesView = ({ classes, info, filter, companies, onFilterChange }: Props) => {
+    const [drawer, setDrawer] = useState(false)
+
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         filter.query = event.target.value
         onFilterChange(filter)
@@ -40,7 +43,15 @@ const CompaniesView = ({ classes, filter, companies, onFilterChange }: Props) =>
                 title={"HSR Stellenbörse"}
                 query={filter.query}
                 onSearch={(event) => handleSearch(event)}
-                onFilterSelect={() => console.log("filter clicked")}
+                onFilterSelect={() => setDrawer(!drawer)}
+            />
+
+            <FilterDrawer
+                drawer={drawer}
+                setDrawer={setDrawer}
+                filter={filter}
+                info={info}
+                onFilterChange={onFilterChange}
             />
 
             <main className={classes.container}>

@@ -32,16 +32,23 @@ type State = {
 class App extends Component<Props, State> {
     state = {
         info: {
-            subjects: [
-                "Informatik",
-                "Raumplanung",
-                "Elektrotechnik",
-                "Bauingenieurwesen",
-                "Landschaftsarchitektur",
-                "Wirtschaftsingenieurwesen",
-                "Ernerbare Energien & Umwelttechnik"
-            ],
-            employmentTypes: ["Vollzeit", "Praktikum", "Training", "Teilzeit"],
+            filterLabels: ["subjects", "employmentTypes"],
+            subjects: {
+                label: "Studiengänge",
+                items: [
+                    "Informatik",
+                    "Raumplanung",
+                    "Elektrotechnik",
+                    "Bauingenieurwesen",
+                    "Landschaftsarchitektur",
+                    "Wirtschaftsingenieurwesen",
+                    "Ernerbare Energien & Umwelttechnik"
+                ]
+            },
+            employmentTypes: {
+                label: "Anstellungsarten",
+                items: ["Vollzeit", "Praktikum", "Training", "Teilzeit"]
+            },
             links: {
                 homepage: "",
                 linkedin: "",
@@ -67,6 +74,7 @@ class App extends Component<Props, State> {
     }
 
     handleFilter = (filter: Filter) => {
+        console.log(filter)
         this.setState({ filter })
     }
 

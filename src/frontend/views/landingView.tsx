@@ -100,7 +100,10 @@ class LandingView extends Component<Props, State> {
     }
 
     render() {
-        const { classes } = this.props
+        const {
+            classes,
+            info: { subjects, employmentTypes }
+        } = this.props
         const { activeStep, subject, employmentType, submitVariant } = this.state
 
         return (
@@ -113,19 +116,19 @@ class LandingView extends Component<Props, State> {
                     </Typography>
 
                     <Typography variant="h6" align="center" className={classes.smContainer}>
-                        Studiengang
+                        {subjects.label}
                     </Typography>
 
                     {subject.length
                         ? this.renderButton("secondary", () => this.handleSubject(subject), subject)
-                        : this.props.info.subjects.map((sub: string) =>
+                        : subjects.items.map((sub: string) =>
                               this.renderButton("default", () => this.handleSubject(sub), sub)
                           )}
 
                     {activeStep > 0 && (
                         <>
                             <Typography variant="h6" align="center" className={classes.smContainer}>
-                                Anstellungsart
+                                {employmentTypes.label}
                             </Typography>
 
                             {employmentType.length
@@ -134,7 +137,7 @@ class LandingView extends Component<Props, State> {
                                       () => this.handleEmployment(employmentType),
                                       employmentType
                                   )
-                                : this.props.info.employmentTypes.map((emp: string) =>
+                                : employmentTypes.items.map((emp: string) =>
                                       this.renderButton(
                                           "default",
                                           () => this.handleEmployment(emp),
