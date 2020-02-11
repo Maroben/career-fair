@@ -1,10 +1,10 @@
 import React, { Component } from "react"
-import { createStyles, Theme } from "@material-ui/core"
+import { createStyles, Theme, Color, PropTypes } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 import { Typography, Button } from "@material-ui/core"
-import PropTypes from "prop-types"
 
 import Info from "../types/IInfo"
+import { Material } from "../types/Material"
 import SimpleHeader from "../components/headers/simpleHeader"
 
 const styles = (theme: Theme) =>
@@ -35,7 +35,7 @@ type State = {
     activeStep: number
     subject: string
     employmentType: string
-    submitVariant: string
+    submitVariant: Material["variant"]
 }
 
 class Companies extends Component<Props, State> {
@@ -43,7 +43,7 @@ class Companies extends Component<Props, State> {
         activeStep: 0,
         subject: "",
         employmentType: "",
-        submitVariant: "text"
+        submitVariant: "text" as Material["variant"]
     }
 
     handleReset = () => {
@@ -77,14 +77,14 @@ class Companies extends Component<Props, State> {
 
     updateSelection = (subject: string, employmentType: string, activeStep: number) => {
         this.setState({
-            submitVariant: subject.length || employmentType.length ? "contained" : "text",
+            submitVariant: subject.length && employmentType.length ? "contained" : "text",
             activeStep,
             subject,
             employmentType
         } as State)
     }
 
-    renderButton = (color: string, onClick: () => void, label: string) => {
+    renderButton = (color: PropTypes.Color, onClick: () => void, label: string) => {
         return (
             <Button
                 key={label}
@@ -145,11 +145,15 @@ class Companies extends Component<Props, State> {
                 </div>
 
                 <div className={this.props.classes.submit}>
-                    {this.renderButton(
-                        "primary",
-                        this.props.onContinue(subject, employmentType),
-                        "Zu den Unternehmen"
-                    )}
+                    <Button
+                        key="submit"
+                        onClick={() => this.props.onContinue(subject, employmentType)}
+                        color="primary"
+                        variant={submitVariant}
+                        className={this.props.classes.button}
+                    >
+                        {"Zu den Unternehmen"}
+                    </Button>
                 </div>
             </>
         )
