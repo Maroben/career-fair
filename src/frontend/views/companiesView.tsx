@@ -10,15 +10,33 @@ import SearchHeader from "../components/headers/searchHeader"
 import CompanyCard from "../components/cards/companyCard"
 import FilterDrawer from "../components/drawers/filterDrawer"
 
+import { Chip, Paper, Typography, Button } from "@material-ui/core"
+
 const styles = (theme: Theme) =>
     createStyles({
         container: {
             margin: theme.spacing(2)
         },
+        chips: {
+            marginBottom: theme.spacing(2)
+        },
+        chip: {
+            marginRight: theme.spacing(1),
+            marginBottom: theme.spacing(1)
+        },
         fab: {
             position: "fixed",
             bottom: theme.spacing(2),
             right: theme.spacing(2)
+        },
+        emptyMessage: {
+            ...theme.mixins.gutters(),
+            paddingTop: theme.spacing(2),
+            paddingBottom: theme.spacing(2),
+            margin: theme.spacing(2)
+        },
+        button: {
+            marginTop: theme.spacing()
         }
     })
 
@@ -35,6 +53,16 @@ const CompaniesView = ({ classes, info, filter, companies, onFilterChange }: Pro
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         filter.query = event.target.value
         onFilterChange(filter)
+    }
+
+    const removeFilter = (label: string, item: string) => {
+        const index: number = filter[label].indexOf(item)
+        filter[label].splice(index, 1)
+        onFilterChange(filter)
+    }
+
+    const resetFilters = () => {
+        onFilterChange({ subjects: [], employmentTypes: [], query: "" })
     }
 
     return (
@@ -55,10 +83,36 @@ const CompaniesView = ({ classes, info, filter, companies, onFilterChange }: Pro
             />
 
             <main className={classes.container}>
-                {companies &&
+                <div className={classes.chips}>
+                    {info.filterLabels.map((label: string) => (
+                        <React.Fragment key={label}>
+                            {filter[label].map((item: string) => (
+                                <Chip
+                                    key={item}
+                                    label={item}
+                                    variant={"default"}
+                                    className={classes.chip}
+                                    onDelete={() => removeFilter(label, item)}
+                                />
+                            ))}
+                        </React.Fragment>
+                    ))}
+                </div>
+
+                {companies && companies.length > 0 ? (
                     companies.map((company: ICompany) => (
                         <CompanyCard key={company.name} company={company} />
-                    ))}
+                    ))
+                ) : (
+                    <Paper className={classes.emptyMessage} elevation={1}>
+                        <Typography variant="body1">
+                            Es wurden keine Unternehmen gefunden
+                        </Typography>
+                        <Button color="primary" className={classes.button} onClick={resetFilters}>
+                            Reset Filters
+                        </Button>
+                    </Paper>
+                )}
             </main>
         </>
     )
