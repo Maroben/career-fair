@@ -6,12 +6,7 @@ import { createStyles } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
 import CompaniesController from "./controller/companiesController"
-
-import LandingView from "./views/landingView"
 import NotFoundView from "./views/notfoundView"
-
-import Info from "./types/IInfo"
-import Filter from "./types/IFilter"
 
 const theme = createMuiTheme({
     palette: {
@@ -24,86 +19,17 @@ const styles = () => createStyles({})
 
 interface Props extends WithStyles<typeof styles> {}
 
-type State = {
-    info: Info
-    filter: Filter
-}
+type State = {}
 
 class App extends Component<Props, State> {
-    state = {
-        info: {
-            filterLabels: ["subjects", "employmentTypes"],
-            subjects: {
-                label: "Studiengänge",
-                items: [
-                    "Informatik",
-                    "Raumplanung",
-                    "Elektrotechnik",
-                    "Bauingenieurwesen",
-                    "Landschaftsarchitektur",
-                    "Wirtschaftsingenieurwesen",
-                    "Ernerbare Energien & Umwelttechnik"
-                ]
-            },
-            employmentTypes: {
-                label: "Anstellungsarten",
-                items: ["Vollzeit", "Praktikum", "Training", "Teilzeit"]
-            },
-            links: {
-                homepage: "",
-                linkedin: "",
-                xing: "",
-                facebook: "",
-                instagram: "",
-                twitter: "",
-                youtube: ""
-            }
-        },
-        filter: {
-            subjects: [],
-            employmentTypes: [],
-            query: ""
-        }
-    }
-
-    handleContinue = (subject: string, employmentType: string) => {
-        const { filter } = this.state
-        filter.subjects = [subject]
-        filter.employmentTypes = [employmentType]
-        this.setState({ filter })
-    }
-
-    handleFilter = (filter: Filter) => {
-        console.log(filter)
-        this.setState({ filter })
-    }
-
     render() {
-        const { info, filter } = this.state
         return (
             <>
                 <MuiThemeProvider theme={theme}>
                     <CssBaseline />
                     <Switch>
                         <Route path="/404" component={NotFoundView} />
-                        <Route
-                            path="/companies"
-                            render={() => (
-                                <CompaniesController
-                                    info={info}
-                                    filter={filter}
-                                    onFilterChange={this.handleFilter}
-                                />
-                            )}
-                        />
-                        <Route
-                            path="/"
-                            exact
-                            render={() => (
-                                <LandingView info={info} onContinue={this.handleContinue} />
-                            )}
-                        />
-
+                        <Route path="/" component={CompaniesController} />
                         <Redirect to="/404" />
                     </Switch>
                 </MuiThemeProvider>

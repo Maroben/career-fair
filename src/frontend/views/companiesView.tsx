@@ -61,6 +61,10 @@ const CompaniesView = ({ classes, info, filter, companies, onFilterChange }: Pro
         onFilterChange(filter)
     }
 
+    const removeQuery = () => {
+        onFilterChange({ ...filter, query: "" })
+    }
+
     const resetFilters = () => {
         onFilterChange({ subjects: [], employmentTypes: [], query: "" })
     }
@@ -84,6 +88,14 @@ const CompaniesView = ({ classes, info, filter, companies, onFilterChange }: Pro
 
             <main className={classes.container}>
                 <div className={classes.chips}>
+                    {filter.query && (
+                        <Chip
+                            label={filter.query}
+                            variant={"default"}
+                            className={classes.chip}
+                            onDelete={() => removeQuery()}
+                        />
+                    )}
                     {info.filterLabels.map((label: string) => (
                         <React.Fragment key={label}>
                             {filter[label].map((item: string) => (

@@ -8,9 +8,11 @@ import Filter from "../types/IFilter"
 
 import companyService from "../services/companyService"
 
+import LandingView from "../views/landingView"
 import CompaniesView from "../views/companiesView"
 import CompanyView from "../views/companyView"
 import { ICompany } from "../../persistence/models/CompanyModel"
+import { filterCompanies } from "../services/filterService"
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -19,29 +21,74 @@ const styles = (theme: Theme) =>
         }
     })
 
-interface Props extends WithStyles<typeof styles> {
-    info: Info
-    filter: Filter
-    onFilterChange: (filter: Filter) => void
-}
+interface Props extends WithStyles<typeof styles> {}
 
 type State = {
-    companies: Array<ICompany>
+    info: Info
+    filter: Filter
+    companies: ICompany[]
+    displayedCompanies: ICompany[]
 }
 
 class CompaniesController extends Component<Props, State> {
     state = {
-        companies: []
+        info: {
+            filterLabels: ["subjects", "employmentTypes"],
+            subjects: {
+                label: "Studiengänge",
+                items: [
+                    "Informatik",
+                    "Raumplanung",
+                    "Elektrotechnik",
+                    "Bauingenieurwesen",
+                    "Landschaftsarchitektur",
+                    "Wirtschaftsingenieurwesen",
+                    "Ernerbare Energien & Umwelttechnik"
+                ]
+            },
+            employmentTypes: {
+                label: "Anstellungsarten",
+                items: ["Vollzeit", "Praktikum", "Training", "Teilzeit"]
+            },
+            links: {
+                homepage: "",
+                linkedin: "",
+                xing: "",
+                facebook: "",
+                instagram: "",
+                twitter: "",
+                youtube: ""
+            }
+        },
+        filter: {
+            subjects: [],
+            employmentTypes: [],
+            query: ""
+        },
+        companies: [],
+        displayedCompanies: []
     }
 
     async componentDidMount() {
         const companies: Array<ICompany> = await companyService.getCompanies()
-        this.setState({ companies })
+        this.setState({ companies, displayedCompanies: companies })
+    }
+
+    handleContinue = (subject: string, employmentType: string) => {
+        const { filter } = this.state
+        filter.subjects = [subject]
+        filter.employmentTypes = [employmentType]
+        this.setState({ filter })
+    }
+
+    handleFilter = (filter: Filter) => {
+        const { companies, info } = this.state
+        const displayedCompanies = filterCompanies(filter, info, companies)
+        this.setState({ filter, displayedCompanies })
     }
 
     render() {
-        const { info, filter, onFilterChange } = this.props
-        const { companies } = this.state
+        const { info, filter, companies, displayedCompanies } = this.state
 
         return (
             <>
@@ -58,10 +105,15 @@ class CompaniesController extends Component<Props, State> {
                             <CompaniesView
                                 info={info}
                                 filter={filter}
-                                companies={companies}
-                                onFilterChange={onFilterChange}
+                                companies={displayedCompanies}
+                                onFilterChange={this.handleFilter}
                             />
                         )}
+                    />
+                    <Route
+                        path="/"
+                        exact
+                        render={() => <LandingView info={info} onContinue={this.handleContinue} />}
                     />
                 </Switch>
             </>
