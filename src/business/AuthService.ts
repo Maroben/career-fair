@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import jwt from "jsonwebtoken"
 import config from "config"
-import { level } from "../persistence/models/UserModel"
-import { IUser } from "./../persistence/models/userModel"
+import { level, IUser } from "../persistence/models/UserModel"
 
 export const auth = (req: Request, res: Response, next: NextFunction) => {
     const token = req.header("x-auth-token")
@@ -32,7 +31,7 @@ export const isUser = (req: Request, res: Response, next: NextFunction) => {
 }
 
 export const isAuthorized = (token: string, body: IUser): boolean => {
-    if (body.level == level.user) {
+    if (body.level === level.user) {
         return true
     } else if (!token) {
         return false

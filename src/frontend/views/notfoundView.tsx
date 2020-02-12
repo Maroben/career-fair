@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react"
+import React from "react"
 import { createStyles } from "@material-ui/core"
 import { WithStyles, withStyles, Theme } from "@material-ui/core/styles"
 

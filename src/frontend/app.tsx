@@ -5,6 +5,7 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles"
 import { createStyles } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
+import UserController from "./controller/userController"
 import CompaniesController from "./controller/companiesController"
 import NotFoundView from "./views/notfoundView"
 
@@ -28,8 +29,11 @@ class App extends Component<Props, State> {
                 <MuiThemeProvider theme={theme}>
                     <CssBaseline />
                     <Switch>
+                        <Route path="/account" component={UserController} />
+                        <Route path="/companies" component={CompaniesController} />
                         <Route path="/404" component={NotFoundView} />
-                        <Route path="/" component={CompaniesController} />
+
+                        <Redirect exact path="/" to="/companies/welcome" />
                         <Redirect to="/404" />
                     </Switch>
                 </MuiThemeProvider>

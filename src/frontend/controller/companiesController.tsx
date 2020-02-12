@@ -94,6 +94,10 @@ class CompaniesController extends Component<Props, State> {
             <>
                 <Switch>
                     <Route
+                        path="/companies/welcome"
+                        render={() => <LandingView info={info} onContinue={this.handleContinue} />}
+                    />
+                    <Route
                         path="/companies/:id"
                         render={(props) => (
                             <CompanyView {...props} info={info} companies={companies} />
@@ -109,11 +113,6 @@ class CompaniesController extends Component<Props, State> {
                                 onFilterChange={this.handleFilter}
                             />
                         )}
-                    />
-                    <Route
-                        path="/"
-                        exact
-                        render={() => <LandingView info={info} onContinue={this.handleContinue} />}
                     />
                 </Switch>
             </>

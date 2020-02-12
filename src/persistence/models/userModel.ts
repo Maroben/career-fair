@@ -16,7 +16,7 @@ export enum level {
     user
 }
 
-const joiSchema: ObjectSchema = Joi.object<IUser>({
+export const joiSchema: ObjectSchema = Joi.object<IUser>({
     email: Joi.string()
         .min(6)
         .max(255)

@@ -2,7 +2,7 @@ import { Response, Request } from "express"
 import bcrypt from "bcryptjs"
 import _ from "lodash"
 import Database from "../persistence/Database"
-import User, { IUser, validate, generateAuthToken } from "../persistence/models/UserModel"
+import User, { IUser, validate, generateAuthToken, level } from "../persistence/models/UserModel"
 import { isAuthorized } from "./AuthService"
 
 export default class UserService {
@@ -106,7 +106,7 @@ export default class UserService {
         return new User({
             email: body.email,
             password: body.password,
-            level: body.level
+            level: level.user
         })
     }
 

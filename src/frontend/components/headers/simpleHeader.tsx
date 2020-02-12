@@ -1,8 +1,10 @@
 import React from "react"
+import { Link } from "react-router-dom"
 import { createStyles } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
-import { AppBar, Toolbar, Typography } from "@material-ui/core"
+import { AppBar, Toolbar, Typography, Icon, IconButton } from "@material-ui/core"
+import HomeIcon from "@material-ui/icons/Home"
 
 const styles = createStyles({
     header: {
@@ -25,6 +27,12 @@ const SimpleHeader = ({ classes, title }: Props) => {
                 <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                     {title}
                 </Typography>
+                <IconButton edge="end" color="inherit" component={Link} to={"/logout"}>
+                    <Icon className={"fas fa-sign-out-alt"} />
+                </IconButton>
+                <IconButton edge="end" color="inherit" component={Link} to={"/companies"}>
+                    <HomeIcon />
+                </IconButton>
             </Toolbar>
         </AppBar>
     )
