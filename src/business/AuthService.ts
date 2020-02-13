@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express"
 import jwt from "jsonwebtoken"
 import config from "config"
-import { level, IUser } from "../persistence/models/UserModel"
+import IUser from "../persistence/interfaces/IUser"
+import { Level } from "../persistence/interfaces/ILevel"
 
 export const auth = (req: Request, res: Response, next: NextFunction) => {
     const token = req.header("x-auth-token")
@@ -16,22 +17,22 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
 }
 
 export const isRoot = (req: Request, res: Response, next: NextFunction) => {
-    if (req.body.user.level <= level.root) return res.status(403).send("Access denied.")
+    if (req.body.user.level <= Level.root) return res.status(403).send("Access denied.")
     return next()
 }
 
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
-    if (req.body.user.level <= level.admin) return res.status(403).send("Access denied.")
+    if (req.body.user.level <= Level.admin) return res.status(403).send("Access denied.")
     return next()
 }
 
 export const isUser = (req: Request, res: Response, next: NextFunction) => {
-    if (req.body.user.level <= level.user) return res.status(403).send("Access denied.")
+    if (req.body.user.level <= Level.user) return res.status(403).send("Access denied.")
     return next()
 }
 
 export const isAuthorized = (token: string, body: IUser): boolean => {
-    if (body.level === level.user) {
+    if (body.level === Level.user) {
         return true
     } else if (!token) {
         return false

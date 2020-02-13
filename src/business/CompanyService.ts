@@ -1,6 +1,7 @@
 import { Response, Request } from "express"
 import Database from "../persistence/Database"
-import Company, { ICompany, validate } from "../persistence/models/CompanyModel"
+import Company, { validate } from "../persistence/models/CompanyModel"
+import ICompany from "../persistence/interfaces/ICompany"
 
 export default class CompanyService {
     private readonly db = new Database<ICompany>(Company)

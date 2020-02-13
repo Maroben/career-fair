@@ -7,6 +7,7 @@ import { ICompany } from "../../persistence/models/CompanyModel"
 import { IUser } from "../../persistence/models/UserModel"
 
 import companyService from "../services/companyService"
+import authService from "../services/authService"
 
 import UserView from "../views/userView"
 import LoginView from "../views/loginView"
@@ -32,7 +33,10 @@ class UserController extends Component<Props, State> {
         company: null
     }
 
-    componentDidMount() {}
+    componentDidMount() {
+        const user = authService.getCurrentUser()
+        this.setState({ user })
+    }
 
     render() {
         const { user, company } = this.state

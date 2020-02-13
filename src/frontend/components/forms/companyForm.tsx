@@ -1,10 +1,12 @@
 import React from "react"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
-import Joi from "@hapi/joi"
+
+import { companySchema, companyObjectSchema } from "../../../persistence/joiSchemas/companySchema"
 
 import { FormState } from "../../types/IForm"
 import Form from "./forms"
+import authService from "../../services/authService"
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -36,18 +38,45 @@ const styles = (theme: Theme) =>
 interface Props extends WithStyles<typeof styles> {}
 
 class CompanyForm extends Form<Props, FormState> {
+    joiSchema = companySchema
+    objectSchema = companyObjectSchema
+
     state = {
-        data: {},
+        data: {
+            email: "",
+            password: ""
+        },
         errors: {},
         isSubmitable: false
     }
 
-    doSubmit = () => {}
-
-    schema = Joi.object({})
+    doSubmit = async () => {
+        try {
+            const { email, password } = this.state.data
+            await authService.login(email, password)
+            window.location.pathname = "/account"
+        } catch (ex) {
+            if (ex.response && ex.response.status === 400) {
+                const { errors } = this.state
+                errors["email"] = ex.response.data
+                this.setState({ errors })
+            }
+        }
+    }
 
     render() {
-        return <>CompanyForm</>
+        const { classes } = this.props
+
+        return (
+            <form onSubmit={this.handleSubmit}>
+                {this.renderInput("email", "Email")}
+                {this.renderInput("password", "Passwort", "password")}
+                <div className={classes.buttonBox}>
+                    {this.renderSecondaryAction("Registrieren", "/account/register", classes)}
+                    {this.renderSubmit("Login", classes)}
+                </div>
+            </form>
+        )
     }
 }
 

@@ -1,7 +1,8 @@
 import React from "react"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
-import Joi from "@hapi/joi"
+
+import { loginSchema, loginObjectSchema } from "../../../persistence/joiSchemas/loginSchema"
 
 import { FormState } from "../../types/IForm"
 import Form from "./forms"
@@ -37,6 +38,8 @@ const styles = (theme: Theme) =>
 interface Props extends WithStyles<typeof styles> {}
 
 class LoginForm extends Form<Props, FormState> {
+    joiSchema = loginSchema
+    objectSchema = loginObjectSchema
     state = {
         data: {
             email: "",
@@ -59,22 +62,6 @@ class LoginForm extends Form<Props, FormState> {
             }
         }
     }
-
-    joiSchema = {
-        email: Joi.string()
-            .min(6)
-            .max(255)
-            .required()
-            .email({ tlds: { allow: false } })
-            .label("Email"),
-        password: Joi.string()
-            .min(5)
-            .max(20)
-            .required()
-            .label("Passwort")
-    }
-
-    objectSchema = Joi.object(this.joiSchema)
 
     render() {
         const { classes } = this.props

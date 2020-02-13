@@ -1,40 +1,9 @@
-import mongoose, { Schema, Document } from "mongoose"
-import Joi, { ObjectSchema, SchemaMap } from "@hapi/joi"
-import config from "config"
+import mongoose, { Schema } from "mongoose"
 import _ from "lodash"
+import config from "config"
 import jwt from "jsonwebtoken"
-import { ICompany, joiSchema as companySchema } from "./CompanyModel"
-
-export interface IUser extends Document {
-    email: string
-    password: string
-    level: number
-    company: ICompany
-}
-
-export enum level {
-    root,
-    admin,
-    user
-}
-
-export const joiSchema: SchemaMap<IUser> = {
-    email: Joi.string()
-        .min(6)
-        .max(255)
-        .required()
-        .email(),
-    password: Joi.string()
-        .min(5)
-        .max(20)
-        .required(),
-    level: Joi.number()
-        .min(0)
-        .max(2),
-    company: Joi.object(companySchema)
-}
-
-export const objectSchema: ObjectSchema = Joi.object<IUser>(joiSchema)
+import { userObjectSchema } from "../joiSchemas/userSchema"
+import IUser from "../interfaces/IUser"
 
 const userSchema: Schema = new Schema(
     {
@@ -68,14 +37,14 @@ const userSchema: Schema = new Schema(
 export const generateAuthToken = (user: IUser): string => {
     return jwt.sign(
         { _id: user._id, email: user.email, level: user.level },
-        config.get("jwtPrivateKey")
+        config.get("jwtPrivateKey") as string
     )
 }
 
 export const properties = ["email", "password", "level"]
 
 export const validate = async (user: IUser) => {
-    return await objectSchema.validateAsync(_.pick(user, properties), {
+    return await userObjectSchema.validateAsync(_.pick(user, properties), {
         abortEarly: false
     })
 }

@@ -4,12 +4,15 @@ import { WithStyles, withStyles } from "@material-ui/core/styles"
 import Joi, { ObjectSchema } from "@hapi/joi"
 import { toast } from "react-toastify"
 
-import { CardActions } from "@material-ui/core"
 import { FormState } from "../../types/IForm"
 import Form from "./forms"
 import { updateUser, register } from "../../services/userService"
 import authService from "../../services/authService"
-import { IUser } from "../../../persistence/models/UserModel"
+import IUser from "../../../persistence/interfaces/IUser"
+import {
+    registerSchema,
+    registerObjectSchema
+} from "../../../persistence/joiSchemas/registerSchema"
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -44,11 +47,13 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 class RegisterForm extends Form<Props, FormState> {
+    joiSchema = registerSchema
+    objectSchema = registerObjectSchema
     state = {
         data: {
             email: "",
             password: "",
-            confirmPassword: ""
+            passwordRepeat: ""
         },
         errors: {},
         isSubmitable: false
@@ -60,7 +65,7 @@ class RegisterForm extends Form<Props, FormState> {
         let data = {
             email: user.email,
             password: "",
-            confirmPassword: ""
+            passwordRepeat: ""
         }
         this.setState({ data })
     }
@@ -89,33 +94,12 @@ class RegisterForm extends Form<Props, FormState> {
         }
     }
 
-    joiSchema = {
-        email: Joi.string()
-            .min(6)
-            .max(255)
-            .required()
-            .email({ tlds: { allow: false } })
-            .label("Email"),
-        password: Joi.string()
-            .min(5)
-            .max(20)
-            .required()
-            .label("Passwort"),
-        confirmPassword: Joi.string()
-            .min(5)
-            .max(255)
-            .required()
-            .label("ConfirmPassword")
-    }
-
-    objectSchema = Joi.object(this.joiSchema)
-
     validateProperty = ({ name, value }) => {
         const obj = { [name]: value }
         const objectSchema: ObjectSchema = Joi.object({ [name]: this.joiSchema[name] })
         const { error } = objectSchema.validate(obj)
 
-        if (name == "confirmPassword" && value != this.state.data.password) {
+        if (name == "passwordRepeat" && value != this.state.data.password) {
             return "Not the Same"
         }
 
@@ -129,7 +113,7 @@ class RegisterForm extends Form<Props, FormState> {
             <form onSubmit={this.handleSubmit}>
                 {this.renderInput("email", "Email")}
                 {this.renderInput("password", "Passwort", "password")}
-                {this.renderInput("confirmPassword", "Passwort bestätigen", "password")}
+                {this.renderInput("passwordRepeat", "Passwort bestätigen", "password")}
 
                 <div className={classes.buttonBox}>
                     {this.props.user ? (

@@ -1,27 +1,7 @@
-import mongoose, { Schema, Document } from "mongoose"
-import Joi, { ObjectSchema, SchemaMap } from "@hapi/joi"
+import mongoose, { Schema } from "mongoose"
 import _ from "lodash"
-
-export interface ICompany extends Document {
-    name: string
-    info: string
-    description: string
-    location: string
-}
-
-export const joiSchema: SchemaMap<ICompany> = {
-    name: Joi.string()
-        .min(2)
-        .max(32)
-        .required(),
-    info: Joi.string().max(512),
-    description: Joi.string().max(2056),
-    location: Joi.string()
-        .max(16)
-        .allow("")
-}
-
-export const objectSchema: ObjectSchema = Joi.object<ICompany>(joiSchema)
+import ICompany from "../interfaces/ICompany"
+import { companyObjectSchema } from "../joiSchemas/companySchema"
 
 const companySchema: Schema = new Schema(
     {
@@ -50,7 +30,7 @@ const companySchema: Schema = new Schema(
 export const properties = ["name", "info", "description", "location"]
 
 export const validate = async (company: ICompany) => {
-    return await objectSchema.validateAsync(_.pick(company, properties), {
+    return await companyObjectSchema.validateAsync(_.pick(company, properties), {
         abortEarly: false
     })
 }

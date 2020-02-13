@@ -4,43 +4,16 @@ import { toast } from "react-toastify"
 import { FormState } from "../../types/IForm"
 
 import _ from "lodash"
-import Joi, { ObjectSchema } from "@hapi/joi"
+import Joi, { ObjectSchema, SchemaMap } from "@hapi/joi"
 
 import InputField from "./fields/inputField"
 // import CheckboxField from "./fields/checkboxField"
 
 import { Button, Typography } from "@material-ui/core"
 
-// const styles = (theme: Theme) =>
-//     createStyles({
-//         container: {
-//             marginTop: theme.spacing()
-//         },
-//         buttonBox: {
-//             display: "flex",
-//             justifyContent: "flex-end",
-//             marginTop: theme.spacing(2)
-//         },
-//         button: {
-//             margin: theme.spacing(2),
-//             marginLeft: 0
-//         },
-//         cardAction: {
-//             marginTop: theme.spacing(),
-//             justifyContent: "flex-end",
-//             padding: 0
-//         },
-//         info: {
-//             margin: theme.spacing()
-//         },
-//         list: {
-//             margin: theme.spacing(2)
-//         }
-//     })
-
 abstract class Form<Props, State extends FormState> extends Component<Props, State> {
     abstract state: State
-    abstract joiSchema: { [name: string]: Joi.Schema }
+    abstract joiSchema: SchemaMap
     abstract objectSchema: ObjectSchema
     abstract doSubmit: () => void
 
@@ -100,11 +73,11 @@ abstract class Form<Props, State extends FormState> extends Component<Props, Sta
             <InputField
                 type={type}
                 name={name}
-                value={data[name]}
+                value={data[name] as string}
                 label={label}
                 multiline={multiline}
                 placeholder={label}
-                error={errors[name]}
+                error={errors[name] as string}
                 onChange={this.handleChange}
             />
         )
