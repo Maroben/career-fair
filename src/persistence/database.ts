@@ -15,6 +15,19 @@ export default class Database<T extends mongoose.Document> {
             })
     }
 
+    public async getAllAndPopulate(populate: string): Promise<T[]> {
+        return await this.model
+            .find()
+            .populate(populate)
+            .then((documents) => {
+                return documents
+            })
+            .catch((err) => {
+                console.error(err)
+                throw new Error(`!`)
+            })
+    }
+
     public async get(filter: { [key: string]: string }): Promise<T> {
         return await this.model
             .findOne(filter)

@@ -15,7 +15,7 @@ export default class UserService {
 
     public getUsers = async (req: Request, res: Response) => {
         try {
-            const documents = await this.db.getAll()
+            const documents = await this.db.getAllAndPopulate("company")
             res.send(_.map(documents, (document) => this.truncate(document)))
         } catch (err) {
             res.status(404).send(err.message)

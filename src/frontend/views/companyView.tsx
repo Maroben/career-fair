@@ -3,7 +3,7 @@ import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
 import Info from "../types/IInfo"
-import { ICompany } from "../../persistence/models/CompanyModel"
+import ICompany from "../../persistence/interfaces/ICompany"
 import companyService from "../services/companyService"
 import SimpleHeader from "../components/headers/simpleHeader"
 
@@ -42,7 +42,7 @@ class CompanyView extends Component<Props, State> {
         if (companies.length > 0) {
             company = companies.find((c) => c._id == _id)
         } else {
-            company = await companyService.getCompany(_id)
+            company = (await companyService.getCompany(_id)).data
         }
 
         this.setState({ company })

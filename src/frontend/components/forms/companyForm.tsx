@@ -44,8 +44,8 @@ const styles = (theme: Theme) =>
 interface Props extends WithStyles<typeof styles> {
     user: IUser
     isEditing: boolean
-    onUpdateCompany: () => void
-    onChange: () => void
+    onCompanyChange: () => void
+    onCancel: () => void
 }
 
 class CompanyForm extends Form<Props, FormState> {
@@ -86,9 +86,7 @@ class CompanyForm extends Form<Props, FormState> {
                 console.log(company)
                 await addUserCompany(user, company)
             }
-            this.props.onChange()
-            this.props.onUpdateCompany()
-
+            this.props.onCompanyChange()
             toast.info("Erfolgreich", { autoClose: 2500 })
         } catch (ex) {
             if (ex.response && ex.response.status === 400) {
@@ -101,7 +99,7 @@ class CompanyForm extends Form<Props, FormState> {
     }
 
     render() {
-        const { classes, isEditing, onUpdateCompany } = this.props
+        const { classes, isEditing, onCancel } = this.props
 
         return (
             <form onSubmit={this.handleSubmit}>
@@ -110,7 +108,7 @@ class CompanyForm extends Form<Props, FormState> {
                 {this.renderInput("description", "Beschreibung", "text", true)}
 
                 <div className={classes.buttonBox}>
-                    {this.renderCancel("Abbrechen", onUpdateCompany, classes)}
+                    {this.renderCancel("Abbrechen", onCancel, classes)}
                     {!isEditing && this.renderSubmit("Erstellen", classes)}
                     {isEditing && this.renderSubmit("Updaten", classes)}
                 </div>

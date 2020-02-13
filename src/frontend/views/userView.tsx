@@ -40,6 +40,11 @@ const UserView = ({ classes, user, onChange, onRemoveCompany }: Props) => {
     const [userEdit, setUserEdit] = useState(false)
     const [companyEdit, setCompanyEdit] = useState(false)
 
+    const handleCompanyChange = () => {
+        setCompanyEdit(false)
+        onChange()
+    }
+
     return (
         <>
             <SimpleHeader title="Account" />
@@ -88,8 +93,8 @@ const UserView = ({ classes, user, onChange, onRemoveCompany }: Props) => {
                                 <CompanyForm
                                     user={user}
                                     isEditing={user.company != null}
-                                    onUpdateCompany={() => setCompanyEdit(false)}
-                                    onChange={onChange}
+                                    onCompanyChange={() => handleCompanyChange()}
+                                    onCancel={() => setCompanyEdit(false)}
                                 />
                             </Card>
                         )}
@@ -101,10 +106,18 @@ const UserView = ({ classes, user, onChange, onRemoveCompany }: Props) => {
                                     subheader={user.company.location}
                                 />
 
-                                <Typography variant="body1" color="textPrimary">
+                                <Typography
+                                    variant="body1"
+                                    color="textPrimary"
+                                    className={classes.container}
+                                >
                                     {user.company.info}
                                 </Typography>
-                                <Typography variant="body1" color="textPrimary">
+                                <Typography
+                                    variant="body1"
+                                    color="textPrimary"
+                                    className={classes.container}
+                                >
                                     {user.company.description}
                                 </Typography>
 

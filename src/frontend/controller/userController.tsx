@@ -37,7 +37,6 @@ class UserController extends Component<Props, State> {
     async handleData() {
         const id = authService.getCurrentUser()._id
         const { data } = await getUser(id)
-        console.log(data)
         this.setState({ user: data })
     }
 
@@ -59,8 +58,8 @@ class UserController extends Component<Props, State> {
                         render={() => (
                             <UserView
                                 user={user}
-                                onChange={this.handleData}
-                                onRemoveCompany={this.removeCompany}
+                                onChange={this.handleData.bind(this)}
+                                onRemoveCompany={this.removeCompany.bind(this)}
                             />
                         )}
                     />
