@@ -3,12 +3,15 @@ import bcrypt from "bcryptjs"
 import _ from "lodash"
 import Database from "../persistence/Database"
 import User, { validate, generateAuthToken } from "../persistence/models/UserModel"
+import Company from "../persistence/models/CompanyModel"
 import IUser from "../persistence/interfaces/IUser"
+import ICompany from "../persistence/interfaces/ICompany"
 import { Level } from "../persistence/interfaces/ILevel"
 import { isAuthorized } from "./AuthService"
 
 export default class UserService {
     private readonly db = new Database<IUser>(User)
+    private readonly companyDb = new Database<ICompany>(Company)
 
     public getUsers = async (req: Request, res: Response) => {
         try {
@@ -21,7 +24,7 @@ export default class UserService {
 
     public getUser = async (req: Request, res: Response) => {
         try {
-            const document = await this.db.get({ _id: req.params.id })
+            const document = await this.db.getAndPopulate({ _id: req.params.id }, "company")
             document ? res.send(this.truncate(document)) : res.status(404).send("User not found")
         } catch (err) {
             res.status(404).send(err.message)
@@ -101,6 +104,33 @@ export default class UserService {
                 .send(this.truncate(user))
         } catch (err) {
             return res.status(400).send("Invalid E-Mail or password.")
+        }
+    }
+
+    public addUserCompany = async (req: Request, res: Response) => {
+        try {
+            const user: IUser = await this.db.get({ _id: req.params.userid })
+            const company: ICompany = await this.companyDb.get({ _id: req.params.companyid })
+            user.company = company
+            const document: IUser = await this.db.putAndPopulate(user, user.id, "company")
+            return document
+                ? res.send(this.truncate(document))
+                : res.status(404).send("User not found")
+        } catch (err) {
+            return res.status(400).send(err.message)
+        }
+    }
+
+    public removeUserCompany = async (req: Request, res: Response) => {
+        try {
+            const user: IUser = await this.db.get({ _id: req.params.userid })
+            user.company = null
+            const document: IUser = await this.db.put(user, user.id)
+            return document
+                ? res.send(this.truncate(document))
+                : res.status(404).send("User not found")
+        } catch (err) {
+            return res.status(400).send(err.message)
         }
     }
 

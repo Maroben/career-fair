@@ -3,11 +3,10 @@ import { Switch, Route } from "react-router-dom"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
-import { ICompany } from "../../persistence/models/CompanyModel"
-import { IUser } from "../../persistence/models/UserModel"
+import IUser from "../../persistence/interfaces/IUser"
 
-import companyService from "../services/companyService"
 import authService from "../services/authService"
+import { getUser, removeUserCompany } from "../services/userService"
 
 import UserView from "../views/userView"
 import LoginView from "../views/loginView"
@@ -24,22 +23,31 @@ interface Props extends WithStyles<typeof styles> {}
 
 type State = {
     user: IUser
-    company: ICompany
 }
 
 class UserController extends Component<Props, State> {
     state = {
-        user: null,
-        company: null
+        user: null
     }
 
     componentDidMount() {
-        const user = authService.getCurrentUser()
-        this.setState({ user })
+        this.handleData()
+    }
+
+    async handleData() {
+        const id = authService.getCurrentUser()._id
+        const { data } = await getUser(id)
+        console.log(data)
+        this.setState({ user: data })
+    }
+
+    async removeCompany() {
+        await removeUserCompany(this.state.user)
+        this.handleData()
     }
 
     render() {
-        const { user, company } = this.state
+        const { user } = this.state
 
         return (
             <>
@@ -48,7 +56,13 @@ class UserController extends Component<Props, State> {
                     <Route path="/account/register" component={RegisterView} />
                     <Route
                         path="/account"
-                        render={() => <UserView user={user} company={company} />}
+                        render={() => (
+                            <UserView
+                                user={user}
+                                onChange={this.handleData}
+                                onRemoveCompany={this.removeCompany}
+                            />
+                        )}
                     />
                 </Switch>
             </>

@@ -6,5 +6,5 @@ export default interface IUser extends Document {
     email: string
     password: string
     level: Level
-    company: ICompany
+    company: ICompany | null
 }

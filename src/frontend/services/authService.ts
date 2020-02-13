@@ -1,5 +1,6 @@
 import http from "./httpService"
 import jwtDecode from "jwt-decode"
+import IUser from "../../persistence/interfaces/IUser"
 
 const tokenKey = "token"
 
@@ -18,7 +19,7 @@ export function logout() {
     localStorage.removeItem(tokenKey)
 }
 
-export function getCurrentUser() {
+export function getCurrentUser(): IUser {
     try {
         const jwt = localStorage.getItem(tokenKey)
         return jwtDecode(jwt)

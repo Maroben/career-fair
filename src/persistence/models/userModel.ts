@@ -28,7 +28,7 @@ const userSchema: Schema = new Schema(
         },
         company: {
             type: Schema.Types.ObjectId,
-            ref: "Company"
+            ref: "companies"
         }
     },
     { versionKey: false }
