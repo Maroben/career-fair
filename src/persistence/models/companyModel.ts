@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose"
-import Joi, { ObjectSchema } from "@hapi/joi"
+import Joi, { ObjectSchema, SchemaMap } from "@hapi/joi"
 import _ from "lodash"
 
 export interface ICompany extends Document {
@@ -9,7 +9,7 @@ export interface ICompany extends Document {
     location: string
 }
 
-const joiSchema: ObjectSchema = Joi.object<ICompany>({
+export const joiSchema: SchemaMap<ICompany> = {
     name: Joi.string()
         .min(2)
         .max(32)
@@ -19,7 +19,9 @@ const joiSchema: ObjectSchema = Joi.object<ICompany>({
     location: Joi.string()
         .max(16)
         .allow("")
-})
+}
+
+export const objectSchema: ObjectSchema = Joi.object<ICompany>(joiSchema)
 
 const companySchema: Schema = new Schema(
     {
@@ -48,7 +50,7 @@ const companySchema: Schema = new Schema(
 export const properties = ["name", "info", "description", "location"]
 
 export const validate = async (company: ICompany) => {
-    return await joiSchema.validateAsync(_.pick(company, properties), {
+    return await objectSchema.validateAsync(_.pick(company, properties), {
         abortEarly: false
     })
 }
