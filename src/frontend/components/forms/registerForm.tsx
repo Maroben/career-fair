@@ -4,6 +4,7 @@ import { WithStyles, withStyles } from "@material-ui/core/styles"
 import Joi, { ObjectSchema } from "@hapi/joi"
 import { toast } from "react-toastify"
 
+import { CardActions } from "@material-ui/core"
 import { FormState } from "../../types/IForm"
 import Form from "./forms"
 import { updateUser, register } from "../../services/userService"
@@ -122,16 +123,26 @@ class RegisterForm extends Form<Props, FormState> {
     }
 
     render() {
-        const { classes } = this.props
+        const { classes, onUpdateUser } = this.props
 
         return (
             <form onSubmit={this.handleSubmit}>
                 {this.renderInput("email", "Email")}
                 {this.renderInput("password", "Passwort", "password")}
                 {this.renderInput("confirmPassword", "Passwort bestätigen", "password")}
+
                 <div className={classes.buttonBox}>
-                    {this.renderSecondaryAction("Login", "/account/login", classes)}
-                    {this.renderSubmit("Registrieren", classes)}
+                    {this.props.user ? (
+                        <>
+                            {this.renderCancel("Abbrechen", onUpdateUser, classes)}
+                            {this.renderSubmit("Update", classes)}
+                        </>
+                    ) : (
+                        <>
+                            {this.renderSecondaryAction("Login", "/account/login", classes)}
+                            {this.renderSubmit("Registrieren", classes)}
+                        </>
+                    )}
                 </div>
             </form>
         )
