@@ -128,6 +128,8 @@ export default class UserService {
     public removeUserCompany = async (req: Request, res: Response) => {
         try {
             const user: IUser = await this.db.get({ _id: req.params.userid })
+            const company: ICompany = await this.companyDb.delete(user.company)
+            if (!company) res.status(500).send("Failed to delete Company")
             user.company = ""
             const document: IUser = await this.db.put(user, user.id)
             return document
