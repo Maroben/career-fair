@@ -22,12 +22,18 @@ const companySchema: Schema = new Schema(
         location: {
             type: String,
             maxlength: 16
+        },
+        subjects: {
+            type: [String]
+        },
+        employmentTypes: {
+            type: [String]
         }
     },
     { versionKey: false }
 )
 
-export const properties = ["name", "info", "description", "location"]
+export const properties = ["name", "info", "description", "location", "subjects", "employmentTypes"]
 
 export const validate = async (company: ICompany) => {
     return await companyObjectSchema.validateAsync(_.pick(company, properties), {

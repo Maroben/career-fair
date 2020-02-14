@@ -7,7 +7,7 @@ import _ from "lodash"
 import Joi, { ObjectSchema, SchemaMap } from "@hapi/joi"
 
 import InputField from "./fields/inputField"
-// import CheckboxField from "./fields/checkboxField"
+import CheckboxListField from "./fields/checkboxListField"
 
 import { Button, Typography } from "@material-ui/core"
 
@@ -39,7 +39,7 @@ abstract class Form<Props, State extends FormState> extends Component<Props, Sta
         event.preventDefault()
         const errors = this.validate()
         this.setState({ errors })
-
+        console.log(errors)
         if (!_.isEmpty(errors)) {
             toast.error("Some form fields have errors")
             return false
@@ -60,9 +60,9 @@ abstract class Form<Props, State extends FormState> extends Component<Props, Sta
         this.setState({ data, errors })
     }
 
-    handleCheckboxSelect = (label: string, item: string) => {
+    handleCheckboxSelect = (label: string, active: string[]) => {
         const data = { ...this.state.data }
-        data[label] = _.xor(this.state.data[label], [item])
+        data[label] = active
         this.setState({ data })
     }
 
@@ -83,19 +83,29 @@ abstract class Form<Props, State extends FormState> extends Component<Props, Sta
         )
     }
 
-    // renderCheckbox(label, items) {
-    //     const activeItems = this.state.data[label[0]]
+    renderCheckboxList(title: string, label: string, items: string[]) {
+        let active = this.state.data[label] as string[]
+        active = active ? active : []
+        return (
+            <CheckboxListField
+                title={title}
+                label={label}
+                items={items}
+                active={active}
+                onActiveChange={this.handleCheckboxSelect}
+            />
+        )
 
-    //     return (
-    //         <CheckboxList
-    //             items={items}
-    //             activeItems={activeItems}
-    //             noMax={true}
-    //             labels={label}
-    //             onSelect={this.handleCheckboxSelect}
-    //         />
-    //     )
-    // }
+        // return (
+        //     <CheckboxList
+        //         items={items}
+        //         activeItems={activeItems}
+        //         noMax={true}
+        //         labels={label}
+        //         onSelect={this.handleCheckboxSelect}
+        //     />
+        // )
+    }
 
     renderSubmit = (label: string, classes) => {
         return (

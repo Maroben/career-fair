@@ -63,6 +63,7 @@ class UserController extends Component<Props, State> {
 
     render() {
         const { user, company } = this.state
+        const { info } = this.props
 
         return (
             <>
@@ -77,6 +78,7 @@ class UserController extends Component<Props, State> {
                             <UserView
                                 user={user}
                                 company={company}
+                                info={info}
                                 onChange={this.handleData.bind(this)}
                                 onRemoveCompany={this.removeCompany.bind(this)}
                             />

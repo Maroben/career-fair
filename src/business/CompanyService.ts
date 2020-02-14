@@ -28,6 +28,7 @@ export default class CompanyService {
         try {
             const company: ICompany = this.createCompany(req)
             await validate(company)
+            console.log(company)
 
             const companyNameExists = await this.db.get({ name: company.name })
             if (companyNameExists) {
@@ -67,7 +68,9 @@ export default class CompanyService {
             name: body.name,
             info: body.info,
             description: body.description,
-            location: body.location
+            location: body.location,
+            subjects: body.subjects,
+            employmentTypes: body.employmentTypes
         })
     }
 }

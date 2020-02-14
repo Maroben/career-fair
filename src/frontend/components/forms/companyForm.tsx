@@ -9,10 +9,11 @@ import IUser from "../../../persistence/interfaces/IUser"
 import ILinks from "../../../persistence/interfaces/ILinks"
 
 import { FormState } from "../../types/IForm"
+import IInfo from "../../types/IInfo"
 import Form from "./forms"
-import authService from "../../services/authService"
+
 import companyService from "../../services/companyService"
-import { addUserCompany, removeUserCompany } from "../../services/userService"
+import { addUserCompany } from "../../services/userService"
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -44,6 +45,7 @@ const styles = (theme: Theme) =>
 interface Props extends WithStyles<typeof styles> {
     user: IUser
     company: ICompany
+    info: IInfo
     isEditing: boolean
     onCompanyChange: () => void
     onCancel: () => void
@@ -57,9 +59,9 @@ class CompanyForm extends Form<Props, FormState> {
         data: {
             name: "",
             info: "",
-            description: ""
-            // subjects: [],
-            // employments: [],
+            description: "",
+            subjects: [],
+            employmentTypes: []
             // tags: [],
             // links: ILinks
         },
@@ -70,7 +72,14 @@ class CompanyForm extends Form<Props, FormState> {
     componentDidMount() {
         let { data } = this.state
         if (this.props.isEditing) {
-            data = { ...this.props.company }
+            const { company } = this.props
+            data = {
+                name: company.name,
+                info: company.info,
+                description: company.description,
+                subjects: company.subjects,
+                employmentTypes: company.employmentTypes
+            }
             this.setState({ data })
         }
     }
@@ -78,7 +87,7 @@ class CompanyForm extends Form<Props, FormState> {
     doSubmit = async () => {
         const { data } = this.state
         const { isEditing, user } = this.props
-
+        console.log(data)
         try {
             if (isEditing) {
                 await companyService.updateCompany(this.props.company._id, data as ICompany)
@@ -99,13 +108,19 @@ class CompanyForm extends Form<Props, FormState> {
     }
 
     render() {
-        const { classes, isEditing, onCancel } = this.props
+        const { classes, info, isEditing, onCancel } = this.props
 
         return (
             <form onSubmit={this.handleSubmit}>
                 {this.renderInput("name", "Name")}
                 {this.renderInput("info", "Info", "text", true)}
                 {this.renderInput("description", "Beschreibung", "text", true)}
+
+                {info.filterLabels.map((label) => (
+                    <div key={label}>
+                        {this.renderCheckboxList(info[label].label, label, info[label].items)}
+                    </div>
+                ))}
 
                 <div className={classes.buttonBox}>
                     {this.renderCancel("Abbrechen", onCancel, classes)}
