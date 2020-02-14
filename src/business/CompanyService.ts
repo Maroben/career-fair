@@ -30,12 +30,14 @@ export default class CompanyService {
             await validate(company)
 
             const companyNameExists = await this.db.get({ name: company.name })
-            console.log(companyNameExists)
+            if (companyNameExists) {
+                return res.status(400).send("This companyname has already been taken.")
+            }
 
             const document = await this.db.post(company)
-            res.send(document)
+            return res.send(document)
         } catch (err) {
-            res.status(400).send(err.message)
+            return res.status(400).send(err.message)
         }
     }
 
