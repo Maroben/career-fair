@@ -6,8 +6,12 @@ export const companySchema: SchemaMap<ICompany> = {
         .min(2)
         .max(32)
         .required(),
-    info: Joi.string().max(512),
-    description: Joi.string().max(2056),
+    info: Joi.string()
+        .max(512)
+        .allow(""),
+    description: Joi.string()
+        .max(2056)
+        .allow(""),
     location: Joi.string()
         .max(16)
         .allow("")

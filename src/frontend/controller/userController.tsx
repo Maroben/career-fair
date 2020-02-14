@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 import ProtectedRoute from "../components/protectedRoute"
+import LogoutComponent from "../components/logoutComponent"
 
 import IUser from "../../persistence/interfaces/IUser"
 import ICompany from "../../persistence/interfaces/ICompany"
@@ -41,8 +42,14 @@ class UserController extends Component<Props, State> {
 
     async handleData() {
         const storedUser = authService.getCurrentUser()
-        let user: IUser = storedUser ? await getUser(storedUser._id) : null
-        let company: ICompany = user.company.length > 0 ? await getCompany(user.company) : null
+        let user: IUser = null
+        let company: ICompany = null
+        if (storedUser) {
+            user = await getUser(storedUser._id)
+            if (user.company.length > 0) {
+                company = await getCompany(user.company)
+            }
+        }
         this.setState({ user, company })
     }
 
@@ -58,6 +65,7 @@ class UserController extends Component<Props, State> {
             <>
                 <Switch>
                     <Route path="/account/login" component={LoginView} />
+                    <Route path="/account/logout" component={LogoutComponent} />
                     <Route path="/account/register" component={RegisterView} />
                     <ProtectedRoute
                         path="/account"

@@ -27,7 +27,7 @@ const SimpleHeader = ({ classes, title }: Props) => {
                 <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                     {title}
                 </Typography>
-                <IconButton edge="end" color="inherit" component={Link} to={"/logout"}>
+                <IconButton edge="end" color="inherit" component={Link} to={"/account/logout"}>
                     <Icon className={"fas fa-sign-out-alt"} />
                 </IconButton>
                 <IconButton edge="end" color="inherit" component={Link} to={"/companies"}>
