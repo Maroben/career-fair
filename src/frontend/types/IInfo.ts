@@ -1,4 +1,4 @@
-export default interface Info {
+export default interface IInfo {
     filterLabels: string[]
     subjects: {
         label: string

@@ -2,9 +2,9 @@ import React, { useState } from "react"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
-import Info from "../types/IInfo"
+import IInfo from "../types/IInfo"
 import Filter from "../types/IFilter"
-import { ICompany } from "../../persistence/models/CompanyModel"
+import ICompany from "../../persistence/interfaces/ICompany"
 
 import SearchHeader from "../components/headers/searchHeader"
 import CompanyCard from "../components/cards/companyCard"
@@ -41,7 +41,7 @@ const styles = (theme: Theme) =>
     })
 
 interface Props extends WithStyles<typeof styles> {
-    info: Info
+    info: IInfo
     filter: Filter
     companies: Array<ICompany>
     onFilterChange: (filter: Filter) => void

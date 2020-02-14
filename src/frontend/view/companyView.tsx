@@ -2,8 +2,8 @@ import React, { Component } from "react"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
-import Info from "../types/IInfo"
-import { ICompany } from "../../persistence/models/CompanyModel"
+import IInfo from "../types/IInfo"
+import ICompany from "../../persistence/interfaces/ICompany"
 import companyService from "../services/companyService"
 import SimpleHeader from "../components/headers/simpleHeader"
 
@@ -21,7 +21,7 @@ const styles = (theme: Theme) =>
 
 interface Props extends WithStyles<typeof styles> {
     match: { params: { id: string } }
-    info: Info
+    info: IInfo
     companies: Array<ICompany>
 }
 

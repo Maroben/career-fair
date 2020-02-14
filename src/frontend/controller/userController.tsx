@@ -5,6 +5,7 @@ import { WithStyles, withStyles } from "@material-ui/core/styles"
 import ProtectedRoute from "../components/protectedRoute"
 import LogoutComponent from "../components/logoutComponent"
 
+import IInfo from "../types/IInfo"
 import IUser from "../../persistence/interfaces/IUser"
 import ICompany from "../../persistence/interfaces/ICompany"
 
@@ -23,7 +24,9 @@ const styles = (theme: Theme) =>
         }
     })
 
-interface Props extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> {
+    info: IInfo
+}
 
 type State = {
     user: IUser

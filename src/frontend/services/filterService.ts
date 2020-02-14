@@ -1,7 +1,7 @@
 import Filter from "../types/IFilter"
-import Info from "../types/IInfo"
-import { ICompany } from "../../persistence/models/CompanyModel"
+import IInfo from "../types/IInfo"
+import ICompany from "../../persistence/interfaces/ICompany"
 
-export function filterCompanies(filter: Filter, info: Info, companies: ICompany[]): ICompany[] {
+export function filterCompanies(filter: Filter, info: IInfo, companies: ICompany[]): ICompany[] {
     return companies
 }

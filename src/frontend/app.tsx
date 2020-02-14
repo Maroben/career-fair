@@ -7,6 +7,7 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles"
 import { createStyles } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
+import Info from "./types/IInfo"
 import UserController from "./controller/userController"
 import CompaniesController from "./controller/companiesController"
 import NotFoundView from "./views/notfoundView"
@@ -23,18 +24,54 @@ const styles = () => createStyles({})
 
 interface Props extends WithStyles<typeof styles> {}
 
-type State = {}
+type State = {
+    info: Info
+}
 
 class App extends Component<Props, State> {
+    state = {
+        info: {
+            filterLabels: ["subjects", "employmentTypes"],
+            subjects: {
+                label: "Studiengänge",
+                items: [
+                    "Informatik",
+                    "Raumplanung",
+                    "Elektrotechnik",
+                    "Bauingenieurwesen",
+                    "Landschaftsarchitektur",
+                    "Wirtschaftsingenieurwesen",
+                    "Ernerbare Energien & Umwelttechnik"
+                ]
+            },
+            employmentTypes: {
+                label: "Anstellungsarten",
+                items: ["Vollzeit", "Praktikum", "Training", "Teilzeit"]
+            },
+            links: {
+                homepage: "",
+                linkedin: "",
+                xing: "",
+                facebook: "",
+                instagram: "",
+                twitter: "",
+                youtube: ""
+            }
+        }
+    }
     render() {
+        const { info } = this.state
         return (
             <>
                 <MuiThemeProvider theme={theme}>
                     <CssBaseline />
                     <ToastContainer />
                     <Switch>
-                        <Route path="/account" component={UserController} />
-                        <Route path="/companies" component={CompaniesController} />
+                        <Route path="/account" render={() => <UserController info={info} />} />
+                        <Route
+                            path="/companies"
+                            render={() => <CompaniesController info={info} />}
+                        />
                         <Route path="/404" component={NotFoundView} />
 
                         <Redirect exact path="/" to="/companies/welcome" />

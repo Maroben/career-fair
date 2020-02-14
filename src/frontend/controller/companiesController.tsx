@@ -3,7 +3,7 @@ import { Switch, Route } from "react-router-dom"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
-import Info from "../types/IInfo"
+import IInfo from "../types/IInfo"
 import Filter from "../types/IFilter"
 
 import companyService from "../services/companyService"
@@ -21,10 +21,11 @@ const styles = (theme: Theme) =>
         }
     })
 
-interface Props extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> {
+    info: IInfo
+}
 
 type State = {
-    info: Info
     filter: Filter
     companies: ICompany[]
     displayedCompanies: ICompany[]
@@ -32,34 +33,6 @@ type State = {
 
 class CompaniesController extends Component<Props, State> {
     state = {
-        info: {
-            filterLabels: ["subjects", "employmentTypes"],
-            subjects: {
-                label: "Studiengänge",
-                items: [
-                    "Informatik",
-                    "Raumplanung",
-                    "Elektrotechnik",
-                    "Bauingenieurwesen",
-                    "Landschaftsarchitektur",
-                    "Wirtschaftsingenieurwesen",
-                    "Ernerbare Energien & Umwelttechnik"
-                ]
-            },
-            employmentTypes: {
-                label: "Anstellungsarten",
-                items: ["Vollzeit", "Praktikum", "Training", "Teilzeit"]
-            },
-            links: {
-                homepage: "",
-                linkedin: "",
-                xing: "",
-                facebook: "",
-                instagram: "",
-                twitter: "",
-                youtube: ""
-            }
-        },
         filter: {
             subjects: [],
             employmentTypes: [],
@@ -82,13 +55,15 @@ class CompaniesController extends Component<Props, State> {
     }
 
     handleFilter = (filter: Filter) => {
-        const { companies, info } = this.state
+        const { companies } = this.state
+        const { info } = this.props
         const displayedCompanies = filterCompanies(filter, info, companies)
         this.setState({ filter, displayedCompanies })
     }
 
     render() {
-        const { info, filter, companies, displayedCompanies } = this.state
+        const { filter, companies, displayedCompanies } = this.state
+        const { info } = this.props
 
         return (
             <>

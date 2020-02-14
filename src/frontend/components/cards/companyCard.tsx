@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
-import { ICompany } from "../../../persistence/models/CompanyModel"
+import ICompany from "../../../persistence/interfaces/ICompany"
 
 import { Card, CardHeader, CardContent, CardActionArea } from "@material-ui/core"
 import { Typography } from "@material-ui/core"

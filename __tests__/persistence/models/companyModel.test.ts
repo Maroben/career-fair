@@ -1,9 +1,6 @@
 import _ from "lodash"
-import Company, {
-    ICompany,
-    validate,
-    properties
-} from "../../../src/persistence/models/CompanyModel"
+import Company, { validate, properties } from "../../../src/persistence/models/CompanyModel"
+import ICompany from "../../../src/persistence/interfaces/ICompany"
 
 describe("Company Model", () => {
     describe("Valid Company Creations", () => {

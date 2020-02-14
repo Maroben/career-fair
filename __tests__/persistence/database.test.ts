@@ -2,7 +2,8 @@ import mongoose from "mongoose"
 import config from "config"
 import _ from "lodash"
 import Database from "../../src/persistence/Database"
-import Company, { ICompany, properties } from "../../src/persistence/models/CompanyModel"
+import Company, { properties } from "../../src/persistence/models/CompanyModel"
+import ICompany from "../../src/persistence/interfaces/ICompany"
 
 describe("Database with Company", () => {
     beforeAll(async () => {
