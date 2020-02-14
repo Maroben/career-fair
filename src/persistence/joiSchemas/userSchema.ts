@@ -1,5 +1,4 @@
 import Joi, { ObjectSchema, SchemaMap } from "@hapi/joi"
-import { companySchema } from "./companySchema"
 import IUser from "../interfaces/IUser"
 
 export const userSchema: SchemaMap<IUser> = {
@@ -15,7 +14,7 @@ export const userSchema: SchemaMap<IUser> = {
     level: Joi.number()
         .min(0)
         .max(2),
-    company: Joi.object(companySchema)
+    company: Joi.string()
 }
 
 export const userObjectSchema: ObjectSchema = Joi.object<IUser>(userSchema)

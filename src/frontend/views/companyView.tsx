@@ -42,7 +42,7 @@ class CompanyView extends Component<Props, State> {
         if (companies.length > 0) {
             company = companies.find((c) => c._id == _id)
         } else {
-            company = (await companyService.getCompany(_id)).data
+            company = await companyService.getCompany(_id)
         }
 
         this.setState({ company })
@@ -52,23 +52,32 @@ class CompanyView extends Component<Props, State> {
         const { classes } = this.props
         const { company } = this.state
         return (
-            company && (
-                <>
-                    <SimpleHeader title={company.name} />
+            <>
+                {company ? (
+                    <>
+                        <SimpleHeader title={company.name} />
 
-                    <div className={classes.detail}>
-                        <Typography variant="h5" className={classes.mb}>
-                            {company.location}
-                        </Typography>
+                        <div className={classes.detail}>
+                            <Typography variant="h5" className={classes.mb}>
+                                {company.location}
+                            </Typography>
+                            <Typography variant="body1" color="textPrimary" className={classes.mb}>
+                                {company.info}
+                            </Typography>
+                            <Typography variant="body1" color="textPrimary" className={classes.mb}>
+                                {company.description}
+                            </Typography>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <SimpleHeader title={"Unternehmen"} />
                         <Typography variant="body1" color="textPrimary" className={classes.mb}>
-                            {company.info}
+                            Laden
                         </Typography>
-                        <Typography variant="body1" color="textPrimary" className={classes.mb}>
-                            {company.description}
-                        </Typography>
-                    </div>
-                </>
-            )
+                    </>
+                )}
+            </>
         )
     }
 }

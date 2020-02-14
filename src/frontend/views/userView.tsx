@@ -32,11 +32,12 @@ const styles = (theme: Theme) =>
 
 interface Props extends WithStyles<typeof styles> {
     user: IUser
+    company: ICompany
     onChange: () => void
     onRemoveCompany: () => void
 }
 
-const UserView = ({ classes, user, onChange, onRemoveCompany }: Props) => {
+const UserView = ({ classes, user, company, onChange, onRemoveCompany }: Props) => {
     const [userEdit, setUserEdit] = useState(false)
     const [companyEdit, setCompanyEdit] = useState(false)
 
@@ -92,7 +93,8 @@ const UserView = ({ classes, user, onChange, onRemoveCompany }: Props) => {
                                 <CardHeader className={classes.header} title={"Unternehmen"} />
                                 <CompanyForm
                                     user={user}
-                                    isEditing={user.company != null}
+                                    company={company}
+                                    isEditing={user.company.length > 0}
                                     onCompanyChange={() => handleCompanyChange()}
                                     onCancel={() => setCompanyEdit(false)}
                                 />
@@ -102,8 +104,8 @@ const UserView = ({ classes, user, onChange, onRemoveCompany }: Props) => {
                             <Card className={classes.card}>
                                 <CardHeader
                                     className={classes.header}
-                                    title={user.company.name}
-                                    subheader={user.company.location}
+                                    title={company.name}
+                                    subheader={company.location}
                                 />
 
                                 <Typography
@@ -111,14 +113,14 @@ const UserView = ({ classes, user, onChange, onRemoveCompany }: Props) => {
                                     color="textPrimary"
                                     className={classes.container}
                                 >
-                                    {user.company.info}
+                                    {company.info}
                                 </Typography>
                                 <Typography
                                     variant="body1"
                                     color="textPrimary"
                                     className={classes.container}
                                 >
-                                    {user.company.description}
+                                    {company.description}
                                 </Typography>
 
                                 {/* <div className={classes.items}>

@@ -14,36 +14,9 @@ export default class Database<T extends mongoose.Document> {
                 throw new Error(`!`)
             })
     }
-
-    public async getAllAndPopulate(populate: string): Promise<T[]> {
-        return await this.model
-            .find()
-            .populate(populate)
-            .then((documents) => {
-                return documents
-            })
-            .catch((err) => {
-                console.error(err)
-                throw new Error(`!`)
-            })
-    }
-
     public async get(filter: { [key: string]: string }): Promise<T> {
         return await this.model
             .findOne(filter)
-            .then((document) => {
-                return document as T
-            })
-            .catch((err) => {
-                console.error(err)
-                throw new Error(`Document with filter: ${filter} not found!`)
-            })
-    }
-
-    public async getAndPopulate(filter: { [key: string]: string }, populate: string): Promise<T> {
-        return await this.model
-            .findOne(filter)
-            .populate(populate)
             .then((document) => {
                 return document as T
             })
@@ -69,20 +42,6 @@ export default class Database<T extends mongoose.Document> {
         document._id = _id // overwrite the generated id
         return await this.model
             .findOneAndUpdate({ _id: _id }, document, { new: true })
-            .then((document) => {
-                return document as T
-            })
-            .catch((err) => {
-                console.error(err)
-                throw new Error(`Failed to update Document with ID: ${_id}!`)
-            })
-    }
-
-    public async putAndPopulate(document: T, _id: string, populate: string): Promise<T> {
-        document._id = _id // overwrite the generated id
-        return await this.model
-            .findOneAndUpdate({ _id: _id }, document, { new: true })
-            .populate(populate)
             .then((document) => {
                 return document as T
             })

@@ -2,8 +2,10 @@ import React, { Component } from "react"
 import { Switch, Route } from "react-router-dom"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
+import ProtectedRoute from "../components/protectedRoute"
 
 import IUser from "../../persistence/interfaces/IUser"
+import ICompany from "../../persistence/interfaces/ICompany"
 
 import authService from "../services/authService"
 import { getUser, removeUserCompany } from "../services/userService"
@@ -11,6 +13,7 @@ import { getUser, removeUserCompany } from "../services/userService"
 import UserView from "../views/userView"
 import LoginView from "../views/loginView"
 import RegisterView from "../views/registerView"
+import { getCompany } from "../services/companyService"
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -23,11 +26,13 @@ interface Props extends WithStyles<typeof styles> {}
 
 type State = {
     user: IUser
+    company: ICompany
 }
 
 class UserController extends Component<Props, State> {
     state = {
-        user: null
+        user: null,
+        company: null
     }
 
     componentDidMount() {
@@ -35,9 +40,10 @@ class UserController extends Component<Props, State> {
     }
 
     async handleData() {
-        const id = authService.getCurrentUser()._id
-        const { data } = await getUser(id)
-        this.setState({ user: data })
+        const storedUser = authService.getCurrentUser()
+        let user: IUser = storedUser ? await getUser(storedUser._id) : null
+        let company: ICompany = user.company.length > 0 ? await getCompany(user.company) : null
+        this.setState({ user, company })
     }
 
     async removeCompany() {
@@ -46,18 +52,20 @@ class UserController extends Component<Props, State> {
     }
 
     render() {
-        const { user } = this.state
+        const { user, company } = this.state
 
         return (
             <>
                 <Switch>
                     <Route path="/account/login" component={LoginView} />
                     <Route path="/account/register" component={RegisterView} />
-                    <Route
+                    <ProtectedRoute
                         path="/account"
-                        render={() => (
+                        authLevel={2}
+                        protectedComponent={() => (
                             <UserView
                                 user={user}
+                                company={company}
                                 onChange={this.handleData.bind(this)}
                                 onRemoveCompany={this.removeCompany.bind(this)}
                             />

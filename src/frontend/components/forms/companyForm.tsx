@@ -43,6 +43,7 @@ const styles = (theme: Theme) =>
 
 interface Props extends WithStyles<typeof styles> {
     user: IUser
+    company: ICompany
     isEditing: boolean
     onCompanyChange: () => void
     onCancel: () => void
@@ -69,7 +70,7 @@ class CompanyForm extends Form<Props, FormState> {
     componentDidMount() {
         let { data } = this.state
         if (this.props.isEditing) {
-            data = { ...this.props.user.company }
+            data = { ...this.props.company }
             this.setState({ data })
         }
     }
@@ -80,10 +81,9 @@ class CompanyForm extends Form<Props, FormState> {
 
         try {
             if (isEditing) {
-                await companyService.updateCompany(this.props.user.company._id, data)
+                await companyService.updateCompany(this.props.company._id, data as ICompany)
             } else {
-                const { data: company } = await companyService.createCompany(data)
-                console.log(company)
+                const company = await companyService.createCompany(data as ICompany)
                 await addUserCompany(user, company)
             }
             this.props.onCompanyChange()

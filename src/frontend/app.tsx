@@ -1,6 +1,8 @@
 import React, { Component } from "react"
 import { Route, Switch, Redirect } from "react-router-dom"
+import { ToastContainer } from "react-toastify"
 import CssBaseline from "@material-ui/core/CssBaseline"
+
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles"
 import { createStyles } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
@@ -8,6 +10,7 @@ import { WithStyles, withStyles } from "@material-ui/core/styles"
 import UserController from "./controller/userController"
 import CompaniesController from "./controller/companiesController"
 import NotFoundView from "./views/notfoundView"
+import "react-toastify/dist/ReactToastify.css"
 
 const theme = createMuiTheme({
     palette: {
@@ -28,6 +31,7 @@ class App extends Component<Props, State> {
             <>
                 <MuiThemeProvider theme={theme}>
                     <CssBaseline />
+                    <ToastContainer />
                     <Switch>
                         <Route path="/account" component={UserController} />
                         <Route path="/companies" component={CompaniesController} />

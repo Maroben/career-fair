@@ -29,6 +29,9 @@ export default class CompanyService {
             const company: ICompany = this.createCompany(req)
             await validate(company)
 
+            const companyNameExists = await this.db.get({ name: company.name })
+            console.log(companyNameExists)
+
             const document = await this.db.post(company)
             res.send(document)
         } catch (err) {

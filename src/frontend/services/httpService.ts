@@ -13,10 +13,6 @@ axios.interceptors.response.use(null, (error) => {
         toast.error("An unexpected error occurrred.")
     }
 
-    if (error.response.status === 404) {
-        window.location.replace("/404")
-    }
-
     return Promise.reject(error)
 })
 

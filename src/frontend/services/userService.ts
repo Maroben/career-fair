@@ -6,12 +6,14 @@ import { AxiosResponse } from "axios"
 
 const endpointApi = "/users"
 
-export async function getUsers(): Promise<AxiosResponse<IUser[]>> {
-    return await http.get(`${endpointApi}`)
+export async function getUsers(): Promise<IUser[]> {
+    const { data: users } = await http.get(`${endpointApi}`)
+    return users
 }
 
-export async function getUser(id: string): Promise<AxiosResponse<IUser>> {
-    return await http.get(`${endpointApi}/${id}`)
+export async function getUser(id: string): Promise<IUser> {
+    const { data: user } = await http.get(`${endpointApi}/${id}`)
+    return user
 }
 
 export async function register(email: string, password: string): Promise<AxiosResponse<IUser>> {
@@ -26,7 +28,7 @@ export async function addUserCompany(
 }
 
 export async function removeUserCompany(user: IUser): Promise<AxiosResponse<IUser>> {
-    return await http.delete(`${endpointApi}/${user._id}/${user.company._id}`)
+    return await http.delete(`${endpointApi}/${user._id}/${user.company}`)
 }
 
 export async function updateUser(id: string, body: IUser): Promise<AxiosResponse<IUser>> {

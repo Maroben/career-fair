@@ -15,7 +15,7 @@ export default class UserService {
 
     public getUsers = async (req: Request, res: Response) => {
         try {
-            const documents = await this.db.getAllAndPopulate("company")
+            const documents = await this.db.getAll()
             res.send(_.map(documents, (document) => this.truncate(document)))
         } catch (err) {
             res.status(404).send(err.message)
@@ -24,7 +24,7 @@ export default class UserService {
 
     public getUser = async (req: Request, res: Response) => {
         try {
-            const document = await this.db.getAndPopulate({ _id: req.params.id }, "company")
+            const document = await this.db.get({ _id: req.params.id })
             document ? res.send(this.truncate(document)) : res.status(404).send("User not found")
         } catch (err) {
             res.status(404).send(err.message)
@@ -48,7 +48,7 @@ export default class UserService {
                       .header("x-auth-token", generateAuthToken(document))
                       .header("access-control-expose-headers", "x-auth-token")
                       .send(this.truncate(document))
-                : res.status(404).send("User not found")
+                : res.status(500).send("Mongo error")
         } catch (err) {
             return res.status(400).send(err.message)
         }
@@ -111,11 +111,15 @@ export default class UserService {
         try {
             const user: IUser = await this.db.get({ _id: req.params.userid })
             const company: ICompany = await this.companyDb.get({ _id: req.params.companyid })
-            user.company = company
-            const document: IUser = await this.db.putAndPopulate(user, user.id, "company")
-            return document
-                ? res.send(this.truncate(document))
-                : res.status(404).send("User not found")
+            if (company) {
+                user.company = company.id
+                const document: IUser = await this.db.put(user, user.id)
+                return document
+                    ? res.send(this.truncate(document))
+                    : res.status(404).send("User not found")
+            } else {
+                throw new Error("Company not found")
+            }
         } catch (err) {
             return res.status(400).send(err.message)
         }
@@ -124,7 +128,7 @@ export default class UserService {
     public removeUserCompany = async (req: Request, res: Response) => {
         try {
             const user: IUser = await this.db.get({ _id: req.params.userid })
-            user.company = null
+            user.company = ""
             const document: IUser = await this.db.put(user, user.id)
             return document
                 ? res.send(this.truncate(document))
@@ -138,7 +142,8 @@ export default class UserService {
         return new User({
             email: body.email,
             password: body.password,
-            level: Level.user
+            level: Level.user,
+            company: body.company ? body.company : ""
         })
     }
 

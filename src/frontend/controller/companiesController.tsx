@@ -11,7 +11,7 @@ import companyService from "../services/companyService"
 import LandingView from "../views/landingView"
 import CompaniesView from "../views/companiesView"
 import CompanyView from "../views/companyView"
-import { ICompany } from "../../persistence/models/CompanyModel"
+import ICompany from "../../persistence/interfaces/ICompany"
 import { filterCompanies } from "../services/filterService"
 
 const styles = (theme: Theme) =>
@@ -76,8 +76,8 @@ class CompaniesController extends Component<Props, State> {
 
     handleContinue = (subject: string, employmentType: string) => {
         const { filter } = this.state
-        filter.subjects = [subject]
-        filter.employmentTypes = [employmentType]
+        filter.subjects = subject.length > 0 ? [subject] : []
+        filter.employmentTypes = employmentType.length > 0 ? [employmentType] : []
         this.setState({ filter })
     }
 
