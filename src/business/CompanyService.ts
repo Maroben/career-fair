@@ -28,7 +28,6 @@ export default class CompanyService {
         try {
             const company: ICompany = this.createCompany(req)
             await validate(company)
-            console.log(company)
 
             const companyNameExists = await this.db.get({ name: company.name })
             if (companyNameExists) {

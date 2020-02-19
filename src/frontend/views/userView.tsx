@@ -111,20 +111,22 @@ const UserView = ({ classes, user, company, info, onChange, onRemoveCompany }: P
                                     subheader={company.location}
                                 />
 
-                                <Typography
-                                    variant="body1"
-                                    color="textPrimary"
-                                    className={classes.container}
-                                >
-                                    {company.info}
-                                </Typography>
-                                <Typography
-                                    variant="body1"
-                                    color="textPrimary"
-                                    className={classes.container}
-                                >
-                                    {company.description}
-                                </Typography>
+                                <div className={classes.container}>
+                                    <Typography color="textSecondary" variant="subtitle1">
+                                        Info
+                                    </Typography>
+                                    <Typography variant="body1" color="textPrimary">
+                                        {company.info}
+                                    </Typography>
+                                </div>
+                                <div className={classes.container}>
+                                    <Typography color="textSecondary" variant="subtitle1">
+                                        Beschreibung
+                                    </Typography>
+                                    <Typography variant="body1" color="textPrimary">
+                                        {company.description}
+                                    </Typography>
+                                </div>
 
                                 {/* <div className={classes.items}>
                                     {linkKeys.map((key) =>
@@ -140,26 +142,22 @@ const UserView = ({ classes, user, company, info, onChange, onRemoveCompany }: P
                                     )}
                                 </div> */}
 
-                                {/* {filterLabels.map((labels) =>
-                                    company[labels[0]].length === 0 ? null : (
-                                        <div key={labels[0]}>
-                                            <Typography color="textPrimary" variant="subtitle1">
-                                                {labels[1]}
+                                {info.filterLabels.map((label: string) =>
+                                    company[label].length === 0 ? null : (
+                                        <div key={label} className={classes.container}>
+                                            <Typography color="textSecondary" variant="subtitle1">
+                                                {info[label].label}
                                             </Typography>
-                                            <div className={classes.items}>
-                                                {company[labels[0]].map((filter) => (
-                                                    <Typography
-                                                        key={filter}
-                                                        color="textSecondary"
-                                                        className={classes.item}
-                                                    >
-                                                        {filter}
+                                            <div>
+                                                {company[label].map((item: string) => (
+                                                    <Typography key={item} color="textPrimary">
+                                                        {item}
                                                     </Typography>
                                                 ))}
                                             </div>
                                         </div>
                                     )
-                                )} */}
+                                )}
 
                                 <CardActions className={classes.cardAction}>
                                     <Button color="secondary" onClick={onRemoveCompany}>

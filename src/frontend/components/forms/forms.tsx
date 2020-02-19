@@ -39,7 +39,7 @@ abstract class Form<Props, State extends FormState> extends Component<Props, Sta
         event.preventDefault()
         const errors = this.validate()
         this.setState({ errors })
-        console.log(errors)
+
         if (!_.isEmpty(errors)) {
             toast.error("Some form fields have errors")
             return false

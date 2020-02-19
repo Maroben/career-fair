@@ -17,7 +17,8 @@ export const registerSchema: SchemaMap<IRegister> = {
         .min(5)
         .max(20)
         .required()
-        .label("Passwort Bestätigen")
+        .label("Passwort Bestätigen"),
+    company: Joi.string().allow("")
 }
 
 export const registerObjectSchema: ObjectSchema = Joi.object<IRegister>(registerSchema)

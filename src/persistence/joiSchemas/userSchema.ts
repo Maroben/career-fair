@@ -14,7 +14,7 @@ export const userSchema: SchemaMap<IUser> = {
     level: Joi.number()
         .min(0)
         .max(2),
-    company: Joi.string()
+    company: Joi.string().allow("")
 }
 
 export const userObjectSchema: ObjectSchema = Joi.object<IUser>(userSchema)

@@ -87,7 +87,6 @@ class CompanyForm extends Form<Props, FormState> {
     doSubmit = async () => {
         const { data } = this.state
         const { isEditing, user } = this.props
-        console.log(data)
         try {
             if (isEditing) {
                 await companyService.updateCompany(this.props.company._id, data as ICompany)

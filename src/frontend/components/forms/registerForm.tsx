@@ -53,7 +53,8 @@ class RegisterForm extends Form<Props, FormState> {
         data: {
             email: "",
             password: "",
-            passwordRepeat: ""
+            passwordRepeat: "",
+            company: ""
         },
         errors: {},
         isSubmitable: false
@@ -65,17 +66,18 @@ class RegisterForm extends Form<Props, FormState> {
         let data = {
             email: user.email,
             password: "",
-            passwordRepeat: ""
+            passwordRepeat: "",
+            company: user.company
         }
         this.setState({ data })
     }
 
     doSubmit = async () => {
         try {
-            const { email, password } = this.state.data
+            const { email, password, company } = this.state.data
             const { user } = this.props
             const response = user
-                ? await updateUser(user._id, { email, password } as IUser)
+                ? await updateUser(user._id, { email, password, company } as IUser)
                 : await register(email, password)
             authService.loginWithJwt(response.headers["x-auth-token"])
 
