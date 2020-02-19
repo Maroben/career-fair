@@ -1,67 +1,53 @@
-import React, { Component } from "react"
+import React from "react"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
-import IInfo from "../types/IInfo"
-import ICompany from "../../persistence/interfaces/ICompany"
-import companyService from "../services/companyService"
-import SimpleHeader from "../components/headers/simpleHeader"
+import ICompany from "../../../persistence/interfaces/ICompany"
+import IInfo from "../../types/IInfo"
 
-import { Typography } from "@material-ui/core"
+import { Card, CardHeader, CardContent, CardActions } from "@material-ui/core"
+import { Typography, Button } from "@material-ui/core"
+import authService from "../../services/authService"
 
 const styles = (theme: Theme) =>
     createStyles({
-        container: {
-            margin: theme.spacing(2)
-        },
-        mb: {
+        card: {
+            minWidth: 300,
             marginBottom: theme.spacing(2)
+        },
+        cardAction: {
+            justifyContent: "flex-end"
+        },
+        container: {
+            marginBottom: theme.spacing(2)
+        },
+        header: {
+            paddingBottom: 0
         }
     })
 
 interface Props extends WithStyles<typeof styles> {
-    match: { params: { id: string } }
-    info: IInfo
-    companies: Array<ICompany>
-}
-
-type State = {
     company: ICompany
+    info: IInfo
+    onRemoveCompany: () => void
+    onCompanyEdit: () => void
 }
 
-class CompanyView extends Component<Props, State> {
-    state = {
-        company: null
-    }
+const CompanyDetails = ({ classes, company, info, onRemoveCompany, onCompanyEdit }: Props) => {
+    const storedUser = authService.getCurrentUser()
+    const editAuth = storedUser?.company == company._id
 
-    async componentDidMount() {
-        const { companies } = this.props
-        const _id = this.props.match.params.id
-        let company: ICompany
+    return (
+        <>
+            {company && (
+                <Card className={classes.card}>
+                    <CardHeader
+                        className={classes.header}
+                        title={company.name}
+                        subheader={company.location}
+                    />
 
-        if (companies.length > 0) {
-            company = companies.find((c) => c._id == _id)
-        } else {
-            company = await companyService.getCompany(_id)
-        }
-
-        this.setState({ company })
-    }
-
-    render() {
-        const { classes, info } = this.props
-        const { company } = this.state
-        return (
-            <>
-                {company ? (
-                    <>
-                        <SimpleHeader title={company.name} />
-
-                        <div className={classes.container}>
-                            <Typography variant="h5" color="textPrimary">
-                                {company.location}
-                            </Typography>
-                        </div>
+                    <CardContent>
                         <div className={classes.container}>
                             <Typography color="textSecondary" variant="subtitle1">
                                 Info
@@ -109,18 +95,21 @@ class CompanyView extends Component<Props, State> {
                                 </div>
                             )
                         )}
-                    </>
-                ) : (
-                    <>
-                        <SimpleHeader title={"Unternehmen"} />
-                        <Typography variant="body1" color="textPrimary" className={classes.mb}>
-                            Laden
-                        </Typography>
-                    </>
-                )}
-            </>
-        )
-    }
+                    </CardContent>
+                    {editAuth && (
+                        <CardActions className={classes.cardAction}>
+                            <Button color="secondary" onClick={onRemoveCompany}>
+                                löschen
+                            </Button>
+                            <Button variant="contained" color="primary" onClick={onCompanyEdit}>
+                                bearbeiten
+                            </Button>
+                        </CardActions>
+                    )}
+                </Card>
+            )}
+        </>
+    )
 }
 
-export default withStyles(styles)(CompanyView)
+export default withStyles(styles)(CompanyDetails)

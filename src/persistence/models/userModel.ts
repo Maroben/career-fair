@@ -35,7 +35,7 @@ const userSchema: Schema = new Schema(
 
 export const generateAuthToken = (user: IUser): string => {
     return jwt.sign(
-        { _id: user._id, email: user.email, level: user.level },
+        { _id: user._id, email: user.email, level: user.level, company: user.company },
         config.get("jwtPrivateKey") as string
     )
 }

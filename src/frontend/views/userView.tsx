@@ -10,6 +10,7 @@ import ICompany from "../../persistence/interfaces/ICompany"
 import SimpleHeader from "../components/headers/simpleHeader"
 import RegisterForm from "../components/forms/registerForm"
 import CompanyForm from "../components/forms/companyForm"
+import CompanyDetails from "../components/details/companyDetails"
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -79,7 +80,7 @@ const UserView = ({ classes, user, company, info, onChange, onRemoveCompany }: P
                             )}
                         </Card>
 
-                        {!user.company && !companyEdit && (
+                        {!company && !companyEdit && (
                             <Button
                                 color="primary"
                                 variant="contained"
@@ -103,75 +104,13 @@ const UserView = ({ classes, user, company, info, onChange, onRemoveCompany }: P
                                 />
                             </Card>
                         )}
-                        {user.company && !companyEdit && (
-                            <Card className={classes.card}>
-                                <CardHeader
-                                    className={classes.header}
-                                    title={company.name}
-                                    subheader={company.location}
-                                />
-
-                                <div className={classes.container}>
-                                    <Typography color="textSecondary" variant="subtitle1">
-                                        Info
-                                    </Typography>
-                                    <Typography variant="body1" color="textPrimary">
-                                        {company.info}
-                                    </Typography>
-                                </div>
-                                <div className={classes.container}>
-                                    <Typography color="textSecondary" variant="subtitle1">
-                                        Beschreibung
-                                    </Typography>
-                                    <Typography variant="body1" color="textPrimary">
-                                        {company.description}
-                                    </Typography>
-                                </div>
-
-                                {/* <div className={classes.items}>
-                                    {linkKeys.map((key) =>
-                                        company.links[key].length === 0 ? null : (
-                                            <Link
-                                                key={key}
-                                                href={company.links[key]}
-                                                target={"_blank"}
-                                            >
-                                                {company.links[key]}
-                                            </Link>
-                                        )
-                                    )}
-                                </div> */}
-
-                                {info.filterLabels.map((label: string) =>
-                                    company[label].length === 0 ? null : (
-                                        <div key={label} className={classes.container}>
-                                            <Typography color="textSecondary" variant="subtitle1">
-                                                {info[label].label}
-                                            </Typography>
-                                            <div>
-                                                {company[label].map((item: string) => (
-                                                    <Typography key={item} color="textPrimary">
-                                                        {item}
-                                                    </Typography>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )
-                                )}
-
-                                <CardActions className={classes.cardAction}>
-                                    <Button color="secondary" onClick={onRemoveCompany}>
-                                        löschen
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={() => setCompanyEdit(true)}
-                                    >
-                                        bearbeiten
-                                    </Button>
-                                </CardActions>
-                            </Card>
+                        {company && !companyEdit && (
+                            <CompanyDetails
+                                company={company}
+                                info={info}
+                                onRemoveCompany={onRemoveCompany}
+                                onCompanyEdit={() => setCompanyEdit(true)}
+                            />
                         )}
                     </>
                 )}
