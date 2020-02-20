@@ -20,23 +20,15 @@ Technologies used:
 
 ## Set-Up
 
-### Requirements
-
--   NodeJS (v12.9.1)
--   Yarn (v1.19.1)
--   MongoDB (v4.2.1)
--   VS Code (v1.40.2)
--   Prettier (v3.11.0)
-
 ### Development
 
 Install Dependencies
 
-    $ yarn
+    $ npm i
 
 Start Development Server
 
-    $ yarn start
+    $ npm run start
 
 -   Nodemon will start the Express Server and serve React statically from the dist/frontend folder.
 -   Parcel watches and builds the React App to dist/frontend
@@ -45,7 +37,7 @@ Start Development Server
 
 Test Project
 
-    $ yarn test
+    $ npm run test
 
 -   Jest is used for testing
 
@@ -53,7 +45,7 @@ Test Project
 
 Build Project
 
-    $ yarn build
+    $ npm run build
 
 -   TSC builds the Express Server to dist
 -   Parcel builds the React App to dist/frontend
