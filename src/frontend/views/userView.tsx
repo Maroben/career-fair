@@ -3,15 +3,7 @@ import { Link } from "react-router-dom"
 import { createStyles } from "@material-ui/core"
 import { WithStyles, withStyles, Theme } from "@material-ui/core/styles"
 
-import {
-    Card,
-    CardHeader,
-    CardActions,
-    Button,
-    Typography,
-    IconButton,
-    Icon
-} from "@material-ui/core"
+import { Card, CardHeader, CardActions, Button, Typography, Icon } from "@material-ui/core"
 
 import IInfo from "../types/IInfo"
 import IUser from "../../persistence/interfaces/IUser"
@@ -96,7 +88,7 @@ const UserView = ({ classes, user, company, info, onChange, onRemoveCompany }: P
                             <Button
                                 color="primary"
                                 variant="contained"
-                                className={classes.mainAction}
+                                className={classes.button}
                                 onClick={() => setCompanyEdit(true)}
                             >
                                 Unternehmen hinzufügen
