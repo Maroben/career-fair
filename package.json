@@ -4,6 +4,10 @@
     "main": "src/server.ts",
     "author": "Dijan Helbling",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/Maroben/career-fair.git"
+    },
     "scripts": {
         "test": "set NODE_ENV=testing&& jest",
         "start:server": "nodemon",
@@ -12,7 +16,7 @@
         "build:server": "tsc",
         "build:client": "parcel build src/frontend/index.html --out-dir dist/frontend",
         "build": "concurrently \"yarn build:server\" \"yarn build:client\"",
-        "deploy": "node windowsService.js"
+        "deploy": "copyfiles web.config dist/frontend && node windowsService.js"
     },
     "jest": {
         "verbose": false,
