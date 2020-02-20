@@ -16,6 +16,7 @@ const styles = (theme: Theme) =>
             marginBottom: theme.spacing(2)
         },
         cardAction: {
+            margin: theme.spacing(),
             justifyContent: "flex-end"
         },
         container: {
@@ -101,7 +102,7 @@ const CompanyDetails = ({ classes, company, info, onRemoveCompany, onCompanyEdit
                             <Button color="secondary" onClick={onRemoveCompany}>
                                 löschen
                             </Button>
-                            <Button variant="contained" color="primary" onClick={onCompanyEdit}>
+                            <Button variant="text" color="primary" onClick={onCompanyEdit}>
                                 bearbeiten
                             </Button>
                         </CardActions>

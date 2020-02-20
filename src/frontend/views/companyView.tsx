@@ -5,7 +5,7 @@ import { WithStyles, withStyles } from "@material-ui/core/styles"
 import IInfo from "../types/IInfo"
 import ICompany from "../../persistence/interfaces/ICompany"
 import companyService from "../services/companyService"
-import SimpleHeader from "../components/headers/simpleHeader"
+import StandardHeader from "../components/headers/standardHeader"
 
 import { Typography } from "@material-ui/core"
 
@@ -55,7 +55,7 @@ class CompanyView extends Component<Props, State> {
             <>
                 {company ? (
                     <>
-                        <SimpleHeader title={company.name} />
+                        <StandardHeader title={company.name} />
 
                         <div className={classes.container}>
                             <Typography variant="h5" color="textPrimary">
@@ -112,7 +112,7 @@ class CompanyView extends Component<Props, State> {
                     </>
                 ) : (
                     <>
-                        <SimpleHeader title={"Unternehmen"} />
+                        <StandardHeader title={"Unternehmen"} />
                         <Typography variant="body1" color="textPrimary" className={classes.mb}>
                             Laden
                         </Typography>

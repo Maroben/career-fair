@@ -1,19 +1,18 @@
 import React from "react"
-import { Link } from "react-router-dom"
 import { createStyles } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
-import SimpleHeader from "../components/headers/simpleHeader"
+import StandardHeader from "../components/headers/standardHeader"
 import RegisterForm from "../components/forms/registerForm"
 
 const styles = createStyles({})
 
 interface Props extends WithStyles<typeof styles> {}
 
-const RegisterView = ({ classes }: Props) => {
+const RegisterView = (props: Props) => {
     return (
         <>
-            <SimpleHeader title={"Registrierung"} />
+            <StandardHeader title={"Registrierung"} />
 
             <RegisterForm />
         </>

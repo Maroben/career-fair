@@ -3,6 +3,8 @@ import { Link } from "react-router-dom"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
+import auth from "../../services/authService"
+
 import {
     AppBar,
     Toolbar,
@@ -100,8 +102,8 @@ interface Props extends WithStyles<typeof styles> {
 
 const SearchHeader = (props: Props) => {
     const { classes, title, query, onSearch, onFilterSelect } = props
-
     const [search, setSearch] = useState(false)
+    const user = auth.getCurrentUser()
 
     return (
         <AppBar position="sticky" className={classes.root}>
@@ -146,6 +148,17 @@ const SearchHeader = (props: Props) => {
                             >
                                 <FilterIcon />
                             </IconButton>
+                            {user && (
+                                <IconButton
+                                    aria-haspopup="true"
+                                    edge="end"
+                                    color="inherit"
+                                    component={Link}
+                                    to={"/account"}
+                                >
+                                    <AccountIcon />
+                                </IconButton>
+                            )}
                         </div>
                     </>
                 )}

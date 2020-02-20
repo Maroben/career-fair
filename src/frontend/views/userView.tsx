@@ -1,13 +1,22 @@
 import React, { useState } from "react"
+import { Link } from "react-router-dom"
 import { createStyles } from "@material-ui/core"
 import { WithStyles, withStyles, Theme } from "@material-ui/core/styles"
 
-import { Card, CardHeader, CardActions, Button, Typography } from "@material-ui/core"
+import {
+    Card,
+    CardHeader,
+    CardActions,
+    Button,
+    Typography,
+    IconButton,
+    Icon
+} from "@material-ui/core"
 
 import IInfo from "../types/IInfo"
 import IUser from "../../persistence/interfaces/IUser"
 import ICompany from "../../persistence/interfaces/ICompany"
-import SimpleHeader from "../components/headers/simpleHeader"
+import StandardHeader from "../components/headers/standardHeader"
 import RegisterForm from "../components/forms/registerForm"
 import CompanyForm from "../components/forms/companyForm"
 import CompanyDetails from "../components/details/companyDetails"
@@ -27,8 +36,11 @@ const styles = (theme: Theme) =>
         cardAction: {
             justifyContent: "flex-end"
         },
-        mainAction: {
+        button: {
             width: "100%"
+        },
+        pr: {
+            paddingRight: theme.spacing(4)
         }
     })
 
@@ -51,7 +63,7 @@ const UserView = ({ classes, user, company, info, onChange, onRemoveCompany }: P
 
     return (
         <>
-            <SimpleHeader title="Account" />
+            <StandardHeader title="Account" />
 
             <main className={classes.container}>
                 {user && (
@@ -69,7 +81,7 @@ const UserView = ({ classes, user, company, info, onChange, onRemoveCompany }: P
 
                                     <CardActions className={classes.cardAction}>
                                         <Button
-                                            variant="contained"
+                                            variant="text"
                                             color="primary"
                                             onClick={() => setUserEdit(true)}
                                         >
@@ -112,6 +124,16 @@ const UserView = ({ classes, user, company, info, onChange, onRemoveCompany }: P
                                 onCompanyEdit={() => setCompanyEdit(true)}
                             />
                         )}
+
+                        <Button
+                            color="primary"
+                            className={classes.button}
+                            component={Link}
+                            to={"/account/logout"}
+                        >
+                            <Icon className={`fas fa-sign-out-alt ${classes.pr}`} />
+                            Abmelden
+                        </Button>
                     </>
                 )}
             </main>

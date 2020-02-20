@@ -4,7 +4,7 @@ import { WithStyles, withStyles, Theme } from "@material-ui/core/styles"
 
 import { Link } from "react-router-dom"
 
-import SimpleHeader from "../components/headers/simpleHeader"
+import StandardHeader from "../components/headers/standardHeader"
 
 import { Paper, Typography, Button } from "@material-ui/core"
 
@@ -27,7 +27,7 @@ interface Props extends WithStyles<typeof styles> {}
 const NotFoundView = ({ classes }: Props) => {
     return (
         <>
-            <SimpleHeader title={"404"} />
+            <StandardHeader title={"404"} />
 
             <div className={classes.main}>
                 <Paper className={classes.paper}>

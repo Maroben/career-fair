@@ -42,8 +42,8 @@ const styles = (theme: Theme) =>
     })
 
 interface Props extends WithStyles<typeof styles> {
-    user: IUser
-    onUpdateUser: () => void
+    user?: IUser
+    onUpdateUser?: () => void
 }
 
 class RegisterForm extends Form<Props, FormState> {
