@@ -113,7 +113,7 @@ const CompaniesView = ({ classes, info, filter, companies, onFilterChange }: Pro
 
                 {companies && companies.length > 0 ? (
                     companies.map((company: ICompany) => (
-                        <CompanyCard key={company.name} company={company} />
+                        <CompanyCard key={company.name} company={company} info={info} />
                     ))
                 ) : (
                     <Paper className={classes.emptyMessage} elevation={1}>
