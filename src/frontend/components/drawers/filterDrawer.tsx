@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
-import Info from "../../types/IInfo"
+import { info } from "../../types/IInfo"
 import Filter from "../../types/IFilter"
 import CheckboxList from "../lists/checkboxList"
 
@@ -34,12 +34,11 @@ const styles = (theme: Theme) =>
 interface Props extends WithStyles<typeof styles> {
     drawer: boolean
     setDrawer: (state: boolean) => void
-    info: Info
     filter: Filter
     onFilterChange: (filter: Filter) => void
 }
 
-const FilterDrawer = ({ classes, drawer, setDrawer, info, filter, onFilterChange }: Props) => {
+const FilterDrawer = ({ classes, drawer, setDrawer, filter, onFilterChange }: Props) => {
     const resetCheckboxes = () => {
         onFilterChange({
             ...filter,
@@ -53,7 +52,6 @@ const FilterDrawer = ({ classes, drawer, setDrawer, info, filter, onFilterChange
             {info.filterLabels.map((label) => (
                 <CheckboxList
                     key={label}
-                    info={info}
                     filter={filter}
                     label={label}
                     onFilterChange={onFilterChange}

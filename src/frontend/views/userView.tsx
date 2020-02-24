@@ -5,7 +5,6 @@ import { WithStyles, withStyles, Theme } from "@material-ui/core/styles"
 
 import { Card, CardHeader, CardActions, Button, Typography, Icon } from "@material-ui/core"
 
-import IInfo from "../types/IInfo"
 import IUser from "../../persistence/interfaces/IUser"
 import ICompany from "../../persistence/interfaces/ICompany"
 import StandardHeader from "../components/headers/standardHeader"
@@ -39,12 +38,11 @@ const styles = (theme: Theme) =>
 interface Props extends WithStyles<typeof styles> {
     user: IUser
     company: ICompany
-    info: IInfo
     onChange: () => void
     onRemoveCompany: () => void
 }
 
-const UserView = ({ classes, user, company, info, onChange, onRemoveCompany }: Props) => {
+const UserView = ({ classes, user, company, onChange, onRemoveCompany }: Props) => {
     const [userEdit, setUserEdit] = useState(false)
     const [companyEdit, setCompanyEdit] = useState(false)
 
@@ -101,7 +99,6 @@ const UserView = ({ classes, user, company, info, onChange, onRemoveCompany }: P
                                 <CompanyForm
                                     user={user}
                                     company={company}
-                                    info={info}
                                     isEditing={user.company.length > 0}
                                     onCompanyChange={() => handleCompanyChange()}
                                     onCancel={() => setCompanyEdit(false)}
@@ -111,7 +108,6 @@ const UserView = ({ classes, user, company, info, onChange, onRemoveCompany }: P
                         {company && !companyEdit && (
                             <CompanyDetails
                                 company={company}
-                                info={info}
                                 onRemoveCompany={onRemoveCompany}
                                 onCompanyEdit={() => setCompanyEdit(true)}
                             />

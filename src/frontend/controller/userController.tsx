@@ -5,7 +5,6 @@ import { WithStyles, withStyles } from "@material-ui/core/styles"
 import ProtectedRoute from "../components/protectedRoute"
 import LogoutComponent from "../components/logoutComponent"
 
-import IInfo from "../types/IInfo"
 import IUser from "../../persistence/interfaces/IUser"
 import ICompany from "../../persistence/interfaces/ICompany"
 
@@ -24,9 +23,7 @@ const styles = (theme: Theme) =>
         }
     })
 
-interface Props extends WithStyles<typeof styles> {
-    info: IInfo
-}
+interface Props extends WithStyles<typeof styles> {}
 
 type State = {
     user: IUser
@@ -63,7 +60,6 @@ class UserController extends Component<Props, State> {
 
     render() {
         const { user, company } = this.state
-        const { info } = this.props
 
         return (
             <>
@@ -78,7 +74,6 @@ class UserController extends Component<Props, State> {
                             <UserView
                                 user={user}
                                 company={company}
-                                info={info}
                                 onChange={this.handleData.bind(this)}
                                 onRemoveCompany={this.removeCompany.bind(this)}
                             />

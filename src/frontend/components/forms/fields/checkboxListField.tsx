@@ -24,18 +24,10 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 const CheckboxListField = ({ classes, title, label, items, active, onActiveChange }: Props) => {
-    const [toggle, setToggle] = useState(true)
+    const [toggle, setToggle] = useState(false)
 
     const handleCheckboxSelect = (item: string) => {
-        // const index = items.indexOf(item)
-
         active = _.xor(active, [item])
-
-        // if (index > -1) {
-        //     active.splice(index, 1)
-        // } else {
-        //     active.push(item)
-        // }
         onActiveChange(label, active)
     }
 

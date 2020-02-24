@@ -26,7 +26,7 @@ export default class CompanyService {
 
     public postCompany = async (req: Request, res: Response) => {
         try {
-            const company: ICompany = this.createCompany(req)
+            const company = this.createCompany(req)
             await validate(company)
 
             const companyNameExists = await this.db.get({ name: company.name })

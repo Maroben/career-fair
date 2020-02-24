@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
-import IInfo from "../types/IInfo"
+import { info } from "../types/IInfo"
 import ICompany from "../../persistence/interfaces/ICompany"
 import companyService from "../services/companyService"
 import StandardHeader from "../components/headers/standardHeader"
@@ -21,7 +21,6 @@ const styles = (theme: Theme) =>
 
 interface Props extends WithStyles<typeof styles> {
     match: { params: { id: string } }
-    info: IInfo
     companies: Array<ICompany>
 }
 
@@ -49,7 +48,7 @@ class CompanyView extends Component<Props, State> {
     }
 
     render() {
-        const { classes, info } = this.props
+        const { classes } = this.props
         const { company } = this.state
         return (
             <>

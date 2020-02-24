@@ -1,7 +1,6 @@
 import Filter from "../types/IFilter"
-import IInfo from "../types/IInfo"
 import ICompany from "../../persistence/interfaces/ICompany"
 
-export function filterCompanies(filter: Filter, info: IInfo, companies: ICompany[]): ICompany[] {
+export function filterCompanies(filter: Filter, companies: ICompany[]): ICompany[] {
     return companies
 }

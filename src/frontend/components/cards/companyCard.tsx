@@ -4,7 +4,7 @@ import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
 import ICompany from "../../../persistence/interfaces/ICompany"
-import IInfo from "../../types/IInfo"
+import { info } from "../../types/IInfo"
 
 import { Card, CardHeader, CardContent, CardActionArea } from "@material-ui/core"
 import { Typography } from "@material-ui/core"
@@ -33,10 +33,9 @@ const styles = (theme: Theme) =>
 
 interface Props extends WithStyles<typeof styles> {
     company: ICompany
-    info: IInfo
 }
 
-const CompanyCard = ({ classes, company, info }: Props) => {
+const CompanyCard = ({ classes, company }: Props) => {
     return (
         <>
             {company && (

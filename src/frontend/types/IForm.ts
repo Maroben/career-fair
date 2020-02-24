@@ -1,5 +1,5 @@
 export type FormState = {
-    data: { [name: string]: string | string[] }
-    errors: { [name: string]: string | string[] }
+    data: { [name: string]: string | string[] | object }
+    errors: { [name: string]: string | string[] | object }
     isSubmitable: boolean
 }

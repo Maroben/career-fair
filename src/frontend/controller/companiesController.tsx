@@ -3,7 +3,6 @@ import { Switch, Route } from "react-router-dom"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
-import IInfo from "../types/IInfo"
 import Filter from "../types/IFilter"
 
 import companyService from "../services/companyService"
@@ -21,9 +20,7 @@ const styles = (theme: Theme) =>
         }
     })
 
-interface Props extends WithStyles<typeof styles> {
-    info: IInfo
-}
+interface Props extends WithStyles<typeof styles> {}
 
 type State = {
     filter: Filter
@@ -56,33 +53,28 @@ class CompaniesController extends Component<Props, State> {
 
     handleFilter = (filter: Filter) => {
         const { companies } = this.state
-        const { info } = this.props
-        const displayedCompanies = filterCompanies(filter, info, companies)
+        const displayedCompanies = filterCompanies(filter, companies)
         this.setState({ filter, displayedCompanies })
     }
 
     render() {
         const { filter, companies, displayedCompanies } = this.state
-        const { info } = this.props
 
         return (
             <>
                 <Switch>
                     <Route
                         path="/companies/welcome"
-                        render={() => <LandingView info={info} onContinue={this.handleContinue} />}
+                        render={() => <LandingView onContinue={this.handleContinue} />}
                     />
                     <Route
                         path="/companies/:id"
-                        render={(props) => (
-                            <CompanyView {...props} info={info} companies={companies} />
-                        )}
+                        render={(props) => <CompanyView {...props} companies={companies} />}
                     />
                     <Route
                         path="/companies"
                         render={() => (
                             <CompaniesView
-                                info={info}
                                 filter={filter}
                                 companies={displayedCompanies}
                                 onFilterChange={this.handleFilter}

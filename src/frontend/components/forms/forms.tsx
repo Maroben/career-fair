@@ -8,6 +8,7 @@ import Joi, { ObjectSchema, SchemaMap } from "@hapi/joi"
 
 import InputField from "./fields/inputField"
 import CheckboxListField from "./fields/checkboxListField"
+import InputListField from "./fields/inputListField"
 
 import { Button, Typography } from "@material-ui/core"
 
@@ -23,12 +24,13 @@ abstract class Form<Props, State extends FormState> extends Component<Props, Sta
         if (!error) return {}
         const errors = {}
         for (let item of error.details) {
+            console.log(item)
             errors[item.context.key] = item.message
         }
         return errors
     }
 
-    validateProperty = ({ name, value }) => {
+    validateProperty = (name: string, value: string | object) => {
         const obj = { [name]: value }
         const objectSchema: ObjectSchema = Joi.object({ [name]: this.joiSchema[name] })
         const { error } = objectSchema.validate(obj)
@@ -50,13 +52,29 @@ abstract class Form<Props, State extends FormState> extends Component<Props, Sta
 
     handleChange = ({ target }: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const { name, value } = target
-        const errors = { ...this.state.errors }
-        const errorMessage = this.validateProperty(target)
-        errorMessage ? (errors[name] = errorMessage) : delete errors[name]
-
         const data = { ...this.state.data }
         data[name] = value
 
+        const errors = { ...this.state.errors }
+        const errorMessage = this.validateProperty(name, value)
+        errorMessage ? (errors[name] = errorMessage) : delete errors[name]
+
+        this.setState({ data, errors })
+    }
+
+    handleObjectChange = ({ target }: React.ChangeEvent<HTMLInputElement>, name: string) => {
+        const { id, value } = target
+        const data = { ...this.state.data }
+        let errors = { ...this.state.errors }
+
+        data[name][id] = value
+        const errorMessage = this.validateProperty(name, data[name])
+
+        if (errorMessage) {
+            errors = { [name]: { [id]: errorMessage } }
+        } else {
+            delete errors[name][id]
+        }
         this.setState({ data, errors })
     }
 
@@ -95,16 +113,21 @@ abstract class Form<Props, State extends FormState> extends Component<Props, Sta
                 onActiveChange={this.handleCheckboxSelect}
             />
         )
+    }
 
-        // return (
-        //     <CheckboxList
-        //         items={items}
-        //         activeItems={activeItems}
-        //         noMax={true}
-        //         labels={label}
-        //         onSelect={this.handleCheckboxSelect}
-        //     />
-        // )
+    renderInputList(title: string, name: string, labels: { [name: string]: string[] }) {
+        const { data, errors } = this.state
+
+        return (
+            <InputListField
+                title={title}
+                name={name}
+                labels={labels}
+                items={data[name] as { [name: string]: string }}
+                errors={errors[name] as { [name: string]: string }}
+                onChange={this.handleObjectChange}
+            />
+        )
     }
 
     renderSubmit = (label: string, classes) => {

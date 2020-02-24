@@ -6,10 +6,9 @@ import { toast } from "react-toastify"
 import { companySchema, companyObjectSchema } from "../../../persistence/joiSchemas/companySchema"
 import ICompany from "../../../persistence/interfaces/ICompany"
 import IUser from "../../../persistence/interfaces/IUser"
-import ILinks from "../../../persistence/interfaces/ILinks"
 
 import { FormState } from "../../types/IForm"
-import IInfo from "../../types/IInfo"
+import { info } from "../../types/IInfo"
 import Form from "./forms"
 
 import companyService from "../../services/companyService"
@@ -45,7 +44,6 @@ const styles = (theme: Theme) =>
 interface Props extends WithStyles<typeof styles> {
     user: IUser
     company: ICompany
-    info: IInfo
     isEditing: boolean
     onCompanyChange: () => void
     onCancel: () => void
@@ -61,9 +59,16 @@ class CompanyForm extends Form<Props, FormState> {
             info: "",
             description: "",
             subjects: [],
-            employmentTypes: []
-            // tags: [],
-            // links: ILinks
+            employmentTypes: [],
+            links: {
+                homepage: "",
+                linkedin: "",
+                xing: "",
+                facebook: "",
+                instagram: "",
+                twitter: "",
+                youtube: ""
+            }
         },
         errors: {},
         isSubmitable: false
@@ -78,7 +83,8 @@ class CompanyForm extends Form<Props, FormState> {
                 info: company.info,
                 description: company.description,
                 subjects: company.subjects,
-                employmentTypes: company.employmentTypes
+                employmentTypes: company.employmentTypes,
+                links: company.links
             }
             this.setState({ data })
         }
@@ -107,13 +113,15 @@ class CompanyForm extends Form<Props, FormState> {
     }
 
     render() {
-        const { classes, info, isEditing, onCancel } = this.props
+        const { classes, isEditing, onCancel } = this.props
 
         return (
             <form onSubmit={this.handleSubmit}>
                 {this.renderInput("name", "Name")}
                 {this.renderInput("info", "Info", "text", true)}
                 {this.renderInput("description", "Beschreibung", "text", true)}
+
+                {this.renderInputList("Links", "links", info.links)}
 
                 {info.filterLabels.map((label) => (
                     <div key={label}>

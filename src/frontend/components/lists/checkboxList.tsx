@@ -3,7 +3,7 @@ import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
 import Filter from "../../types/IFilter"
-import Info from "../../types/IInfo"
+import { info } from "../../types/IInfo"
 
 import { ListItem, ListItemText, Checkbox, Collapse } from "@material-ui/core"
 
@@ -19,13 +19,12 @@ const styles = (theme: Theme) =>
     })
 
 interface Props extends WithStyles<typeof styles> {
-    info: Info
     filter: Filter
     label: string
     onFilterChange: (filter: Filter) => void
 }
 
-const CheckboxList = ({ classes, info, filter, label, onFilterChange }: Props) => {
+const CheckboxList = ({ classes, filter, label, onFilterChange }: Props) => {
     const [toggle, setToggle] = useState(true)
 
     const handleFilterSelect = (item: string) => {

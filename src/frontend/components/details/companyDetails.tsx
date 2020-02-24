@@ -3,11 +3,11 @@ import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
 import ICompany from "../../../persistence/interfaces/ICompany"
-import IInfo from "../../types/IInfo"
 
 import { Card, CardHeader, CardContent, CardActions } from "@material-ui/core"
 import { Typography, Button } from "@material-ui/core"
 import authService from "../../services/authService"
+import { info } from "../../types/IInfo"
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -29,15 +29,14 @@ const styles = (theme: Theme) =>
 
 interface Props extends WithStyles<typeof styles> {
     company: ICompany
-    info: IInfo
     onRemoveCompany: () => void
     onCompanyEdit: () => void
 }
 
-const CompanyDetails = ({ classes, company, info, onRemoveCompany, onCompanyEdit }: Props) => {
+const CompanyDetails = ({ classes, company, onRemoveCompany, onCompanyEdit }: Props) => {
     const storedUser = authService.getCurrentUser()
     const editAuth = storedUser?.company == company._id
-
+    console.log(editAuth)
     return (
         <>
             {company && (

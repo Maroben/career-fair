@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
 
-import IInfo from "../types/IInfo"
 import Filter from "../types/IFilter"
 import ICompany from "../../persistence/interfaces/ICompany"
 
@@ -11,6 +10,7 @@ import CompanyCard from "../components/cards/companyCard"
 import FilterDrawer from "../components/drawers/filterDrawer"
 
 import { Chip, Paper, Typography, Button } from "@material-ui/core"
+import { info } from "../types/IInfo"
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -41,13 +41,12 @@ const styles = (theme: Theme) =>
     })
 
 interface Props extends WithStyles<typeof styles> {
-    info: IInfo
     filter: Filter
     companies: Array<ICompany>
     onFilterChange: (filter: Filter) => void
 }
 
-const CompaniesView = ({ classes, info, filter, companies, onFilterChange }: Props) => {
+const CompaniesView = ({ classes, filter, companies, onFilterChange }: Props) => {
     const [drawer, setDrawer] = useState(false)
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +81,6 @@ const CompaniesView = ({ classes, info, filter, companies, onFilterChange }: Pro
                 drawer={drawer}
                 setDrawer={setDrawer}
                 filter={filter}
-                info={info}
                 onFilterChange={onFilterChange}
             />
 
@@ -112,9 +110,7 @@ const CompaniesView = ({ classes, info, filter, companies, onFilterChange }: Pro
                 </div>
 
                 {companies && companies.length > 0 ? (
-                    companies.map((company: ICompany) => (
-                        <CompanyCard key={company.name} company={company} info={info} />
-                    ))
+                    companies.map((company) => <CompanyCard key={company.name} company={company} />)
                 ) : (
                     <Paper className={classes.emptyMessage} elevation={1}>
                         <Typography variant="body1">

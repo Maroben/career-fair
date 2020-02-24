@@ -4,7 +4,7 @@ import { WithStyles, withStyles } from "@material-ui/core/styles"
 import { Typography, Button } from "@material-ui/core"
 import { Link } from "react-router-dom"
 
-import Info from "../types/IInfo"
+import { info } from "../types/IInfo"
 import { Material } from "../types/Material"
 import SimpleHeader from "../components/headers/simpleHeader"
 
@@ -28,7 +28,6 @@ const styles = (theme: Theme) =>
     })
 
 interface Props extends WithStyles<typeof styles> {
-    info: Info
     onContinue: (subject: string, employmentType: string) => void
 }
 
@@ -100,10 +99,8 @@ class LandingView extends Component<Props, State> {
     }
 
     render() {
-        const {
-            classes,
-            info: { subjects, employmentTypes }
-        } = this.props
+        const { classes } = this.props
+        const { subjects, employmentTypes } = info
         const { activeStep, subject, employmentType, submitVariant } = this.state
 
         return (
