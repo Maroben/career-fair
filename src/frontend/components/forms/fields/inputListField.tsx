@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { createStyles, Theme } from "@material-ui/core"
 import { WithStyles, withStyles } from "@material-ui/core/styles"
-import { ListItem, ListItemText, Checkbox, Collapse } from "@material-ui/core"
+import { ListItem, ListItemText, Collapse } from "@material-ui/core"
 import _ from "lodash"
 
 import { FormControl, Input, InputLabel } from "@material-ui/core"
@@ -33,15 +33,17 @@ const styles = (theme: Theme) =>
 interface Props extends WithStyles<typeof styles> {
     title: string
     name: string
-    labels: { [name: string]: string[] }
-    items: { [name: string]: string }
-    errors: { [name: string]: string }
+    labels: InputListFieldObject
+    data: InputListFieldObject
+    errors: InputListFieldObject
     onChange: (event: React.ChangeEvent<HTMLInputElement>, name: string) => void
 }
 
-const InputListField = ({ classes, title, name, labels, items, errors, onChange }: Props) => {
+const InputListField = ({ classes, title, name, labels, data, errors, onChange }: Props) => {
     const [toggle, setToggle] = useState(false)
-    console.log(items)
+    console.log(labels)
+    console.log(data)
+    console.log(errors)
     return (
         <>
             <ListItem button onClick={() => setToggle(!toggle)} className={classes.title}>
@@ -50,14 +52,14 @@ const InputListField = ({ classes, title, name, labels, items, errors, onChange 
             </ListItem>
 
             <Collapse in={toggle} timeout="auto" unmountOnExit>
-                {labels.items.map((label, i) => (
+                {Object.keys(labels).map((label) => (
                     <ListItem key={label} className={classes.pos}>
                         <FormControl
                             className={classes.formControl}
                             error={errors && !!errors[label]}
                         >
                             <InputLabel htmlFor={label} className={classes.label}>
-                                {errors && errors[label] ? errors[label] : labels.labels[i]}
+                                {errors && errors[label] ? errors[label] : labels[label]}
                             </InputLabel>
                             <Input
                                 onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -65,8 +67,8 @@ const InputListField = ({ classes, title, name, labels, items, errors, onChange 
                                 }
                                 className={classes.input}
                                 id={label}
-                                name={labels.labels[i]}
-                                value={items[label]}
+                                name={labels[label]}
+                                value={data[label]}
                             />
                         </FormControl>
                     </ListItem>
@@ -74,6 +76,10 @@ const InputListField = ({ classes, title, name, labels, items, errors, onChange 
             </Collapse>
         </>
     )
+}
+
+export type InputListFieldObject = {
+    [key: string]: string
 }
 
 export default withStyles(styles)(InputListField)

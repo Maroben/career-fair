@@ -8,7 +8,7 @@ import Joi, { ObjectSchema, SchemaMap } from "@hapi/joi"
 
 import InputField from "./fields/inputField"
 import CheckboxListField from "./fields/checkboxListField"
-import InputListField from "./fields/inputListField"
+import InputListField, { InputListFieldObject } from "./fields/inputListField"
 
 import { Button, Typography } from "@material-ui/core"
 
@@ -115,7 +115,7 @@ abstract class Form<Props, State extends FormState> extends Component<Props, Sta
         )
     }
 
-    renderInputList(title: string, name: string, labels: object) {
+    renderInputList(title: string, name: string, labels: InputListFieldObject) {
         const { data, errors } = this.state
 
         return (
@@ -123,8 +123,8 @@ abstract class Form<Props, State extends FormState> extends Component<Props, Sta
                 title={title}
                 name={name}
                 labels={labels}
-                items={data[name] as { [name: string]: string }}
-                errors={errors[name] as { [name: string]: string }}
+                data={data[name] as InputListFieldObject}
+                errors={errors[name] as InputListFieldObject}
                 onChange={this.handleObjectChange}
             />
         )

@@ -96,7 +96,7 @@ class RegisterForm extends Form<Props, FormState> {
         }
     }
 
-    validateProperty = ({ name, value }) => {
+    validateProperty = (name: string, value: string | object) => {
         const obj = { [name]: value }
         const objectSchema: ObjectSchema = Joi.object({ [name]: this.joiSchema[name] })
         const { error } = objectSchema.validate(obj)

@@ -13,6 +13,7 @@ import Form from "./forms"
 
 import companyService from "../../services/companyService"
 import { addUserCompany } from "../../services/userService"
+import { InputListFieldObject } from "./fields/inputListField"
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -49,45 +50,37 @@ interface Props extends WithStyles<typeof styles> {
     onCancel: () => void
 }
 
+const emptyCompany = {
+    name: "",
+    info: "",
+    description: "",
+    subjects: [],
+    employmentTypes: [],
+    links: {
+        homepage: "",
+        linkedin: "",
+        xing: "",
+        facebook: "",
+        instagram: "",
+        twitter: "",
+        youtube: ""
+    }
+}
+
 class CompanyForm extends Form<Props, FormState> {
     joiSchema = companySchema
     objectSchema = companyObjectSchema
 
-    state = {
-        data: {
-            name: "",
-            info: "",
-            description: "",
-            subjects: [],
-            employmentTypes: [],
-            links: {
-                homepage: "",
-                linkedin: "",
-                xing: "",
-                facebook: "",
-                instagram: "",
-                twitter: "",
-                youtube: ""
-            }
-        },
-        errors: {},
-        isSubmitable: false
+    constructor(props: Props) {
+        super(props)
+        const { isEditing, company } = props
+        this.state.data = isEditing ? { ...company } : { ...emptyCompany }
     }
 
-    componentDidMount() {
-        let { data } = this.state
-        if (this.props.isEditing) {
-            const { company } = this.props
-            data = {
-                name: company.name,
-                info: company.info,
-                description: company.description,
-                subjects: company.subjects,
-                employmentTypes: company.employmentTypes,
-                links: company.links
-            }
-            this.setState({ data })
-        }
+    state = {
+        data: { ...emptyCompany },
+        errors: { ...emptyCompany },
+        isSubmitable: false
     }
 
     doSubmit = async () => {
@@ -121,11 +114,15 @@ class CompanyForm extends Form<Props, FormState> {
                 {this.renderInput("info", "Info", "text", true)}
                 {this.renderInput("description", "Beschreibung", "text", true)}
 
-                {this.renderInputList("Links", "links", info.links)}
+                {this.renderInputList("Links", "links", info.links as InputListFieldObject)}
 
                 {Object.keys(info.filters).map((label) => (
                     <div key={label}>
-                        {this.renderCheckboxList(info[label].label, label, info[label].items)}
+                        {this.renderCheckboxList(
+                            info.filters[label].label,
+                            label,
+                            info.filters[label].items
+                        )}
                     </div>
                 ))}
 
