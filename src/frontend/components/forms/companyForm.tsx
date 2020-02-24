@@ -50,37 +50,53 @@ interface Props extends WithStyles<typeof styles> {
     onCancel: () => void
 }
 
-const emptyCompany = {
-    name: "",
-    info: "",
-    description: "",
-    subjects: [],
-    employmentTypes: [],
-    links: {
-        homepage: "",
-        linkedin: "",
-        xing: "",
-        facebook: "",
-        instagram: "",
-        twitter: "",
-        youtube: ""
-    }
-}
-
 class CompanyForm extends Form<Props, FormState> {
     joiSchema = companySchema
     objectSchema = companyObjectSchema
 
-    constructor(props: Props) {
-        super(props)
-        const { isEditing, company } = props
-        this.state.data = isEditing ? { ...company } : { ...emptyCompany }
+    state = {
+        data: {
+            name: "",
+            info: "",
+            description: "",
+            subjects: [],
+            employmentTypes: [],
+            links: {
+                homepage: "",
+                linkedin: "",
+                xing: "",
+                facebook: "",
+                instagram: "",
+                twitter: "",
+                youtube: ""
+            }
+        },
+        errors: {
+            name: "",
+            info: "",
+            description: "",
+            subjects: [],
+            employmentTypes: [],
+            links: {
+                homepage: "",
+                linkedin: "",
+                xing: "",
+                facebook: "",
+                instagram: "",
+                twitter: "",
+                youtube: ""
+            }
+        },
+        isSubmitable: false
     }
 
-    state = {
-        data: { ...emptyCompany },
-        errors: { ...emptyCompany },
-        isSubmitable: false
+    componentDidMount() {
+        let { data } = this.state
+        const { isEditing, company } = this.props
+        if (isEditing) {
+            data = { ...company }
+            this.setState({ data })
+        }
     }
 
     doSubmit = async () => {

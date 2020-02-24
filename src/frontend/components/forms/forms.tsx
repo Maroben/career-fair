@@ -24,17 +24,23 @@ abstract class Form<Props, State extends FormState> extends Component<Props, Sta
         if (!error) return {}
         const errors = {}
         for (let item of error.details) {
-            console.log(item)
             errors[item.context.key] = item.message
         }
         return errors
     }
 
-    validateProperty = (name: string, value: string | object) => {
+    validateProperty = (name: string, value: string): string => {
         const obj = { [name]: value }
         const objectSchema: ObjectSchema = Joi.object({ [name]: this.joiSchema[name] })
         const { error } = objectSchema.validate(obj)
-        return error ? error.details[0].message : null
+        return error ? error.details[0].message : ""
+    }
+
+    validateObjectProperty = (name: string, id: string, value: string): string => {
+        const obj = { [id]: value }
+        const objectSchema: ObjectSchema = Joi.object({ [id]: this.joiSchema[name][id] })
+        const { error } = objectSchema.validate(obj)
+        return error ? error.details[0].message : ""
     }
 
     handleSubmit = async (event) => {
@@ -52,29 +58,21 @@ abstract class Form<Props, State extends FormState> extends Component<Props, Sta
 
     handleChange = ({ target }: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const { name, value } = target
-        const data = { ...this.state.data }
-        data[name] = value
+        const { data, errors } = this.state
 
-        const errors = { ...this.state.errors }
-        const errorMessage = this.validateProperty(name, value)
-        errorMessage ? (errors[name] = errorMessage) : delete errors[name]
+        data[name] = value
+        errors[name] = this.validateProperty(name, value)
 
         this.setState({ data, errors })
     }
 
     handleObjectChange = ({ target }: React.ChangeEvent<HTMLInputElement>, name: string) => {
         const { id, value } = target
-        const data = { ...this.state.data }
-        let errors = { ...this.state.errors }
+        let { data, errors } = this.state
 
         data[name][id] = value
-        const errorMessage = this.validateProperty(name, data[name])
+        errors[name][id] = this.validateObjectProperty(name, id, value)
 
-        if (errorMessage) {
-            errors = { [name]: { [id]: errorMessage } }
-        } else {
-            delete errors[name][id]
-        }
         this.setState({ data, errors })
     }
 

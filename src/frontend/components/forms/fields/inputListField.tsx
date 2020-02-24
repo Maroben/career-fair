@@ -41,9 +41,7 @@ interface Props extends WithStyles<typeof styles> {
 
 const InputListField = ({ classes, title, name, labels, data, errors, onChange }: Props) => {
     const [toggle, setToggle] = useState(false)
-    console.log(labels)
-    console.log(data)
-    console.log(errors)
+
     return (
         <>
             <ListItem button onClick={() => setToggle(!toggle)} className={classes.title}>
@@ -56,10 +54,10 @@ const InputListField = ({ classes, title, name, labels, data, errors, onChange }
                     <ListItem key={label} className={classes.pos}>
                         <FormControl
                             className={classes.formControl}
-                            error={errors && !!errors[label]}
+                            error={errors && errors[label].length > 0}
                         >
                             <InputLabel htmlFor={label} className={classes.label}>
-                                {errors && errors[label] ? errors[label] : labels[label]}
+                                {errors && errors[label].length > 0 ? errors[label] : labels[label]}
                             </InputLabel>
                             <Input
                                 onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -67,7 +65,7 @@ const InputListField = ({ classes, title, name, labels, data, errors, onChange }
                                 }
                                 className={classes.input}
                                 id={label}
-                                name={labels[label]}
+                                name={label}
                                 value={data[label]}
                             />
                         </FormControl>
