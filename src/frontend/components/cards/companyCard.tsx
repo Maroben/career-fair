@@ -53,7 +53,7 @@ const CompanyCard = ({ classes, company }: Props) => {
                             </Typography>
 
                             <div className={classes.chips}>
-                                {info.filterLabels.map((label: string) => (
+                                {Object.keys(info.filters).map((label: string) => (
                                     <div key={label} className={classes.chips}>
                                         {company[label].map((item: string) => (
                                             <div key={item} className={classes.chip}>

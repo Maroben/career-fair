@@ -100,7 +100,7 @@ class LandingView extends Component<Props, State> {
 
     render() {
         const { classes } = this.props
-        const { subjects, employmentTypes } = info
+        const { subjects, employmentTypes } = info.filters
         const { activeStep, subject, employmentType, submitVariant } = this.state
 
         return (

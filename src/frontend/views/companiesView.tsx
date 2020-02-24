@@ -94,7 +94,7 @@ const CompaniesView = ({ classes, filter, companies, onFilterChange }: Props) =>
                             onDelete={() => removeQuery()}
                         />
                     )}
-                    {info.filterLabels.map((label: string) => (
+                    {Object.keys(info.filters).map((label) => (
                         <React.Fragment key={label}>
                             {filter[label].map((item: string) => (
                                 <Chip

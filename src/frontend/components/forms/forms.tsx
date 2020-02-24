@@ -115,7 +115,7 @@ abstract class Form<Props, State extends FormState> extends Component<Props, Sta
         )
     }
 
-    renderInputList(title: string, name: string, labels: { [name: string]: string[] }) {
+    renderInputList(title: string, name: string, labels: object) {
         const { data, errors } = this.state
 
         return (

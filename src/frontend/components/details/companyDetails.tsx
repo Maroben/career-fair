@@ -79,7 +79,7 @@ const CompanyDetails = ({ classes, company, onRemoveCompany, onCompanyEdit }: Pr
                         )}
                     </div> */}
 
-                        {info.filterLabels.map((label: string) =>
+                        {Object.keys(info.filters).map((label: string) =>
                             company[label].length === 0 ? null : (
                                 <div key={label} className={classes.container}>
                                     <Typography color="textSecondary" variant="subtitle1">

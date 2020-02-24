@@ -92,11 +92,11 @@ class CompanyView extends Component<Props, State> {
                         )}
                     </div> */}
 
-                        {info.filterLabels.map((label: string) =>
+                        {Object.keys(info.filters).map((label: string) =>
                             company[label].length === 0 ? null : (
                                 <div key={label} className={classes.container}>
                                     <Typography color="textSecondary" variant="subtitle1">
-                                        {info[label].label}
+                                        {info.filters[label].label}
                                     </Typography>
                                     <div>
                                         {company[label].map((item: string) => (

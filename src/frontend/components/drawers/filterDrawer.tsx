@@ -49,7 +49,7 @@ const FilterDrawer = ({ classes, drawer, setDrawer, filter, onFilterChange }: Pr
 
     const drawerBox = (
         <div className={classes.root}>
-            {info.filterLabels.map((label) => (
+            {Object.keys(info.filters).map((label) => (
                 <CheckboxList
                     key={label}
                     filter={filter}

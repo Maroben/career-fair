@@ -123,7 +123,7 @@ class CompanyForm extends Form<Props, FormState> {
 
                 {this.renderInputList("Links", "links", info.links)}
 
-                {info.filterLabels.map((label) => (
+                {Object.keys(info.filters).map((label) => (
                     <div key={label}>
                         {this.renderCheckboxList(info[label].label, label, info[label].items)}
                     </div>

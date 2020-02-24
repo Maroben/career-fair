@@ -40,11 +40,11 @@ const CheckboxList = ({ classes, filter, label, onFilterChange }: Props) => {
     return (
         <>
             <ListItem button onClick={() => setToggle(!toggle)}>
-                <ListItemText primary={info[label].label} />
+                <ListItemText primary={info.filters[label].label} />
                 {toggle ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
             <Collapse in={toggle} timeout="auto" unmountOnExit>
-                {info[label].items.map((item: string) => (
+                {info.filters[label].items.map((item: string) => (
                     <ListItem
                         key={item}
                         className={classes.pos}
