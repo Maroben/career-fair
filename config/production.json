@@ -1,5 +1,5 @@
 {
     "db": "mongodb://localhost:27017/career-prod",
     "port": 8080,
-    "endpoint": "http://hsrstellenboerse.ch/api"
+    "endpoint": "https://hsrstellenboerse.ch/api"
 }

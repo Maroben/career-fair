@@ -2,8 +2,7 @@ import axios from "axios"
 import config from "config"
 import { toast } from "react-toastify"
 
-// axios.defaults.baseURL = config.get("endpoint")
-axios.defaults.baseURL = "http://localhost:3800/api"
+axios.defaults.baseURL = config.get("endpoint")
 
 axios.interceptors.response.use(null, (error) => {
     const expectedError =
