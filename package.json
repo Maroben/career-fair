@@ -12,10 +12,10 @@
         "test": "set NODE_ENV=testing&& jest",
         "start:server": "nodemon",
         "start:client": "parcel watch src/frontend/index.html --out-dir dist/frontend",
-        "start": "concurrently \"yarn start:server\" \"yarn start:client\"",
+        "start": "set NODE_ENV=development && concurrently \"npm start:server\" \"npm run start:client\"",
         "build:server": "tsc",
         "build:client": "parcel build src/frontend/index.html --out-dir dist/frontend",
-        "build": "concurrently \"yarn build:server\" \"yarn build:client\"",
+        "build": "set NODE_ENV=production && concurrently \"npm run build:server\" \"npm run build:client\"",
         "deploy": "copyfiles web.config dist/frontend && node windowsService.js"
     },
     "jest": {
