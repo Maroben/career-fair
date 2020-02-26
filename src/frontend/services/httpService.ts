@@ -1,8 +1,11 @@
 import axios from "axios"
-import config from "config"
 import { toast } from "react-toastify"
 
-axios.defaults.baseURL = config.get("endpoint")
+if (process.env.NODE_ENV == "development") {
+    axios.defaults.baseURL = "http://localhost:3800/api"
+} else {
+    axios.defaults.baseURL = "https://hsrstellenboerse.ch/api"
+}
 
 axios.interceptors.response.use(null, (error) => {
     const expectedError =
