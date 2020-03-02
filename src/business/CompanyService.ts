@@ -69,7 +69,8 @@ export default class CompanyService {
             description: body.description,
             location: body.location,
             subjects: body.subjects,
-            employmentTypes: body.employmentTypes
+            employmentTypes: body.employmentTypes,
+            links: body.links
         })
     }
 }

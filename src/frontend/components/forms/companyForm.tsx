@@ -93,8 +93,10 @@ class CompanyForm extends Form<Props, FormState> {
     componentDidMount() {
         let { data } = this.state
         const { isEditing, company } = this.props
+        const { name, info, description, links, subjects, employmentTypes } = company
+
         if (isEditing) {
-            data = { ...company }
+            data = { name, info, description, links, subjects, employmentTypes }
             this.setState({ data })
         }
     }

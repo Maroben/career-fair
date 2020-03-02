@@ -34,9 +34,6 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 const CompanyDetails = ({ classes, company, onRemoveCompany, onCompanyEdit }: Props) => {
-    const storedUser = authService.getCurrentUser()
-    const editAuth = storedUser?.company == company._id
-    console.log(editAuth)
     return (
         <>
             {company && (
@@ -65,25 +62,27 @@ const CompanyDetails = ({ classes, company, onRemoveCompany, onCompanyEdit }: Pr
                             </Typography>
                         </div>
 
-                        {/* <div className={classes.items}>
-                        {linkKeys.map((key) =>
-                            company.links[key].length === 0 ? null : (
-                                <Link
-                                    key={key}
-                                    href={company.links[key]}
-                                    target={"_blank"}
-                                >
-                                    {company.links[key]}
-                                </Link>
+                        {Object.keys(info.links).map((link) => {
+                            return company.links[link].length > 0 ? null : (
+                                <div key={link}>{company.links[link]}</div>
                             )
-                        )}
-                    </div> */}
+                        })}
+
+                        {/* <div className={classes.items}>
+                            {linkKeys.map((key) =>
+                                company.links[key].length === 0 ? null : (
+                                    <Link key={key} href={company.links[key]} target={"_blank"}>
+                                        {company.links[key]}
+                                    </Link>
+                                )
+                            )}
+                        </div> */}
 
                         {Object.keys(info.filters).map((label: string) =>
                             company[label].length === 0 ? null : (
                                 <div key={label} className={classes.container}>
                                     <Typography color="textSecondary" variant="subtitle1">
-                                        {info[label].label}
+                                        {info.filters[label].label}
                                     </Typography>
                                     <div>
                                         {company[label].map((item: string) => (
@@ -96,16 +95,15 @@ const CompanyDetails = ({ classes, company, onRemoveCompany, onCompanyEdit }: Pr
                             )
                         )}
                     </CardContent>
-                    {editAuth && (
-                        <CardActions className={classes.cardAction}>
-                            <Button color="secondary" onClick={onRemoveCompany}>
-                                löschen
-                            </Button>
-                            <Button variant="text" color="primary" onClick={onCompanyEdit}>
-                                bearbeiten
-                            </Button>
-                        </CardActions>
-                    )}
+
+                    <CardActions className={classes.cardAction}>
+                        <Button color="secondary" onClick={onRemoveCompany}>
+                            löschen
+                        </Button>
+                        <Button variant="text" color="primary" onClick={onCompanyEdit}>
+                            bearbeiten
+                        </Button>
+                    </CardActions>
                 </Card>
             )}
         </>

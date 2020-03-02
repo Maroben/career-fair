@@ -41,37 +41,43 @@ interface Props extends WithStyles<typeof styles> {
 
 const InputListField = ({ classes, title, name, labels, data, errors, onChange }: Props) => {
     const [toggle, setToggle] = useState(false)
-
+    console.log(data)
     return (
         <>
-            <ListItem button onClick={() => setToggle(!toggle)} className={classes.title}>
-                <ListItemText primary={title} />
-                {toggle ? <ExpandLess /> : <ExpandMore />}
-            </ListItem>
-
-            <Collapse in={toggle} timeout="auto" unmountOnExit>
-                {Object.keys(labels).map((label) => (
-                    <ListItem key={label} className={classes.pos}>
-                        <FormControl
-                            className={classes.formControl}
-                            error={errors && errors[label].length > 0}
-                        >
-                            <InputLabel htmlFor={label} className={classes.label}>
-                                {errors && errors[label].length > 0 ? errors[label] : labels[label]}
-                            </InputLabel>
-                            <Input
-                                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                                    onChange(event, name)
-                                }
-                                className={classes.input}
-                                id={label}
-                                name={label}
-                                value={data[label]}
-                            />
-                        </FormControl>
+            {data && (
+                <>
+                    <ListItem button onClick={() => setToggle(!toggle)} className={classes.title}>
+                        <ListItemText primary={title} />
+                        {toggle ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
-                ))}
-            </Collapse>
+
+                    <Collapse in={toggle} timeout="auto" unmountOnExit>
+                        {Object.keys(labels).map((label) => (
+                            <ListItem key={label} className={classes.pos}>
+                                <FormControl
+                                    className={classes.formControl}
+                                    error={errors && errors[label].length > 0}
+                                >
+                                    <InputLabel htmlFor={label} className={classes.label}>
+                                        {errors && errors[label].length > 0
+                                            ? errors[label]
+                                            : labels[label]}
+                                    </InputLabel>
+                                    <Input
+                                        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                                            onChange(event, name)
+                                        }
+                                        className={classes.input}
+                                        id={label}
+                                        name={label}
+                                        value={data[label]}
+                                    />
+                                </FormControl>
+                            </ListItem>
+                        ))}
+                    </Collapse>
+                </>
+            )}
         </>
     )
 }

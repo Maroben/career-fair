@@ -50,6 +50,7 @@ class UserController extends Component<Props, State> {
                 company = await getCompany(user.company)
             }
         }
+        console.log(company)
         this.setState({ user, company })
     }
 
@@ -74,8 +75,10 @@ class UserController extends Component<Props, State> {
                             <UserView
                                 user={user}
                                 company={company}
-                                onChange={this.handleData.bind(this)}
-                                onRemoveCompany={this.removeCompany.bind(this)}
+                                onChange={() => this.handleData}
+                                onRemoveCompany={() => this.removeCompany}
+                                // onChange={this.handleData.bind(this)}
+                                // onRemoveCompany={this.removeCompany.bind(this)}
                             />
                         )}
                     />

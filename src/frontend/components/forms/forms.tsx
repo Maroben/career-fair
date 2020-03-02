@@ -21,6 +21,7 @@ abstract class Form<Props, State extends FormState> extends Component<Props, Sta
     validate = () => {
         const options: Joi.ValidationOptions = { abortEarly: false }
         const { error } = this.objectSchema.validate(this.state.data, options)
+        console.log(error.details)
         if (!error) return {}
         const errors = {}
         for (let item of error.details) {
